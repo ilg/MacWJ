@@ -18,6 +18,7 @@
 		7112B6FB118AE8EB0010FF45 /* lined paper background.png in Resources */ = {isa = PBXBuildFile; fileRef = 7112B6F9118AE8EB0010FF45 /* lined paper background.png */; };
 		7112B6FC118AE8EB0010FF45 /* single-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 7112B6FA118AE8EB0010FF45 /* single-dot.png */; };
 		7112B7E3118B0F580010FF45 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 7112B7E2118B0F580010FF45 /* Credits.html */; };
+		7112B819118B18B30010FF45 /* tabletPenNib.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B818118B18B30010FF45 /* tabletPenNib.m */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -48,6 +49,8 @@
 		7112B6F9118AE8EB0010FF45 /* lined paper background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lined paper background.png"; sourceTree = "<group>"; };
 		7112B6FA118AE8EB0010FF45 /* single-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "single-dot.png"; sourceTree = "<group>"; };
 		7112B7E0118B0F4C0010FF45 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/Credits.html; sourceTree = "<group>"; };
+		7112B817118B18B30010FF45 /* tabletPenNib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tabletPenNib.h; sourceTree = "<group>"; };
+		7112B818118B18B30010FF45 /* tabletPenNib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tabletPenNib.m; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* MacWJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacWJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -162,6 +165,8 @@
 				7112B6ED118AE8D70010FF45 /* NSBezierPath+boundsWithLines.m */,
 				7112B6EE118AE8D70010FF45 /* tabletInkStroke.h */,
 				7112B6EF118AE8D70010FF45 /* tabletInkStroke.m */,
+				7112B817118B18B30010FF45 /* tabletPenNib.h */,
+				7112B818118B18B30010FF45 /* tabletPenNib.m */,
 				7112B6F0118AE8D70010FF45 /* tabletView.h */,
 				7112B6F1118AE8D70010FF45 /* tabletView.m */,
 			);
@@ -243,6 +248,7 @@
 				7112B6F5118AE8D70010FF45 /* NSBezierPath+boundsWithLines.m in Sources */,
 				7112B6F6118AE8D70010FF45 /* tabletInkStroke.m in Sources */,
 				7112B6F7118AE8D70010FF45 /* tabletView.m in Sources */,
+				7112B819118B18B30010FF45 /* tabletPenNib.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

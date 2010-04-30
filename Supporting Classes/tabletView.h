@@ -33,6 +33,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class tabletInkStroke;
+@class tabletPenNib;
 
 @interface tabletView : NSView {
 	@private
@@ -40,6 +41,7 @@
 	tabletInkStroke *workingStroke;
 	CGFloat initialPressure;
 	NSPointingDeviceType pointingDeviceType;
+	tabletPenNib *currentPenNib;
 }
 
 - (IBAction)copy:(id)sender;

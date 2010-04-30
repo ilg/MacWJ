@@ -26,25 +26,36 @@
  *********************************************************************************/
 
 //
-//  AppDelegate.m
+//  tabletPenNib.h
 //  MacWJ
 //
 
-#import "MacWJ_AppDelegate.h"
+#import <Cocoa/Cocoa.h>
 
 
-@implementation MacWJ_AppDelegate
-
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// Insert code here to initialize your application
-	[[NSUserDefaults standardUserDefaults]
-	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-					   // object, key; nil-terminated
-					   [NSNumber numberWithFloat:0.5], @"minStrokeWidth",
-					   [NSNumber numberWithFloat:5.0], @"maxStrokeWidth",
-					   [NSNumber numberWithFloat:3.0], @"eraserRadius",
-					   [NSNumber numberWithFloat:(1.0/3.0)], @"copyAsImageScaleFactor",
-					   nil]];
+@interface tabletPenNib : NSObject {
+	CGFloat minimumStrokeWidth;
+	CGFloat maximumStrokeWidth;
+	BOOL isAngleDependent;
+	CGFloat widestAngle;
+	NSColor *inkColor;
 }
+
+@property CGFloat minimumStrokeWidth;
+@property CGFloat maximumStrokeWidth;
+@property BOOL isAngleDependent;
+@property CGFloat widestAngle;
+@property (retain) NSColor *inkColor;
+
++ (tabletPenNib *)tabletPenNibWithMinimumWidth:(CGFloat)minimumWidth
+								  maximumWidth:(CGFloat)maximumWidth
+							  isAngleDependent:(BOOL)angleDependence
+							  angleForMaxWidth:(CGFloat)maxWidthAngle
+										 color:(NSColor *)color;
+
+- (CGFloat)lineWidthFrom:(NSPoint)startingPoint
+			withPressure:(CGFloat)startingPressure
+					  to:(NSPoint)endingPoint
+			withPressure:(CGFloat)endingPressure;
 
 @end

@@ -33,6 +33,7 @@
 #import "tabletView.h"
 #import "NSBezierPath+boundsWithLines.h"
 #import "tabletInkStroke.h"
+#import "tabletPenNib.h"
 
 #define MIN_STROKE_WIDTH [[NSUserDefaults standardUserDefaults] floatForKey:@"minStrokeWidth"]
 #define MAX_STROKE_WIDTH [[NSUserDefaults standardUserDefaults] floatForKey:@"maxStrokeWidth"]
@@ -55,7 +56,7 @@ static NSCursor *eraserCursor;
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
-		strokes = [[NSMutableArray alloc] initWithCapacity:100];
+		strokes = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -98,11 +99,10 @@ static NSCursor *eraserCursor;
 						  start:(NSPoint)start
 							end:(NSPoint)end
 {
-	CGFloat halfPi = 2.0 * atanf(1.0);
-	CGFloat angle =  - (start.x - end.x)!=0.0 ? atanf((start.y - end.y) / (start.x - end.x)) : halfPi;
-	CGFloat angleWidthMultiplier = (ABS(angle + halfPi / 2) + halfPi / 2) / (2 * halfPi);
-	CGFloat adjustedPressure = (initialPressure + pressure)/2.0;
-	return MAX(MIN_STROKE_WIDTH,adjustedPressure * angleWidthMultiplier * MAX_STROKE_WIDTH);
+	return [currentPenNib lineWidthFrom:start
+						   withPressure:initialPressure
+									 to:end
+						   withPressure:pressure];
 }
 
 - (void)continueStroke:(NSEvent *)theEvent {
@@ -129,13 +129,21 @@ static NSCursor *eraserCursor;
 	if (!strokes) {
 		strokes = [[NSMutableArray alloc] init];
 	}
+	if (!currentPenNib) {
+		currentPenNib = [[tabletPenNib tabletPenNibWithMinimumWidth:MIN_STROKE_WIDTH
+													   maximumWidth:MAX_STROKE_WIDTH
+												   isAngleDependent:YES
+												   angleForMaxWidth:(-pi/4.0)
+															  color:[NSColor blackColor]]
+						 retain];
+	}		
 	if (workingStroke) {
 		[self continueStroke:theEvent];
 	} else {
 		workingStroke = [[tabletInkStroke alloc]
 						 initWithPoint:[self convertPoint:[theEvent locationInWindow]
 												 fromView:nil]];
-		[workingStroke setColor:[NSColor blackColor]];
+		[workingStroke setColor:[currentPenNib inkColor]];
 		[strokes addObject:workingStroke];
 	}
 	initialPressure = [theEvent pressure];
