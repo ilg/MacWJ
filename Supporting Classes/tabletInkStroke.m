@@ -129,13 +129,11 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
 - (id)initWithCoder:(NSCoder *)coder {
 	// NSObject does not conform to NSCoding
 //    self = [super initWithCoder:coder];
-	NSLog(@"initWithCoder:");
 	self = [super init];
 	if (self) {
 		[self setColor:[coder decodeObjectForKey:kTabletInkStrokeColorKey]];
 		paths = [[coder decodeObjectForKey:kTabletInkStrokePathsKey] retain];
 		currentPoint = [coder decodePointForKey:kTabletInkStrokeCurrentPointKey];
-		NSLog(@"decoded %d paths",[paths count]);
 	}
     return self;
 }
