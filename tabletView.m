@@ -32,6 +32,7 @@
 
 #import "tabletView.h"
 #import "NSBezierPath+boundsWithLines.h"
+#import "tabletInkStroke.h"
 
 #define MIN_STROKE_WIDTH [[NSUserDefaults standardUserDefaults] floatForKey:@"minStrokeWidth"]
 #define MAX_STROKE_WIDTH [[NSUserDefaults standardUserDefaults] floatForKey:@"maxStrokeWidth"]
@@ -53,7 +54,7 @@ static NSCursor *eraserCursor;
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
-		paths = [[NSMutableArray alloc] initWithCapacity:100];
+		strokes = [[NSMutableArray alloc] initWithCapacity:100];
     }
     return self;
 }
@@ -64,15 +65,17 @@ static NSCursor *eraserCursor;
 	const NSRect *dirtyRects;
     NSInteger dirtyRectsCount, i;
     [self getRectsBeingDrawn:&dirtyRects count:&dirtyRectsCount];
-	for (NSBezierPath *aPath in paths) {
+	for (tabletInkStroke *aStroke in strokes) {
         // First test against coalesced rect.
-		CGRect pathBounds = NSRectToCGRect([aPath boundsWithLines]);
+		CGRect strokeBounds = NSRectToCGRect([aStroke bounds]);
 		// NOTE: CGRectIntersectsRect behaves better than NSIntersectsRect when width or height is zero
-		if (CGRectIntersectsRect(pathBounds,NSRectToCGRect(dirtyRect))) {
+		if (CGRectIntersectsRect(strokeBounds,NSRectToCGRect(dirtyRect))) {
 			// Then test per dirty rect
             for (i = 0; i < dirtyRectsCount; i++) {
-				if (CGRectIntersectsRect(pathBounds,NSRectToCGRect(dirtyRects[i]))) {
-					[aPath stroke];
+				if (CGRectIntersectsRect(strokeBounds,NSRectToCGRect(dirtyRects[i]))) {
+					[aStroke strokeInRect:dirtyRect
+								withRects:dirtyRects
+									count:dirtyRectsCount];
                     break;
                 }
             }
@@ -102,58 +105,68 @@ static NSCursor *eraserCursor;
 	return MAX(MIN_STROKE_WIDTH,adjustedPressure * angleWidthMultiplier * MAX_STROKE_WIDTH);
 }
 
-- (void)endPath:(NSEvent *)theEvent {
+- (void)continueStroke:(NSEvent *)theEvent {
 	NSPoint newPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	CGFloat width = [self lineWidthForPressure:[theEvent pressure]
-										 start:[workingPath currentPoint]
+										 start:[workingStroke currentPoint]
 										   end:newPoint];
-	if (workingPath) {
-		[workingPath setLineWidth:width];
-		[workingPath setLineCapStyle:NSRoundLineCapStyle];
-		[workingPath lineToPoint:newPoint];
-		[self setNeedsDisplayInRect:[workingPath boundsWithLines]];
-		[workingPath release];
-		workingPath = nil;
+	if (workingStroke) {
+		[workingStroke lineToPoint:newPoint
+					 withThickness:width];
+		[self setNeedsDisplayInRect:[workingStroke lastSegmentBounds]];
 	} else {
-		NSLog(@"endPath: with no workingPath");
+		NSLog(@"continueStroke: with no workingStroke");
 	}
 }
 
-- (void)startPath:(NSEvent *)theEvent {
-	if (!paths) {
-		paths = [[NSMutableArray alloc] init];
+- (void)endStroke:(NSEvent *)theEvent {
+	[self continueStroke:theEvent];
+	[workingStroke release];
+	workingStroke = nil;
+}
+
+- (void)startStroke:(NSEvent *)theEvent {
+	if (!strokes) {
+		strokes = [[NSMutableArray alloc] init];
 	}
-	if (workingPath) {
-		[self endPath:theEvent];
+	if (workingStroke) {
+		[self continueStroke:theEvent];
+	} else {
+		workingStroke = [[tabletInkStroke alloc]
+						 initWithPoint:[self convertPoint:[theEvent locationInWindow]
+												 fromView:nil]];
+		[workingStroke setColor:[NSColor blackColor]];
+		[strokes addObject:workingStroke];
 	}
-	workingPath = [[NSBezierPath alloc] init];
-	[paths addObject:workingPath];
-	[workingPath moveToPoint:[self convertPoint:[theEvent locationInWindow] fromView:nil]];
 	initialPressure = [theEvent pressure];
 }
 
 - (void)eraseEvent:(NSEvent *)theEvent {
 	NSMutableIndexSet *indexesToDelete = [NSMutableIndexSet indexSet];
-	for (NSUInteger pathIndex = 0; pathIndex < [paths count]; pathIndex++) {
-		NSRect pathBounds = [[paths objectAtIndex:pathIndex] boundsWithLines];
+	for (NSUInteger strokeIndex = 0; strokeIndex < [strokes count]; strokeIndex++) {
+		NSRect strokeBounds = [[strokes objectAtIndex:strokeIndex] bounds];
 		NSPoint erasePoint = [self convertPoint:[theEvent locationInWindow]
 									   fromView:nil];
 		CGRect eraseArea = CGRectMake(erasePoint.x - ERASER_RADIUS, erasePoint.y - ERASER_RADIUS,
 									  2.0 * ERASER_RADIUS, 2.0 * ERASER_RADIUS);
-		if (CGRectIntersectsRect(NSRectToCGRect(pathBounds),eraseArea)) {
-			[indexesToDelete addIndex:pathIndex];
-			[self setNeedsDisplayInRect:pathBounds];
+		if (CGRectIntersectsRect(NSRectToCGRect(strokeBounds),eraseArea)) {
+			[indexesToDelete addIndex:strokeIndex];
+			[self setNeedsDisplayInRect:strokeBounds];
 		}
 	}
-	[paths removeObjectsAtIndexes:indexesToDelete];
+	[strokes removeObjectsAtIndexes:indexesToDelete];
 }
 
 - (NSRect)pathBounds {
-	NSRect result = [[paths objectAtIndex:0] boundsWithLines];
-	for (NSBezierPath *path in paths) {
-		result = NSUnionRect(result, [path boundsWithLines]);
+	if ([strokes count] > 0) {
+		NSRect result = [[strokes objectAtIndex:0] bounds];
+		for (tabletInkStroke *aStroke in strokes) {
+			result = NSUnionRect(result, [aStroke bounds]);
+		}
+		return result;
+	} else {
+		return NSMakeRect(0.0, 0.0, 0.0, 0.0);
 	}
-	return result;
 }
 
 - (IBAction)copy:(id)sender
@@ -192,7 +205,7 @@ static NSCursor *eraserCursor;
 
 - (void)mouseDown:(NSEvent *)theEvent {
 	if ([theEvent subtype] == NSTabletPointEventSubtype) {
-		if (pointingDeviceType == NSPenPointingDevice) [self startPath:theEvent];
+		if (pointingDeviceType == NSPenPointingDevice) [self startStroke:theEvent];
 		[self tabletPoint:theEvent];
 	} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
 		[self tabletProximity:theEvent];
@@ -201,7 +214,7 @@ static NSCursor *eraserCursor;
 
 - (void)mouseDragged:(NSEvent *)theEvent {
 	if ([theEvent subtype] == NSTabletPointEventSubtype) {
-		if (pointingDeviceType == NSPenPointingDevice) [self startPath:theEvent];
+		if (pointingDeviceType == NSPenPointingDevice) [self continueStroke:theEvent];
 		if (pointingDeviceType == NSEraserPointingDevice) [self eraseEvent:theEvent];
 		[self tabletPoint:theEvent];
 	} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
@@ -211,7 +224,7 @@ static NSCursor *eraserCursor;
 
 - (void)mouseUp:(NSEvent *)theEvent {
 	if ([theEvent subtype] == NSTabletPointEventSubtype) {
-		if (pointingDeviceType == NSPenPointingDevice) [self endPath:theEvent];
+		if (pointingDeviceType == NSPenPointingDevice) [self endStroke:theEvent];
 		[self tabletPoint:theEvent];
 	} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
 		[self tabletProximity:theEvent];

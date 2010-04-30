@@ -26,22 +26,31 @@
  *********************************************************************************/
 
 //
-//  tabletView.h
-//  tablet experiment
+//  tabletInkStroke.h
+//  MacWJ
 //
 
 #import <Cocoa/Cocoa.h>
 
-@class tabletInkStroke;
 
-@interface tabletView : NSView {
+@interface tabletInkStroke : NSObject {
+	NSColor *color;
+	
 	@private
-	NSMutableArray *strokes;
-	tabletInkStroke *workingStroke;
-	CGFloat initialPressure;
-	NSPointingDeviceType pointingDeviceType;
+	NSMutableArray *paths;
+	NSPoint currentPoint;
 }
 
-- (IBAction)copy:(id)sender;
+@property (retain) NSColor *color;
+@property (readonly) NSPoint currentPoint;
+
+- (id)initWithPoint:(NSPoint)startingPoint;
+- (void)lineToPoint:(NSPoint)endPoint
+	  withThickness:(CGFloat)lineWidth;
+- (NSRect)bounds;
+- (NSRect)lastSegmentBounds;
+- (void)strokeInRect:(NSRect)dirtyRect
+		   withRects:(const NSRect *)dirtyRects
+			   count:(NSInteger)dirtyRectsCount;
 
 @end
