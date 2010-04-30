@@ -47,4 +47,6 @@
 - (NSData *)data;
 - (void)loadFromData:(NSData *)data;
 
+- (NSData *)PNGData;
+
 @end

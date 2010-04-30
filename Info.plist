@@ -23,6 +23,26 @@
 			<string>Editor</string>
 			<key>NSDocumentClass</key>
 			<string>MyDocument</string>
+			<key>NSExportableAs</key>
+			<array>
+				<string>PNG File</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>png</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string></string>
+			<key>CFBundleTypeName</key>
+			<string>PNG File</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>????</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>

@@ -184,6 +184,18 @@ static NSCursor *eraserCursor;
 	strokes = [[NSMutableArray alloc] initWithArray:loadedArray];
 }
 
+- (NSData *)PNGData {
+	NSImage *image = [[NSImage alloc] initWithData:[self dataWithPDFInsideRect:[self pathBounds]]];
+	NSSize imageSize = [image size];
+	imageSize.width = imageSize.width * COPY_AS_IMAGE_SCALE_FACTOR;
+	imageSize.height = imageSize.height * COPY_AS_IMAGE_SCALE_FACTOR;
+	[image setSize:imageSize];
+	NSBitmapImageRep* bm = [NSBitmapImageRep
+							imageRepWithData:[image TIFFRepresentation]];
+	[image release];
+	return [bm representationUsingType:NSPNGFileType properties:nil];
+}
+
 
 #pragma mark -
 #pragma mark copying to externalize
