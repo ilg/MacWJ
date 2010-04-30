@@ -36,6 +36,11 @@
 
 @implementation MyDocument
 
+// MARK: keys for document file dictionary
+NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
+
+#pragma mark -
+
 - (id)init
 {
     self = [super init];
@@ -71,11 +76,20 @@
     // You can also choose to override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
 
     // For applications targeted for Panther or earlier systems, you should use the deprecated API -dataRepresentationOfType:. In this case you can also choose to override -fileWrapperRepresentationOfType: or -writeToFile:ofType: instead.
-
-    if ( outError != NULL ) {
+	
+	NSString *strError;
+	NSDictionary *theSavedDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+										[theTabletView data], kMacWJDocumentRawInkDataKey,
+										nil];
+	NSData *theData = [NSPropertyListSerialization dataFromPropertyList:theSavedDictionary
+																 format:NSPropertyListXMLFormat_v1_0
+													   errorDescription:&strError];
+	
+	if (strError && (outError != NULL)) {
+		NSLog(@"Error saving: %@",strError);
 		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
 	}
-	return nil;
+    return theData;
 }
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
@@ -86,7 +100,14 @@
     
     // For applications targeted for Panther or earlier systems, you should use the deprecated API -loadDataRepresentation:ofType. In this case you can also choose to override -readFromFile:ofType: or -loadFileWrapperRepresentation:ofType: instead.
     
-    if ( outError != NULL ) {
+	NSString *strError;
+	NSDictionary *theSavedDictionary = [NSPropertyListSerialization propertyListFromData:data
+																		mutabilityOption:NSPropertyListImmutable
+																				  format:NULL
+																		errorDescription:&strError];
+	if (theSavedDictionary && !strError) {
+		[theTabletView loadFromData:[theSavedDictionary objectForKey:kMacWJDocumentRawInkDataKey]];
+	} else if (outError != NULL) {
 		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
 	}
     return YES;
