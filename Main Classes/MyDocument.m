@@ -31,6 +31,8 @@
 //
 
 #import "MyDocument.h"
+#import "tabletView.h"
+#import "backgroundView.h"
 
 @implementation MyDocument
 
@@ -45,6 +47,9 @@
     }
     return self;
 }
+
+#pragma mark -
+#pragma mark NSDocument stuff
 
 - (NSString *)windowNibName
 {

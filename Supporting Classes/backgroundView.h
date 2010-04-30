@@ -34,7 +34,11 @@
 
 
 @interface backgroundView : NSView {
-
+	NSImage *backgroundImage;
+	NSColor *backgroundColor;
 }
+
+@property (retain) NSImage *backgroundImage;
+@property (retain) NSColor *backgroundColor;
 
 @end

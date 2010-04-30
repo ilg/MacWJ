@@ -12,7 +12,6 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="6"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -46,7 +45,7 @@
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<string key="NSWindowContentMinSize">{94, 86}</string>
 				<object class="NSView" key="NSWindowView" id="568628114">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -80,7 +79,6 @@
 									</object>
 									<string key="NSFrame">{{1, 1}, {507, 413}}</string>
 									<reference key="NSSuperview" ref="510894227"/>
-									<reference key="NSNextKeyView" ref="523976059"/>
 									<reference key="NSDocView" ref="523976059"/>
 									<object class="NSColor" key="NSBGColor">
 										<int key="NSColorSpace">6</int>
@@ -116,7 +114,6 @@
 							</object>
 							<string key="NSFrame">{{-1, -1}, {509, 415}}</string>
 							<reference key="NSSuperview" ref="568628114"/>
-							<reference key="NSNextKeyView" ref="254911405"/>
 							<int key="NSsFlags">562</int>
 							<reference key="NSVScroller" ref="224706043"/>
 							<reference key="NSHScroller" ref="872849155"/>
@@ -124,7 +121,6 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{507, 413}</string>
-					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMinSize">{94, 108}</string>
@@ -161,6 +157,14 @@
 						<reference key="destination" ref="689830501"/>
 					</object>
 					<int key="connectionID">100022</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">theBackgroundView</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="523976059"/>
+					</object>
+					<int key="connectionID">100028</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -301,7 +305,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">100027</int>
+			<int key="maxID">100028</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -310,12 +314,21 @@
 					<string key="className">MyDocument</string>
 					<string key="superclassName">NSDocument</string>
 					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">theTabletView</string>
-						<string key="NS.object.0">tabletView</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>theBackgroundView</string>
+							<string>theTabletView</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>backgroundView</string>
+							<string>tabletView</string>
+						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">MyDocument.h</string>
+						<string key="minorKey">Main Classes/MyDocument.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -323,7 +336,7 @@
 					<string key="superclassName">NSView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">backgroundView.h</string>
+						<string key="minorKey">Supporting Classes/backgroundView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -335,7 +348,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">tabletView.h</string>
+						<string key="minorKey">Supporting Classes/tabletView.h</string>
 					</object>
 				</object>
 			</object>

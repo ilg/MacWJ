@@ -35,10 +35,14 @@
 
 @implementation backgroundView
 
+@synthesize backgroundImage, backgroundColor;
+
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
+		[self setBackgroundColor:[NSColor whiteColor]];
+		[self setBackgroundImage:[NSImage imageNamed:@"lined paper background"]];
     }
     return self;
 }
@@ -49,13 +53,16 @@
 	// Save the current graphics state first so we can restore it.
 	[[NSGraphicsContext currentContext] saveGraphicsState];
 	
+	// fill with the background color
+	[backgroundColor set];
+	NSRectFill([self bounds]);
+
 	// Change the pattern phase.
 	[[NSGraphicsContext currentContext] setPatternPhase:
 	 NSMakePoint(0,[self frame].size.height)];
 	
 	// Stick the image in a color and fill the view with that color.
-    NSImage *anImage = [NSImage imageNamed:@"lined paper background"];
-	[[NSColor colorWithPatternImage:anImage] set];
+	[[NSColor colorWithPatternImage:backgroundImage] set];
 	NSRectFill([self bounds]);
 	
 	// Restore the original graphics state.

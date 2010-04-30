@@ -32,11 +32,14 @@
 
 
 #import <Cocoa/Cocoa.h>
-#import "tabletView.h"
+
+@class tabletView;
+@class backgroundView;
 
 @interface MyDocument : NSDocument {
 	@private
 	IBOutlet tabletView *theTabletView;
+	IBOutlet backgroundView *theBackgroundView;
 }
 
 
