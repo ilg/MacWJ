@@ -175,12 +175,13 @@ static NSCursor *eraserCursor;
 #pragma mark for saving and loading
 
 - (NSData *)data {
-	return [NSArchiver archivedDataWithRootObject:[NSArray arrayWithArray:strokes]];
+	return [NSKeyedArchiver archivedDataWithRootObject:[NSArray arrayWithArray:strokes]];
 }
 
 - (void)loadFromData:(NSData *)data {
 	[strokes release];
-	strokes = [[NSMutableArray alloc] initWithArray:[NSUnarchiver unarchiveObjectWithData:data]];
+	NSArray *loadedArray = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+	strokes = [[NSMutableArray alloc] initWithArray:loadedArray];
 }
 
 

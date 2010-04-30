@@ -38,6 +38,13 @@
 
 @synthesize color, currentPoint;
 
+// MARK: string keys for NSCoding
+NSString * const kTabletInkStrokeColorKey = @"tabletInkStrokeColorKey";
+NSString * const kTabletInkStrokePathsKey = @"tabletInkStrokePathsKey";
+NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPointKey";
+
+#pragma mark -
+
 - (id)initWithPoint:(NSPoint)startingPoint {
 	self = [super init];
 	if (self) {
@@ -107,6 +114,32 @@
 	// Restore the original graphics state.
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
 }
+
+#pragma mark -
+#pragma mark for archiving/unarchiving (for saving/loading documents)
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+	// NSObject does not conform to NSCoding
+//    [super encodeWithCoder:coder];
+    [coder encodeObject:color forKey:kTabletInkStrokeColorKey];
+    [coder encodeObject:paths forKey:kTabletInkStrokePathsKey];
+	[coder encodePoint:currentPoint forKey:kTabletInkStrokeCurrentPointKey];
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+	// NSObject does not conform to NSCoding
+//    self = [super initWithCoder:coder];
+	NSLog(@"initWithCoder:");
+	self = [super init];
+	if (self) {
+		[self setColor:[coder decodeObjectForKey:kTabletInkStrokeColorKey]];
+		paths = [[coder decodeObjectForKey:kTabletInkStrokePathsKey] retain];
+		currentPoint = [coder decodePointForKey:kTabletInkStrokeCurrentPointKey];
+		NSLog(@"decoded %d paths",[paths count]);
+	}
+    return self;
+}
+
 
 
 @end

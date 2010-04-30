@@ -106,11 +106,18 @@ NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
 																				  format:NULL
 																		errorDescription:&strError];
 	if (theSavedDictionary && !strError) {
-		[theTabletView loadFromData:[theSavedDictionary objectForKey:kMacWJDocumentRawInkDataKey]];
+		[self performSelector:@selector(delayedDataLoad:)
+				   withObject:[theSavedDictionary objectForKey:kMacWJDocumentRawInkDataKey]
+				   afterDelay:0];
 	} else if (outError != NULL) {
 		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
 	}
     return YES;
+}
+
+- (void)delayedDataLoad:(NSData *)rawInkData {
+	[theTabletView loadFromData:rawInkData];
+	[theTabletView setNeedsDisplay:YES];
 }
 
 @end
