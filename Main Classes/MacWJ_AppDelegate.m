@@ -42,8 +42,8 @@
 					   // object, key; nil-terminated
 					   [NSNumber numberWithFloat:0.5], @"minStrokeWidth",
 					   [NSNumber numberWithFloat:5.0], @"maxStrokeWidth",
-					   [NSNumber numberWithFloat:3.0], @"eraserRadius",
-					   [NSNumber numberWithFloat:(1.0/3.0)], @"copyAsImageScaleFactor",
+					   [NSNumber numberWithFloat:1.0], @"eraserRadius",
+					   [NSNumber numberWithFloat:1.0], @"copyAsImageScaleFactor",
 					   nil]];
 }
 
