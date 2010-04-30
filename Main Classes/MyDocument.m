@@ -77,8 +77,8 @@ NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
 
     // For applications targeted for Panther or earlier systems, you should use the deprecated API -dataRepresentationOfType:. In this case you can also choose to override -fileWrapperRepresentationOfType: or -writeToFile:ofType: instead.
 	
-	NSString *strError;
-	NSData *theData;
+	NSString *strError = nil;
+	NSData *theData = nil;
 	if ([typeName isEqualToString:@"MacWJ Document"]) {
 		NSDictionary *theSavedDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
 											[theTabletView data], kMacWJDocumentRawInkDataKey,
@@ -88,6 +88,8 @@ NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
 												   errorDescription:&strError];
 	} else if ([typeName isEqualToString:@"PNG File"]) {
 		theData = [theTabletView PNGData];
+	} else if ([typeName isEqualToString:@"PDF File"]) {
+		theData = [theTabletView PDFData];
 	} else {
 		strError = [NSString stringWithFormat:@"unknown file type: %@", typeName];
 	}

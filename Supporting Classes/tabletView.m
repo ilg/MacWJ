@@ -196,6 +196,10 @@ static NSCursor *eraserCursor;
 	return [bm representationUsingType:NSPNGFileType properties:nil];
 }
 
+- (NSData *)PDFData {
+	return [self dataWithPDFInsideRect:[self pathBounds]];
+}
+
 
 #pragma mark -
 #pragma mark copying to externalize
@@ -204,7 +208,7 @@ static NSCursor *eraserCursor;
 {
 	NSPasteboard *pb = [NSPasteboard generalPasteboard];
 	[pb declareTypes:[NSArray arrayWithObjects:NSPDFPboardType, nil] owner:nil];
-	[pb setData:[self dataWithPDFInsideRect:[self pathBounds]] forType:NSPDFPboardType];
+	[pb setData:[self PDFData] forType:NSPDFPboardType];
 }
 
 - (IBAction)copyAsImage:(id)sender
