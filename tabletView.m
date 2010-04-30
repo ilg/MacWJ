@@ -37,6 +37,7 @@
 #define MIN_STROKE_WIDTH [[NSUserDefaults standardUserDefaults] floatForKey:@"minStrokeWidth"]
 #define MAX_STROKE_WIDTH [[NSUserDefaults standardUserDefaults] floatForKey:@"maxStrokeWidth"]
 #define ERASER_RADIUS [[NSUserDefaults standardUserDefaults] floatForKey:@"eraserRadius"]
+#define COPY_AS_IMAGE_SCALE_FACTOR [[NSUserDefaults standardUserDefaults] floatForKey:@"copyAsImageScaleFactor"]
 
 @implementation tabletView
 
@@ -175,6 +176,19 @@ static NSCursor *eraserCursor;
 	[pb declareTypes:[NSArray arrayWithObjects:NSPDFPboardType, nil] owner:nil];
 	[pb setData:[self dataWithPDFInsideRect:[self pathBounds]] forType:NSPDFPboardType];
 }
+
+- (IBAction)copyAsImage:(id)sender
+{
+	NSPasteboard *pb = [NSPasteboard generalPasteboard];
+	[pb declareTypes:[NSArray arrayWithObjects:NSTIFFPboardType, nil] owner:nil];
+	NSImage *image = [[NSImage alloc] initWithData:[self dataWithPDFInsideRect:[self pathBounds]]];
+	NSSize imageSize = [image size];
+	imageSize.width = imageSize.width * COPY_AS_IMAGE_SCALE_FACTOR;
+	imageSize.height = imageSize.height * COPY_AS_IMAGE_SCALE_FACTOR;
+	[image setSize:imageSize];
+	[pb setData:[image TIFFRepresentation] forType:NSTIFFPboardType];
+}
+
 
 #pragma mark -
 #pragma mark tablet/mouse event handling
