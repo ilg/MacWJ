@@ -115,6 +115,7 @@ NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
     return YES;
 }
 
+// helper method since theTabletView isn't set up at the moment readFromData:ofType:error: is called
 - (void)delayedDataLoad:(NSData *)rawInkData {
 	[theTabletView loadFromData:rawInkData];
 	[theTabletView setNeedsDisplay:YES];
