@@ -9,16 +9,16 @@
 /* Begin PBXBuildFile section */
 		1DDD582C0DA1D0D100B32029 /* MyDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58280DA1D0D100B32029 /* MyDocument.xib */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
-		7112B5E7118A97FF0010FF45 /* single-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 7112B5E6118A97FF0010FF45 /* single-dot.png */; };
-		7112B634118A9D3A0010FF45 /* MacWJ_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B633118A9D3A0010FF45 /* MacWJ_AppDelegate.m */; };
-		7112B63B118A9D990010FF45 /* tabletInkStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B63A118A9D990010FF45 /* tabletInkStroke.m */; };
-		71F85451118A5950008B10F5 /* tabletView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F8544C118A5950008B10F5 /* tabletView.m */; };
-		71F85452118A5950008B10F5 /* backgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F8544E118A5950008B10F5 /* backgroundView.m */; };
-		71F85453118A5950008B10F5 /* NSBezierPath+boundsWithLines.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F85450118A5950008B10F5 /* NSBezierPath+boundsWithLines.m */; };
-		71F8547D118A59B2008B10F5 /* lined paper background.png in Resources */ = {isa = PBXBuildFile; fileRef = 71F8547C118A59B2008B10F5 /* lined paper background.png */; };
+		7112B6F2118AE8D70010FF45 /* MacWJ_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B6E6118AE8D70010FF45 /* MacWJ_AppDelegate.m */; };
+		7112B6F3118AE8D70010FF45 /* MyDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B6E8118AE8D70010FF45 /* MyDocument.m */; };
+		7112B6F4118AE8D70010FF45 /* backgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B6EB118AE8D70010FF45 /* backgroundView.m */; };
+		7112B6F5118AE8D70010FF45 /* NSBezierPath+boundsWithLines.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B6ED118AE8D70010FF45 /* NSBezierPath+boundsWithLines.m */; };
+		7112B6F6118AE8D70010FF45 /* tabletInkStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B6EF118AE8D70010FF45 /* tabletInkStroke.m */; };
+		7112B6F7118AE8D70010FF45 /* tabletView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B6F1118AE8D70010FF45 /* tabletView.m */; };
+		7112B6FB118AE8EB0010FF45 /* lined paper background.png in Resources */ = {isa = PBXBuildFile; fileRef = 7112B6F9118AE8EB0010FF45 /* lined paper background.png */; };
+		7112B6FC118AE8EB0010FF45 /* single-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 7112B6FA118AE8EB0010FF45 /* single-dot.png */; };
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
-		8D15AC310486D014006FF6A4 /* MyDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -29,25 +29,25 @@
 		13E42FBA07B3F13500E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		1DDD58290DA1D0D100B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MyDocument.xib; sourceTree = "<group>"; };
 		1DDD582B0DA1D0D100B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDocument.m; sourceTree = "<group>"; };
-		2A37F4AEFDCFA73011CA2CEA /* MyDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDocument.h; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A37F4BAFDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* MacWJ_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacWJ_Prefix.pch; sourceTree = "<group>"; };
-		7112B5E6118A97FF0010FF45 /* single-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "single-dot.png"; sourceTree = "<group>"; };
-		7112B632118A9D3A0010FF45 /* MacWJ_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacWJ_AppDelegate.h; sourceTree = "<group>"; };
-		7112B633118A9D3A0010FF45 /* MacWJ_AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacWJ_AppDelegate.m; sourceTree = "<group>"; };
-		7112B639118A9D990010FF45 /* tabletInkStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tabletInkStroke.h; sourceTree = "<group>"; };
-		7112B63A118A9D990010FF45 /* tabletInkStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tabletInkStroke.m; sourceTree = "<group>"; };
-		71F8544B118A5950008B10F5 /* tabletView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tabletView.h; sourceTree = "<group>"; };
-		71F8544C118A5950008B10F5 /* tabletView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tabletView.m; sourceTree = "<group>"; };
-		71F8544D118A5950008B10F5 /* backgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = backgroundView.h; sourceTree = "<group>"; };
-		71F8544E118A5950008B10F5 /* backgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = backgroundView.m; sourceTree = "<group>"; };
-		71F8544F118A5950008B10F5 /* NSBezierPath+boundsWithLines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+boundsWithLines.h"; sourceTree = "<group>"; };
-		71F85450118A5950008B10F5 /* NSBezierPath+boundsWithLines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+boundsWithLines.m"; sourceTree = "<group>"; };
-		71F8547C118A59B2008B10F5 /* lined paper background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lined paper background.png"; sourceTree = "<group>"; };
+		7112B6E5118AE8D70010FF45 /* MacWJ_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacWJ_AppDelegate.h; sourceTree = "<group>"; };
+		7112B6E6118AE8D70010FF45 /* MacWJ_AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacWJ_AppDelegate.m; sourceTree = "<group>"; };
+		7112B6E7118AE8D70010FF45 /* MyDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDocument.h; sourceTree = "<group>"; };
+		7112B6E8118AE8D70010FF45 /* MyDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDocument.m; sourceTree = "<group>"; };
+		7112B6EA118AE8D70010FF45 /* backgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = backgroundView.h; sourceTree = "<group>"; };
+		7112B6EB118AE8D70010FF45 /* backgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = backgroundView.m; sourceTree = "<group>"; };
+		7112B6EC118AE8D70010FF45 /* NSBezierPath+boundsWithLines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+boundsWithLines.h"; sourceTree = "<group>"; };
+		7112B6ED118AE8D70010FF45 /* NSBezierPath+boundsWithLines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+boundsWithLines.m"; sourceTree = "<group>"; };
+		7112B6EE118AE8D70010FF45 /* tabletInkStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tabletInkStroke.h; sourceTree = "<group>"; };
+		7112B6EF118AE8D70010FF45 /* tabletInkStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tabletInkStroke.m; sourceTree = "<group>"; };
+		7112B6F0118AE8D70010FF45 /* tabletView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tabletView.h; sourceTree = "<group>"; };
+		7112B6F1118AE8D70010FF45 /* tabletView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tabletView.m; sourceTree = "<group>"; };
+		7112B6F9118AE8EB0010FF45 /* lined paper background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lined paper background.png"; sourceTree = "<group>"; };
+		7112B6FA118AE8EB0010FF45 /* single-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "single-dot.png"; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* MacWJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacWJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -105,18 +105,8 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				7112B632118A9D3A0010FF45 /* MacWJ_AppDelegate.h */,
-				7112B633118A9D3A0010FF45 /* MacWJ_AppDelegate.m */,
-				71F8544B118A5950008B10F5 /* tabletView.h */,
-				71F8544C118A5950008B10F5 /* tabletView.m */,
-				7112B639118A9D990010FF45 /* tabletInkStroke.h */,
-				7112B63A118A9D990010FF45 /* tabletInkStroke.m */,
-				71F8544D118A5950008B10F5 /* backgroundView.h */,
-				71F8544E118A5950008B10F5 /* backgroundView.m */,
-				71F8544F118A5950008B10F5 /* NSBezierPath+boundsWithLines.h */,
-				71F85450118A5950008B10F5 /* NSBezierPath+boundsWithLines.m */,
-				2A37F4AEFDCFA73011CA2CEA /* MyDocument.h */,
-				2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */,
+				7112B6E4118AE8D70010FF45 /* Main Classes */,
+				7112B6E9118AE8D70010FF45 /* Supporting Classes */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -133,8 +123,7 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				71F8547C118A59B2008B10F5 /* lined paper background.png */,
-				7112B5E6118A97FF0010FF45 /* single-dot.png */,
+				7112B6F8118AE8EB0010FF45 /* Images */,
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
@@ -151,6 +140,41 @@
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7112B6E4118AE8D70010FF45 /* Main Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7112B6E5118AE8D70010FF45 /* MacWJ_AppDelegate.h */,
+				7112B6E6118AE8D70010FF45 /* MacWJ_AppDelegate.m */,
+				7112B6E7118AE8D70010FF45 /* MyDocument.h */,
+				7112B6E8118AE8D70010FF45 /* MyDocument.m */,
+			);
+			path = "Main Classes";
+			sourceTree = "<group>";
+		};
+		7112B6E9118AE8D70010FF45 /* Supporting Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7112B6EA118AE8D70010FF45 /* backgroundView.h */,
+				7112B6EB118AE8D70010FF45 /* backgroundView.m */,
+				7112B6EC118AE8D70010FF45 /* NSBezierPath+boundsWithLines.h */,
+				7112B6ED118AE8D70010FF45 /* NSBezierPath+boundsWithLines.m */,
+				7112B6EE118AE8D70010FF45 /* tabletInkStroke.h */,
+				7112B6EF118AE8D70010FF45 /* tabletInkStroke.m */,
+				7112B6F0118AE8D70010FF45 /* tabletView.h */,
+				7112B6F1118AE8D70010FF45 /* tabletView.m */,
+			);
+			path = "Supporting Classes";
+			sourceTree = "<group>";
+		};
+		7112B6F8118AE8EB0010FF45 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				7112B6F9118AE8EB0010FF45 /* lined paper background.png */,
+				7112B6FA118AE8EB0010FF45 /* single-dot.png */,
+			);
+			path = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,8 +224,8 @@
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
 				1DDD582C0DA1D0D100B32029 /* MyDocument.xib in Resources */,
 				1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */,
-				71F8547D118A59B2008B10F5 /* lined paper background.png in Resources */,
-				7112B5E7118A97FF0010FF45 /* single-dot.png in Resources */,
+				7112B6FB118AE8EB0010FF45 /* lined paper background.png in Resources */,
+				7112B6FC118AE8EB0010FF45 /* single-dot.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,13 +236,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D15AC310486D014006FF6A4 /* MyDocument.m in Sources */,
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
-				71F85451118A5950008B10F5 /* tabletView.m in Sources */,
-				71F85452118A5950008B10F5 /* backgroundView.m in Sources */,
-				71F85453118A5950008B10F5 /* NSBezierPath+boundsWithLines.m in Sources */,
-				7112B634118A9D3A0010FF45 /* MacWJ_AppDelegate.m in Sources */,
-				7112B63B118A9D990010FF45 /* tabletInkStroke.m in Sources */,
+				7112B6F2118AE8D70010FF45 /* MacWJ_AppDelegate.m in Sources */,
+				7112B6F3118AE8D70010FF45 /* MyDocument.m in Sources */,
+				7112B6F4118AE8D70010FF45 /* backgroundView.m in Sources */,
+				7112B6F5118AE8D70010FF45 /* NSBezierPath+boundsWithLines.m in Sources */,
+				7112B6F6118AE8D70010FF45 /* tabletInkStroke.m in Sources */,
+				7112B6F7118AE8D70010FF45 /* tabletView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
