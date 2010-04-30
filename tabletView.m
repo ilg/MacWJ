@@ -62,7 +62,6 @@ static NSCursor *eraserCursor;
 
 - (void)drawRect:(NSRect)dirtyRect {
     // Drawing code here.
-	[[NSColor blackColor] setStroke];
 	const NSRect *dirtyRects;
     NSInteger dirtyRectsCount, i;
     [self getRectsBeingDrawn:&dirtyRects count:&dirtyRectsCount];
@@ -158,6 +157,8 @@ static NSCursor *eraserCursor;
 	[strokes removeObjectsAtIndexes:indexesToDelete];
 }
 
+#pragma mark -
+
 - (NSRect)pathBounds {
 	if ([strokes count] > 0) {
 		NSRect result = [[strokes objectAtIndex:0] bounds];
@@ -169,6 +170,22 @@ static NSCursor *eraserCursor;
 		return NSMakeRect(0.0, 0.0, 0.0, 0.0);
 	}
 }
+
+#pragma mark -
+#pragma mark for saving and loading
+
+- (NSData *)data {
+	return [NSArchiver archivedDataWithRootObject:[NSArray arrayWithArray:strokes]];
+}
+
+- (void)loadFromData:(NSData *)data {
+	[strokes release];
+	strokes = [[NSMutableArray alloc] initWithArray:[NSUnarchiver unarchiveObjectWithData:data]];
+}
+
+
+#pragma mark -
+#pragma mark copying to externalize
 
 - (IBAction)copy:(id)sender
 {
@@ -187,6 +204,7 @@ static NSCursor *eraserCursor;
 	imageSize.height = imageSize.height * COPY_AS_IMAGE_SCALE_FACTOR;
 	[image setSize:imageSize];
 	[pb setData:[image TIFFRepresentation] forType:NSTIFFPboardType];
+	[image release];
 }
 
 

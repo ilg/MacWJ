@@ -44,4 +44,7 @@
 
 - (IBAction)copy:(id)sender;
 
+- (NSData *)data;
+- (void)loadFromData:(NSData *)data;
+
 @end
