@@ -30,10 +30,10 @@
 //  tablet experiment
 //
 
-#import "AppDelegate.h"
+#import "MacWJ_AppDelegate.h"
 
 
-@implementation AppDelegate
+@implementation MacWJ_AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// Insert code here to initialize your application

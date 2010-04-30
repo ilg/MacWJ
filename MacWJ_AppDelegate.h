@@ -33,7 +33,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface AppDelegate : NSObject {
+@interface MacWJ_AppDelegate : NSObject {
 
 }
 
