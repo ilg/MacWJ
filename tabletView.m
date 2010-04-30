@@ -36,9 +36,18 @@
 #define MIN_STROKE_WIDTH [[NSUserDefaults standardUserDefaults] floatForKey:@"minStrokeWidth"]
 #define MAX_STROKE_WIDTH [[NSUserDefaults standardUserDefaults] floatForKey:@"maxStrokeWidth"]
 #define ERASER_RADIUS [[NSUserDefaults standardUserDefaults] floatForKey:@"eraserRadius"]
-#define REDRAW_PADDING 1.0
 
 @implementation tabletView
+
+static NSCursor *penCursor;
+static NSCursor *eraserCursor;
+
++ (void)initialize {
+	penCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"single-dot"]
+										hotSpot:NSMakePoint(0.0, 0.0)];
+	eraserCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"single-dot"]
+										   hotSpot:NSMakePoint(0.0, 0.0)];
+}
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
@@ -162,10 +171,6 @@
 	if (pointingDeviceType == NSUnknownPointingDevice) {
 	} else if (pointingDeviceType == NSPenPointingDevice) {
 		if ([theEvent isEnteringProximity]) {
-			if (!penCursor) {
-				penCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"single-dot"]
-													hotSpot:NSMakePoint(0.0, 0.0)];
-			}
 			[penCursor push];
 		} else {
 			[NSCursor pop];
@@ -173,12 +178,6 @@
 	} else if (pointingDeviceType == NSCursorPointingDevice) {
 	} else if (pointingDeviceType == NSEraserPointingDevice) {
 		if ([theEvent isEnteringProximity]) {
-			if (!eraserCursor) {
-				NSImage *cursorImage = [NSImage imageNamed:@"single-dot"];
-				[cursorImage setSize:NSMakeSize(1.0, 1.0)];
-				eraserCursor = [[NSCursor alloc] initWithImage:cursorImage
-													hotSpot:NSMakePoint(0.0, 0.0)];
-			}
 			[eraserCursor push];
 		} else {
 			[NSCursor pop];

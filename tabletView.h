@@ -36,8 +36,6 @@
 	@private
 	NSMutableArray *paths;
 	NSBezierPath *workingPath;
-	NSCursor *penCursor;
-	NSCursor *eraserCursor;
 	CGFloat initialPressure;
 	NSPointingDeviceType pointingDeviceType;
 }
