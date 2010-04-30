@@ -27,7 +27,7 @@
 
 //
 //  tabletView.m
-//  tablet experiment
+//  MacWJ
 //
 
 #import "tabletView.h"

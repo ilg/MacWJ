@@ -27,7 +27,7 @@
 
 //
 //  AppDelegate.h
-//  tablet experiment
+//  MacWJ
 //
 
 #import <Cocoa/Cocoa.h>

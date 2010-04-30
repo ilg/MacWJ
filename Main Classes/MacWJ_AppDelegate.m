@@ -27,7 +27,7 @@
 
 //
 //  AppDelegate.m
-//  tablet experiment
+//  MacWJ
 //
 
 #import "MacWJ_AppDelegate.h"

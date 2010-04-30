@@ -27,7 +27,7 @@
 
 //
 //  backgroundView.m
-//  tablet experiment
+//  MacWJ
 //
 
 #import "backgroundView.h"

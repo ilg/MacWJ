@@ -27,7 +27,7 @@
 
 //
 //  NSBezierPath+boundsWithLines.m
-//  tablet experiment
+//  MacWJ
 //
 
 #import "NSBezierPath+boundsWithLines.h"
