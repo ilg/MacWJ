@@ -48,6 +48,7 @@
 	NSMutableArray *nibNames;
 	NSString *selectedPen;
 	
+	IBOutlet NSSlider *angleCircularSlider;
 	IBOutlet NSTextField *angleNumeratorTextField;
 	IBOutlet NSBox *angleFractionBar;
 	IBOutlet NSTextField *angleDenominatorTextField;

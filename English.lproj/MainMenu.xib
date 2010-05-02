@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="456"/>
+			<integer value="475"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1145,6 +1145,7 @@
 				<string key="NSWindowTitle">Pen Editor</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
+				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<object class="NSView" key="NSWindowView" id="491620795">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
@@ -2423,22 +2424,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: isAngleDependent</string>
-						<reference key="source" ref="884995137"/>
-						<reference key="destination" ref="1032763899"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="884995137"/>
-							<reference key="NSDestination" ref="1032763899"/>
-							<string key="NSLabel">enabled: isAngleDependent</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">isAngleDependent</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">504</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: isAngleDependent</string>
 						<reference key="source" ref="411362979"/>
 						<reference key="destination" ref="1032763899"/>
@@ -2628,6 +2613,14 @@
 						<reference key="destination" ref="595739111"/>
 					</object>
 					<int key="connectionID">537</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">angleCircularSlider</string>
+						<reference key="source" ref="1032763899"/>
+						<reference key="destination" ref="884995137"/>
+					</object>
+					<int key="connectionID">542</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4076,7 +4069,6 @@
 					<string>473.IBPluginDependency</string>
 					<string>474.IBPluginDependency</string>
 					<string>475.IBPluginDependency</string>
-					<string>476.IBPluginDependency</string>
 					<string>477.IBPluginDependency</string>
 					<string>478.IBPluginDependency</string>
 					<string>482.IBPluginDependency</string>
@@ -4367,7 +4359,6 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1040"/>
 					<boolean value="YES"/>
 					<real value="1234"/>
@@ -4442,7 +4433,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">537</int>
+			<int key="maxID">542</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4489,6 +4480,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>angleCircularSlider</string>
 							<string>angleDenominatorTextField</string>
 							<string>angleFractionBar</string>
 							<string>angleNumeratorTextField</string>
@@ -4499,6 +4491,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSSlider</string>
 							<string>NSTextField</string>
 							<string>NSBox</string>
 							<string>NSTextField</string>
