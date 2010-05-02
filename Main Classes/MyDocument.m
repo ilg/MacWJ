@@ -32,6 +32,7 @@
 
 #import "MyDocument.h"
 #import "tabletView.h"
+#import "tabletInkStroke.h"
 #import "tabletPenNib.h"
 #import "backgroundView.h"
 
@@ -77,11 +78,12 @@ NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
 	[penNibSelectionPopUpButton addItemWithTitle:@""];
 	NSDictionary *penNibs = [tabletPenNib penNibs];
 	for (NSString *penNibName in [[penNibs allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
+		tabletPenNib *theNib = [penNibs objectForKey:penNibName];
 		[penNibSelectionPopUpButton addItemWithTitle:penNibName];
 		[[penNibSelectionPopUpButton itemWithTitle:penNibName]
-		 setRepresentedObject:[penNibs objectForKey:penNibName]];
+		 setRepresentedObject:theNib];
 		[[penNibSelectionPopUpButton itemWithTitle:penNibName]
-		 setImage:[NSImage imageNamed:@"pen"]];
+		 setImage:[tabletInkStroke sampleStrokeImageWithPenNib:theNib]];
 	}
 	if ([penNibs objectForKey:currentTitle]) {
 		[penNibSelectionPopUpButton selectItemWithTitle:currentTitle];
@@ -97,6 +99,7 @@ NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
 - (IBAction)penNibSelected:(id)sender {
 	if ([sender respondsToSelector:@selector(menu)]) {
 		[[penNibSelectionPopUpButton itemAtIndex:0] setTitle:[sender titleOfSelectedItem]];
+		[[penNibSelectionPopUpButton itemAtIndex:0] setImage:[[sender selectedItem] image]];
 		[theTabletView setCurrentPenNib:[[sender selectedItem] representedObject]];
 	}
 }

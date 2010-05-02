@@ -32,6 +32,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class tabletPenNib;
 
 @interface tabletInkStroke : NSObject {
 	NSColor *color;
@@ -43,6 +44,8 @@
 
 @property (retain) NSColor *color;
 @property (readonly) NSPoint currentPoint;
+
++ (NSImage *)sampleStrokeImageWithPenNib:(tabletPenNib *)nib;
 
 - (id)initWithPoint:(NSPoint)startingPoint;
 - (void)lineToPoint:(NSPoint)endPoint

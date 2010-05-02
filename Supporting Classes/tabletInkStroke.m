@@ -31,8 +31,15 @@
 //
 
 #import "tabletInkStroke.h"
+#import "tabletPenNib.h"
 #import "NSBezierPath+boundsWithLines.h"
 
+
+@interface tabletInkStroke (private)
+
+- (NSImage *)imageFromStroke;
+
+@end
 
 @implementation tabletInkStroke
 
@@ -44,6 +51,52 @@ NSString * const kTabletInkStrokePathsKey = @"tabletInkStrokePathsKey";
 NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPointKey";
 
 #pragma mark -
+
++ (NSImage *)sampleStrokeImageWithPenNib:(tabletPenNib *)nib {
+	NSArray *thePoints = [NSArray arrayWithObjects:
+						  // generated using Mathematica
+						  [NSValue valueWithPoint:NSMakePoint(1.1, 0.6)],
+						  [NSValue valueWithPoint:NSMakePoint(6.6, 3.4)],
+						  [NSValue valueWithPoint:NSMakePoint(11.3, 7.)],
+						  [NSValue valueWithPoint:NSMakePoint(15.3, 11.3)],
+						  [NSValue valueWithPoint:NSMakePoint(18.3, 15.9)],
+						  [NSValue valueWithPoint:NSMakePoint(20.4, 20.6)],
+						  [NSValue valueWithPoint:NSMakePoint(21.4, 25.2)],
+						  [NSValue valueWithPoint:NSMakePoint(21.4, 29.5)],
+						  [NSValue valueWithPoint:NSMakePoint(20.7, 33.1)],
+						  [NSValue valueWithPoint:NSMakePoint(19.3, 35.9)],
+						  [NSValue valueWithPoint:NSMakePoint(17.5, 37.7)],
+						  [NSValue valueWithPoint:NSMakePoint(15.6, 38.5)],
+						  [NSValue valueWithPoint:NSMakePoint(13.9, 38.4)],
+						  [NSValue valueWithPoint:NSMakePoint(12.5, 37.2)],
+						  [NSValue valueWithPoint:NSMakePoint(11.7, 35.3)],
+						  [NSValue valueWithPoint:NSMakePoint(11.8, 32.8)],
+						  [NSValue valueWithPoint:NSMakePoint(12.8, 29.8)],
+						  [NSValue valueWithPoint:NSMakePoint(14.8, 26.7)],
+						  [NSValue valueWithPoint:NSMakePoint(17.8, 23.8)],
+						  [NSValue valueWithPoint:NSMakePoint(21.8, 21.2)],
+						  [NSValue valueWithPoint:NSMakePoint(26.6, 19.3)],
+						  [NSValue valueWithPoint:NSMakePoint(32., 18.2)],
+						  [NSValue valueWithPoint:NSMakePoint(37.8, 18.)],
+						  [NSValue valueWithPoint:NSMakePoint(43.7, 18.8)],
+						  [NSValue valueWithPoint:NSMakePoint(49.5, 20.7)],
+						  nil];
+	tabletInkStroke *stroke = [[tabletInkStroke alloc] initWithPoint:[[thePoints objectAtIndex:0] pointValue]];
+	[stroke setColor:[nib inkColor]];
+	NSUInteger pointCount = [thePoints count];
+	for (NSUInteger index = 1; index < pointCount; index++) {
+		NSPoint aPoint = [[thePoints objectAtIndex:index] pointValue];
+		[stroke lineToPoint:aPoint
+			  withThickness:[nib lineWidthFrom:[stroke currentPoint]
+								  withPressure:(1.0 * index / pointCount)
+											to:aPoint
+								  withPressure:(1.0 * (index + 1) / pointCount)]];
+	}
+	
+	NSImage *resultingImage = [stroke imageFromStroke];
+	[stroke release];
+	return resultingImage;
+}
 
 - (id)initWithPoint:(NSPoint)startingPoint {
 	self = [super init];
@@ -85,6 +138,17 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
 	} else {
 		return NSMakeRect(0.0, 0.0, 0.0, 0.0);
 	}
+}
+
+- (NSImage *)imageFromStroke {
+	NSImage *resultingImage = [[[NSImage alloc] initWithSize:[self bounds].size] autorelease];
+	[resultingImage lockFocus];
+	[[self color] setStroke];
+	for (NSBezierPath *aPath in paths) {
+		[aPath stroke];
+    }
+	[resultingImage unlockFocus];
+	return resultingImage;
 }
 
 - (void)strokeInRect:(NSRect)dirtyRect
