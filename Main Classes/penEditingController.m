@@ -142,10 +142,19 @@ const NSInteger kRemoveSelectedPenSegmentNumber = 1;
 		}
 		NSString *newNibName = [NSString stringWithFormat:@"Untitled Pen %d", untitledNumber];
 		[nibs setObject:[tabletPenNib defaultTabletPenNib] forKey:newNibName];
+		[tabletPenNib savePenNibs:nibs];
 		[self reloadTableData];
 		[penNibListTableView selectRow:[nibNames indexOfObject:newNibName] byExtendingSelection:NO];
 		[self penNibListAction:nil];
 	} else if ([penNibListSegmentedControl selectedSegment] == kRemoveSelectedPenSegmentNumber) {
+		NSInteger selection = [penNibListTableView selectedRow];
+		if (selection >= 0) {
+			[nibs removeObjectForKey:[nibNames objectAtIndex:selection]];
+			[tabletPenNib savePenNibs:nibs];
+			[self reloadTableData];
+			[penNibListTableView deselectAll:nil];
+			[self penNibListAction:nil];
+		}
 	}
 }
 
