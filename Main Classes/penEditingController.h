@@ -31,6 +31,7 @@
 	IBOutlet NSTableView *penNibListTableView;
 	IBOutlet NSSegmentedControl *penNibListSegmentedControl;
 	IBOutlet NSBox *penEditingBox;
+	IBOutlet NSImageView *inkStrokePreview;
 }
 
 @property (retain) NSString *penName;

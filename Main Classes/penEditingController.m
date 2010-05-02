@@ -130,6 +130,7 @@ const NSInteger kRemoveSelectedPenSegmentNumber = 1;
 				[(NSControl *)aView setEnabled:YES];
 			}
 		}
+		[inkStrokePreview setImage:[theNib sampleStrokeImage]];
 	}
 	[self angleCircularSliderAction:nil];
 }
