@@ -147,6 +147,7 @@ const NSInteger kRemoveSelectedPenSegmentNumber = 1;
 		// a pen is selected
 		selectedPen = [[nibNames objectAtIndex:selection] retain];
 		[penNibListSegmentedControl setEnabled:YES forSegment:kRemoveSelectedPenSegmentNumber];
+		isLoadingPen = YES;
 		[self setPenName:selectedPen];
 		tabletPenNib *theNib = [nibs objectForKey:selectedPen];
 		[self setMaximumStrokeWidth:[theNib maximumStrokeWidth]];
@@ -159,6 +160,7 @@ const NSInteger kRemoveSelectedPenSegmentNumber = 1;
 			[self setAngleCircularSliderValue:sliderValue];
 		}
 		[self setInkColor:[theNib inkColor]];
+		isLoadingPen = NO;
 		// enable the editing controls
 		for (NSView *aView in [[penEditingBox contentView] subviews]) {
 			if ([aView respondsToSelector:@selector(setEnabled:)]) {
@@ -202,20 +204,28 @@ const NSInteger kRemoveSelectedPenSegmentNumber = 1;
                         change:(NSDictionary *)change
                        context:(void *)context
 {
-	tabletPenNib *theNib = [nibs objectForKey:selectedPen];
-	[theNib setMaximumStrokeWidth:[self maximumStrokeWidth]];
-	[theNib setMinimumStrokeWidth:[self minimumStrokeWidth]];
-	[theNib setIsAngleDependent:[self isAngleDependent]];
-	if ([theNib isAngleDependent]) [theNib setWidestAngle:[self widestAngle]];
-	[theNib setInkColor:[self inkColor]];
-	if (![[self penName] isEqualToString:selectedPen]) {
-		// pen was renamed
-		[nibs setObject:theNib forKey:[self penName]];
-		[nibs removeObjectForKey:selectedPen];
-		[self reloadTableData];
+	if (!isLoadingPen) {
+		tabletPenNib *theNib = [nibs objectForKey:selectedPen];
+		if ([keyPath isEqualToString:@"maximumStrokeWidth"]) {
+			[theNib setMaximumStrokeWidth:[self maximumStrokeWidth]];
+		} else if ([keyPath isEqualToString:@"minimumStrokeWidth"]) {
+			[theNib setMinimumStrokeWidth:[self minimumStrokeWidth]];
+		} else if ([keyPath isEqualToString:@"isAngleDependent"]) {
+			[theNib setIsAngleDependent:[self isAngleDependent]];
+		} else if ([keyPath isEqualToString:@"widestAngle"]) {
+			[theNib setWidestAngle:[self widestAngle]];
+		} else if ([keyPath isEqualToString:@"inkColor"]) {
+			[theNib setInkColor:[self inkColor]];
+		} else if ([keyPath isEqualToString:@"penName"]) {
+			// pen was renamed
+			[nibs setObject:theNib forKey:[self penName]];
+			[nibs removeObjectForKey:selectedPen];
+			[self reloadTableData];
+		} else {
+		}
+		[tabletPenNib savePenNibs:nibs];
+		[inkStrokePreview setImage:[theNib sampleStrokeImage]];
 	}
-	[tabletPenNib savePenNibs:nibs];
-	[inkStrokePreview setImage:[theNib sampleStrokeImage]];
 }
 
 #pragma mark -

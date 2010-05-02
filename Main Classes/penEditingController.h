@@ -56,6 +56,8 @@
 	IBOutlet NSSegmentedControl *penNibListSegmentedControl;
 	IBOutlet NSBox *penEditingBox;
 	IBOutlet NSImageView *inkStrokePreview;
+	
+	BOOL isLoadingPen;
 }
 
 @property (retain) NSString *penName;
