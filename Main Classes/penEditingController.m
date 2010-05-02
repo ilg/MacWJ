@@ -216,7 +216,7 @@ const NSInteger kRemoveSelectedPenSegmentNumber = 1;
 			[theNib setWidestAngle:[self widestAngle]];
 		} else if ([keyPath isEqualToString:@"inkColor"]) {
 			[theNib setInkColor:[self inkColor]];
-		} else if ([keyPath isEqualToString:@"penName"]) {
+		} else if ([keyPath isEqualToString:@"penName"] && ([[self penName] length] > 0)) {
 			// pen was renamed
 			[nibs setObject:theNib forKey:[self penName]];
 			[nibs removeObjectForKey:selectedPen];
