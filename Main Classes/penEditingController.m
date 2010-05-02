@@ -20,6 +20,33 @@ const NSInteger kAddAPenSegmentNumber = 0;
 const NSInteger kRemoveSelectedPenSegmentNumber = 1;
 
 
+- (void)awakeFromNib {
+	[self addObserver:self
+		   forKeyPath:@"penName"
+			  options:0
+			  context:NULL];
+	[self addObserver:self
+		   forKeyPath:@"minimumStrokeWidth"
+			  options:0
+			  context:NULL];
+	[self addObserver:self
+		   forKeyPath:@"maximumStrokeWidth"
+			  options:0
+			  context:NULL];
+	[self addObserver:self
+		   forKeyPath:@"isAngleDependent"
+			  options:0
+			  context:NULL];
+	[self addObserver:self
+		   forKeyPath:@"widestAngle"
+			  options:0
+			  context:NULL];
+	[self addObserver:self
+		   forKeyPath:@"inkColor"
+			  options:0
+			  context:NULL];
+}
+
 - (void)reloadTableData {
 	[nibNames release];
 	nibNames = [[NSMutableArray arrayWithArray:[nibs allKeys]] retain];
@@ -79,22 +106,6 @@ const NSInteger kRemoveSelectedPenSegmentNumber = 1;
 }
 
 - (IBAction)penNibListAction:(id)sender {
-	if (selectedPen) {
-		// a pen was previously selected, so save any changes that might have been made
-		tabletPenNib *theNib = [nibs objectForKey:selectedPen];
-		[theNib setMaximumStrokeWidth:[self maximumStrokeWidth]];
-		[theNib setMinimumStrokeWidth:[self minimumStrokeWidth]];
-		[theNib setIsAngleDependent:[self isAngleDependent]];
-		if ([theNib isAngleDependent]) [theNib setWidestAngle:[self widestAngle]];
-		[theNib setInkColor:[self inkColor]];
-		if (![[self penName] isEqualToString:selectedPen]) {
-			// pen was renamed
-			[nibs setObject:theNib forKey:[self penName]];
-			[nibs removeObjectForKey:selectedPen];
-			[self reloadTableData];
-		}
-		[tabletPenNib savePenNibs:nibs];
-	}
 	NSInteger selection = [penNibListTableView selectedRow];
 	if (selection < 0) {
 		// nothing selected
@@ -157,6 +168,30 @@ const NSInteger kRemoveSelectedPenSegmentNumber = 1;
 			[self penNibListAction:nil];
 		}
 	}
+}
+
+#pragma mark -
+#pragma mark KVO so we can tell when our own properties change
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+					  ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+	tabletPenNib *theNib = [nibs objectForKey:selectedPen];
+	[theNib setMaximumStrokeWidth:[self maximumStrokeWidth]];
+	[theNib setMinimumStrokeWidth:[self minimumStrokeWidth]];
+	[theNib setIsAngleDependent:[self isAngleDependent]];
+	if ([theNib isAngleDependent]) [theNib setWidestAngle:[self widestAngle]];
+	[theNib setInkColor:[self inkColor]];
+	if (![[self penName] isEqualToString:selectedPen]) {
+		// pen was renamed
+		[nibs setObject:theNib forKey:[self penName]];
+		[nibs removeObjectForKey:selectedPen];
+		[self reloadTableData];
+	}
+	[tabletPenNib savePenNibs:nibs];
+	[inkStrokePreview setImage:[theNib sampleStrokeImage]];
 }
 
 #pragma mark -
