@@ -32,7 +32,6 @@
 
 #import "MyDocument.h"
 #import "tabletView.h"
-#import "tabletInkStroke.h"
 #import "tabletPenNib.h"
 #import "backgroundView.h"
 
@@ -83,7 +82,7 @@ NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
 		[[penNibSelectionPopUpButton itemWithTitle:penNibName]
 		 setRepresentedObject:theNib];
 		[[penNibSelectionPopUpButton itemWithTitle:penNibName]
-		 setImage:[tabletInkStroke sampleStrokeImageWithPenNib:theNib]];
+		 setImage:[theNib sampleStrokeImage]];
 	}
 	if ([penNibs objectForKey:currentTitle]) {
 		[penNibSelectionPopUpButton selectItemWithTitle:currentTitle];

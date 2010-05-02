@@ -62,4 +62,6 @@
 					  to:(NSPoint)endingPoint
 			withPressure:(CGFloat)endingPressure;
 
+- (NSImage *)sampleStrokeImage;
+
 @end

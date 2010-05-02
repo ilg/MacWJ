@@ -31,6 +31,7 @@
 //
 
 #import "tabletPenNib.h"
+#import "tabletInkStroke.h"
 
 
 @implementation tabletPenNib
@@ -143,5 +144,8 @@ NSString * const kTabletPenNibColorKey = @"tabletPenNibColorKey";
     return self;
 }
 
+- (NSImage *)sampleStrokeImage {
+	return [tabletInkStroke sampleStrokeImageWithPenNib:self];
+}
 
 @end
