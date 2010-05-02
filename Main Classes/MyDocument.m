@@ -72,9 +72,8 @@ NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
 }
 
 - (void)reloadNibs {
-	NSMenuItem *firstItem = [penNibSelectionPopUpButton itemAtIndex:0];
 	[penNibSelectionPopUpButton removeAllItems];
-	[[penNibSelectionPopUpButton menu] addItem:firstItem];
+	[penNibSelectionPopUpButton addItemWithTitle:@""];
 	NSDictionary *penNibs = [tabletPenNib penNibs];
 	for (NSString *penNibName in [[penNibs allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
 		[penNibSelectionPopUpButton addItemWithTitle:penNibName];
@@ -83,6 +82,8 @@ NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
 		[[penNibSelectionPopUpButton itemWithTitle:penNibName]
 		 setImage:[NSImage imageNamed:@"pen"]];
 	}
+	[penNibSelectionPopUpButton selectItemAtIndex:1];
+	[self penNibSelected:penNibSelectionPopUpButton];
 }
 
 #pragma mark -

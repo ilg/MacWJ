@@ -136,6 +136,15 @@ const NSInteger kRemoveSelectedPenSegmentNumber = 1;
 
 - (IBAction)penNibListSegmentedControlAction:(id)sender {
 	if ([penNibListSegmentedControl selectedSegment] == kAddAPenSegmentNumber) {
+		NSUInteger untitledNumber = 1;
+		while ([nibNames containsObject:[NSString stringWithFormat:@"Untitled Pen %d", untitledNumber]]) {
+			untitledNumber++;
+		}
+		NSString *newNibName = [NSString stringWithFormat:@"Untitled Pen %d", untitledNumber];
+		[nibs setObject:[tabletPenNib defaultTabletPenNib] forKey:newNibName];
+		[self reloadTableData];
+		[penNibListTableView selectRow:[nibNames indexOfObject:newNibName] byExtendingSelection:NO];
+		[self penNibListAction:nil];
 	} else if ([penNibListSegmentedControl selectedSegment] == kRemoveSelectedPenSegmentNumber) {
 	}
 }

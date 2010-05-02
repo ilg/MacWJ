@@ -54,6 +54,15 @@
 	return newPen;
 }
 
++ (tabletPenNib *)defaultTabletPenNib {
+	// kind of arbitrary--these are my current favorite values
+	return [self tabletPenNibWithMinimumWidth:0.5
+								 maximumWidth:5.0
+							 isAngleDependent:YES
+							 angleForMaxWidth:(-pi/4)
+										color:[NSColor blackColor]];
+}
+
 + (NSDictionary *)penNibs {
 	return [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults]
 													   objectForKey:@"penNibs"]];

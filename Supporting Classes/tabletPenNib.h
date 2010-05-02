@@ -52,6 +52,7 @@
 							  isAngleDependent:(BOOL)angleDependence
 							  angleForMaxWidth:(CGFloat)maxWidthAngle
 										 color:(NSColor *)color;
++ (tabletPenNib *)defaultTabletPenNib;
 
 + (NSDictionary *)penNibs;
 + (void)savePenNibs:(NSDictionary *)nibs;
