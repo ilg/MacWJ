@@ -67,12 +67,16 @@ NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
 	[self reloadNibs];
 }
 
+- (void)windowDidBecomeKey:(NSNotification *)notification {
+	[self reloadNibs];
+}
+
 - (void)reloadNibs {
 	NSMenuItem *firstItem = [penNibSelectionPopUpButton itemAtIndex:0];
 	[penNibSelectionPopUpButton removeAllItems];
 	[[penNibSelectionPopUpButton menu] addItem:firstItem];
 	NSDictionary *penNibs = [tabletPenNib penNibs];
-	for (NSString *penNibName in penNibs) {
+	for (NSString *penNibName in [[penNibs allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
 		[penNibSelectionPopUpButton addItemWithTitle:penNibName];
 		[[penNibSelectionPopUpButton itemWithTitle:penNibName]
 		 setRepresentedObject:[penNibs objectForKey:penNibName]];

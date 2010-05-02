@@ -54,6 +54,7 @@
 										 color:(NSColor *)color;
 
 + (NSDictionary *)penNibs;
++ (void)savePenNibs:(NSDictionary *)nibs;
 
 - (CGFloat)lineWidthFrom:(NSPoint)startingPoint
 			withPressure:(CGFloat)startingPressure

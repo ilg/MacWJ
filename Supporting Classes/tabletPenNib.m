@@ -59,6 +59,11 @@
 													   objectForKey:@"penNibs"]];
 }
 
++ (void)savePenNibs:(NSDictionary *)nibs {
+	[[NSUserDefaults standardUserDefaults]
+	 setObject:[NSKeyedArchiver archivedDataWithRootObject:[NSDictionary dictionaryWithDictionary:nibs]]
+	 forKey:@"penNibs"];
+}
 
 - (CGFloat)lineWidthFrom:(NSPoint)startingPoint
 			withPressure:(CGFloat)startingPressure
