@@ -171,10 +171,10 @@
 				7112B6ED118AE8D70010FF45 /* NSBezierPath+boundsWithLines.m */,
 				7112B6EE118AE8D70010FF45 /* tabletInkStroke.h */,
 				7112B6EF118AE8D70010FF45 /* tabletInkStroke.m */,
-				7112B817118B18B30010FF45 /* tabletPenNib.h */,
-				7112B818118B18B30010FF45 /* tabletPenNib.m */,
 				7112B6F0118AE8D70010FF45 /* tabletView.h */,
 				7112B6F1118AE8D70010FF45 /* tabletView.m */,
+				7112B817118B18B30010FF45 /* tabletPenNib.h */,
+				7112B818118B18B30010FF45 /* tabletPenNib.m */,
 			);
 			path = "Supporting Classes";
 			sourceTree = "<group>";

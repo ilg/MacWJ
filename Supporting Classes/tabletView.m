@@ -153,15 +153,14 @@ static NSCursor *eraserCursor;
 
 - (void)eraseEvent:(NSEvent *)theEvent {
 	NSMutableIndexSet *indexesToDelete = [NSMutableIndexSet indexSet];
+	NSPoint erasePoint = [self convertPoint:[theEvent locationInWindow]
+								   fromView:nil];
+	NSRect eraseArea = NSMakeRect(erasePoint.x - ERASER_RADIUS, erasePoint.y - ERASER_RADIUS,
+								  2.0 * ERASER_RADIUS, 2.0 * ERASER_RADIUS);
 	for (NSUInteger strokeIndex = 0; strokeIndex < [strokes count]; strokeIndex++) {
-		NSRect strokeBounds = [[strokes objectAtIndex:strokeIndex] bounds];
-		NSPoint erasePoint = [self convertPoint:[theEvent locationInWindow]
-									   fromView:nil];
-		CGRect eraseArea = CGRectMake(erasePoint.x - ERASER_RADIUS, erasePoint.y - ERASER_RADIUS,
-									  2.0 * ERASER_RADIUS, 2.0 * ERASER_RADIUS);
-		if (CGRectIntersectsRect(NSRectToCGRect(strokeBounds),eraseArea)) {
+		if ([[strokes objectAtIndex:strokeIndex] passesThroughRect:eraseArea]) {
 			[indexesToDelete addIndex:strokeIndex];
-			[self setNeedsDisplayInRect:strokeBounds];
+			[self setNeedsDisplayInRect:[[strokes objectAtIndex:strokeIndex] bounds]];
 		}
 	}
 	[strokes removeObjectsAtIndexes:indexesToDelete];

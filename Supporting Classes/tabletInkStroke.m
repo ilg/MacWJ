@@ -115,6 +115,20 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
 }
 
+- (BOOL)passesThroughRect:(NSRect)rect {
+	BOOL passesThrough = NO;
+	for (NSBezierPath *aPath in paths) {
+		CGRect pathBounds = NSRectToCGRect([aPath boundsWithLines]);
+		// NOTE: CGRectIntersectsRect behaves better than NSIntersectsRect when width or height is zero
+		if (CGRectIntersectsRect(pathBounds,NSRectToCGRect(rect))) {
+			passesThrough = YES;
+			break;
+        }
+    }
+	return passesThrough;
+}
+
+
 #pragma mark -
 #pragma mark for archiving/unarchiving (for saving/loading documents)
 
