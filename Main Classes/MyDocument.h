@@ -40,7 +40,11 @@
 	@private
 	IBOutlet tabletView *theTabletView;
 	IBOutlet backgroundView *theBackgroundView;
+	IBOutlet NSSegmentedControl *toolSelectionSegmentedControl;
+	IBOutlet NSPopUpButton *penNibSelectionPopUpButton;
 }
+
+- (IBAction)penNibSelected:(id)sender;
 
 
 @end

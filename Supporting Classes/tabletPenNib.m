@@ -54,6 +54,12 @@
 	return newPen;
 }
 
++ (NSDictionary *)penNibs {
+	return [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults]
+													   objectForKey:@"penNibs"]];
+}
+
+
 - (CGFloat)lineWidthFrom:(NSPoint)startingPoint
 			withPressure:(CGFloat)startingPressure
 					  to:(NSPoint)endingPoint

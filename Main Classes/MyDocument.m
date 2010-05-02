@@ -32,7 +32,15 @@
 
 #import "MyDocument.h"
 #import "tabletView.h"
+#import "tabletPenNib.h"
 #import "backgroundView.h"
+
+@interface MyDocument (private)
+
+- (void)reloadNibs;
+
+@end
+
 
 @implementation MyDocument
 
@@ -48,10 +56,41 @@ NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
     
         // Add your subclass-specific initialization here.
         // If an error occurs here, send a [self release] message and return nil.
+		
+		[self awakeFromNib];
     
     }
     return self;
 }
+
+- (void)awakeFromNib {
+	[self reloadNibs];
+}
+
+- (void)reloadNibs {
+	NSMenuItem *firstItem = [penNibSelectionPopUpButton itemAtIndex:0];
+	[penNibSelectionPopUpButton removeAllItems];
+	[[penNibSelectionPopUpButton menu] addItem:firstItem];
+	NSDictionary *penNibs = [tabletPenNib penNibs];
+	for (NSString *penNibName in penNibs) {
+		[penNibSelectionPopUpButton addItemWithTitle:penNibName];
+		[[penNibSelectionPopUpButton itemWithTitle:penNibName]
+		 setRepresentedObject:[penNibs objectForKey:penNibName]];
+		[[penNibSelectionPopUpButton itemWithTitle:penNibName]
+		 setImage:[NSImage imageNamed:@"pen"]];
+	}
+}
+
+#pragma mark -
+#pragma mark IBActions
+
+- (IBAction)penNibSelected:(id)sender {
+	if ([sender respondsToSelector:@selector(menu)]) {
+		[[penNibSelectionPopUpButton itemAtIndex:0] setTitle:[sender titleOfSelectedItem]];
+		[theTabletView setCurrentPenNib:[[sender selectedItem] representedObject]];
+	}
+}
+
 
 #pragma mark -
 #pragma mark NSDocument stuff

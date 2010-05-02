@@ -36,13 +36,16 @@
 @class tabletPenNib;
 
 @interface tabletView : NSView {
+	tabletPenNib *currentPenNib;
+	
 	@private
 	NSMutableArray *strokes;
 	tabletInkStroke *workingStroke;
 	CGFloat initialPressure;
 	NSPointingDeviceType pointingDeviceType;
-	tabletPenNib *currentPenNib;
 }
+
+@property (retain) tabletPenNib *currentPenNib;
 
 - (IBAction)copy:(id)sender;
 

@@ -31,20 +31,39 @@
 //
 
 #import "MacWJ_AppDelegate.h"
+#import "tabletPenNib.h"
 
 
 @implementation MacWJ_AppDelegate
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// Insert code here to initialize your application
++ (void)initialize {
 	[[NSUserDefaults standardUserDefaults]
 	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 					   // object, key; nil-terminated
+					   [NSKeyedArchiver archivedDataWithRootObject:
+						[NSDictionary dictionaryWithObjectsAndKeys:
+						 [tabletPenNib tabletPenNibWithMinimumWidth:0.5
+													   maximumWidth:5.0
+												   isAngleDependent:YES
+												   angleForMaxWidth:(-pi/4.0)
+															  color:[NSColor blackColor]],
+						 @"Default Black Pen",
+						 [tabletPenNib tabletPenNibWithMinimumWidth:0.5
+													   maximumWidth:5.0
+												   isAngleDependent:YES
+												   angleForMaxWidth:(-pi/4.0)
+															  color:[NSColor blueColor]],
+						 @"Default Blue Pen",
+						 nil]], @"penNibs",
 					   [NSNumber numberWithFloat:0.5], @"minStrokeWidth",
 					   [NSNumber numberWithFloat:5.0], @"maxStrokeWidth",
 					   [NSNumber numberWithFloat:1.0], @"eraserRadius",
 					   [NSNumber numberWithFloat:1.0], @"copyAsImageScaleFactor",
 					   nil]];
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+	// Insert code here to initialize your application
 }
 
 @end

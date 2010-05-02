@@ -45,6 +45,8 @@
 static NSCursor *penCursor;
 static NSCursor *eraserCursor;
 
+@synthesize currentPenNib;
+
 + (void)initialize {
 	penCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"single-dot"]
 										hotSpot:NSMakePoint(0.0, 0.0)];

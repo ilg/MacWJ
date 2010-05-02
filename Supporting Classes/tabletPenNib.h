@@ -53,6 +53,8 @@
 							  angleForMaxWidth:(CGFloat)maxWidthAngle
 										 color:(NSColor *)color;
 
++ (NSDictionary *)penNibs;
+
 - (CGFloat)lineWidthFrom:(NSPoint)startingPoint
 			withPressure:(CGFloat)startingPressure
 					  to:(NSPoint)endingPoint
