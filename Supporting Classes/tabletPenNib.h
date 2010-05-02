@@ -63,5 +63,6 @@
 			withPressure:(CGFloat)endingPressure;
 
 - (NSImage *)sampleStrokeImage;
+- (NSImage *)sampleStrokeSmallerImage;
 
 @end

@@ -35,12 +35,6 @@
 #import "NSBezierPath+boundsWithLines.h"
 
 
-@interface tabletInkStroke (private)
-
-- (NSImage *)imageFromStroke;
-
-@end
-
 @implementation tabletInkStroke
 
 @synthesize color, currentPoint;
@@ -51,52 +45,6 @@ NSString * const kTabletInkStrokePathsKey = @"tabletInkStrokePathsKey";
 NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPointKey";
 
 #pragma mark -
-
-+ (NSImage *)sampleStrokeImageWithPenNib:(tabletPenNib *)nib {
-	NSArray *thePoints = [NSArray arrayWithObjects:
-						  // generated using Mathematica
-						  [NSValue valueWithPoint:NSMakePoint(2.3, 1.3)],
-						  [NSValue valueWithPoint:NSMakePoint(13.1, 6.9)],
-						  [NSValue valueWithPoint:NSMakePoint(22.7, 14.1)],
-						  [NSValue valueWithPoint:NSMakePoint(30.6, 22.5)],
-						  [NSValue valueWithPoint:NSMakePoint(36.7, 31.7)],
-						  [NSValue valueWithPoint:NSMakePoint(40.7, 41.2)],
-						  [NSValue valueWithPoint:NSMakePoint(42.7, 50.5)],
-						  [NSValue valueWithPoint:NSMakePoint(42.8, 58.9)],
-						  [NSValue valueWithPoint:NSMakePoint(41.3, 66.1)],
-						  [NSValue valueWithPoint:NSMakePoint(38.6, 71.7)],
-						  [NSValue valueWithPoint:NSMakePoint(35., 75.4)],
-						  [NSValue valueWithPoint:NSMakePoint(31.2, 77.1)],
-						  [NSValue valueWithPoint:NSMakePoint(27.7, 76.7)],
-						  [NSValue valueWithPoint:NSMakePoint(25., 74.5)],
-						  [NSValue valueWithPoint:NSMakePoint(23.4, 70.6)],
-						  [NSValue valueWithPoint:NSMakePoint(23.6, 65.5)],
-						  [NSValue valueWithPoint:NSMakePoint(25.6, 59.6)],
-						  [NSValue valueWithPoint:NSMakePoint(29.6, 53.5)],
-						  [NSValue valueWithPoint:NSMakePoint(35.7, 47.6)],
-						  [NSValue valueWithPoint:NSMakePoint(43.6, 42.4)],
-						  [NSValue valueWithPoint:NSMakePoint(53.2, 38.6)],
-						  [NSValue valueWithPoint:NSMakePoint(64., 36.3)],
-						  [NSValue valueWithPoint:NSMakePoint(75.6, 36.)],
-						  [NSValue valueWithPoint:NSMakePoint(87.4, 37.6)],
-						  [NSValue valueWithPoint:NSMakePoint(99., 41.3)],
-						  nil];
-	tabletInkStroke *stroke = [[tabletInkStroke alloc] initWithPoint:[[thePoints objectAtIndex:0] pointValue]];
-	[stroke setColor:[nib inkColor]];
-	NSUInteger pointCount = [thePoints count];
-	for (NSUInteger index = 1; index < pointCount; index++) {
-		NSPoint aPoint = [[thePoints objectAtIndex:index] pointValue];
-		[stroke lineToPoint:aPoint
-			  withThickness:[nib lineWidthFrom:[stroke currentPoint]
-								  withPressure:(1.0 * index / pointCount)
-											to:aPoint
-								  withPressure:(1.0 * (index + 1) / pointCount)]];
-	}
-	
-	NSImage *resultingImage = [stroke imageFromStroke];
-	[stroke release];
-	return resultingImage;
-}
 
 - (id)initWithPoint:(NSPoint)startingPoint {
 	self = [super init];

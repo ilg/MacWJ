@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="475"/>
+			<integer value="456"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1140,7 +1140,7 @@
 			<object class="NSWindowTemplate" id="516989217">
 				<int key="NSWindowStyleMask">23</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{196, 201}, {526, 309}}</string>
+				<string key="NSWindowRect">{{196, 201}, {436, 309}}</string>
 				<int key="NSWTFlags">-1535638528</int>
 				<string key="NSWindowTitle">Pen Editor</string>
 				<string key="NSWindowClass">NSPanel</string>
@@ -1164,7 +1164,7 @@
 										<object class="NSTableView" id="299226722">
 											<reference key="NSNextResponder" ref="832266334"/>
 											<int key="NSvFlags">256</int>
-											<string key="NSFrameSize">{215, 266}</string>
+											<string key="NSFrameSize">{125, 267}</string>
 											<reference key="NSSuperview" ref="832266334"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="_NSCornerView" key="NSCornerView">
@@ -1175,7 +1175,7 @@
 											<object class="NSMutableArray" key="NSTableColumns">
 												<bool key="EncodedWithXMLCoder">YES</bool>
 												<object class="NSTableColumn" id="716565741">
-													<double key="NSWidth">212</double>
+													<double key="NSWidth">122</double>
 													<double key="NSMinWidth">40</double>
 													<double key="NSMaxWidth">1000</double>
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -1256,7 +1256,7 @@
 											<int key="NSTableViewDraggingDestinationStyle">0</int>
 										</object>
 									</object>
-									<string key="NSFrame">{{1, 1}, {215, 266}}</string>
+									<string key="NSFrame">{{1, 1}, {125, 267}}</string>
 									<reference key="NSSuperview" ref="869196146"/>
 									<reference key="NSNextKeyView" ref="299226722"/>
 									<reference key="NSDocView" ref="299226722"/>
@@ -1283,7 +1283,7 @@
 									<double key="NSPercent">0.99537037037037035</double>
 								</object>
 							</object>
-							<string key="NSFrame">{{20, 21}, {217, 268}}</string>
+							<string key="NSFrame">{{20, 20}, {127, 269}}</string>
 							<reference key="NSSuperview" ref="491620795"/>
 							<reference key="NSNextKeyView" ref="832266334"/>
 							<int key="NSsFlags">562</int>
@@ -1295,7 +1295,7 @@
 						<object class="NSSegmentedControl" id="393252911">
 							<reference key="NSNextResponder" ref="491620795"/>
 							<int key="NSvFlags">292</int>
-							<string key="NSFrame">{{20, 20}, {217, 23}}</string>
+							<string key="NSFrame">{{20, 19}, {127, 23}}</string>
 							<reference key="NSSuperview" ref="491620795"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSegmentedCell" key="NSCell" id="606283200">
@@ -1310,7 +1310,6 @@
 								<object class="NSMutableArray" key="NSSegmentImages">
 									<bool key="EncodedWithXMLCoder">YES</bool>
 									<object class="NSSegmentItem">
-										<double key="NSSegmentItemWidth">24</double>
 										<object class="NSCustomResource" key="NSSegmentItemImage">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">NSAddTemplate</string>
@@ -1320,7 +1319,6 @@
 										<int key="NSSegmentItemImageScaling">0</int>
 									</object>
 									<object class="NSSegmentItem">
-										<double key="NSSegmentItemWidth">24</double>
 										<object class="NSCustomResource" key="NSSegmentItemImage">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">NSRemoveTemplate</string>
@@ -1332,7 +1330,7 @@
 										<int key="NSSegmentItemImageScaling">0</int>
 									</object>
 									<object class="NSSegmentItem">
-										<double key="NSSegmentItemWidth">165</double>
+										<double key="NSSegmentItemWidth">75</double>
 										<bool key="NSSegmentItemDisabled">YES</bool>
 										<int key="NSSegmentItemImageScaling">0</int>
 									</object>
@@ -1686,7 +1684,7 @@
 									<reference key="NSSuperview" ref="193745713"/>
 								</object>
 							</object>
-							<string key="NSFrame">{{242, 16}, {267, 273}}</string>
+							<string key="NSFrame">{{152, 16}, {267, 273}}</string>
 							<reference key="NSSuperview" ref="491620795"/>
 							<string key="NSOffsets">{0, 0}</string>
 							<object class="NSTextFieldCell" key="NSTitleCell">
@@ -1707,7 +1705,7 @@
 							<bool key="NSTransparent">NO</bool>
 						</object>
 					</object>
-					<string key="NSFrameSize">{526, 309}</string>
+					<string key="NSFrameSize">{436, 309}</string>
 					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
@@ -3533,8 +3531,8 @@
 						<reference key="object" ref="491620795"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="193745713"/>
 							<reference ref="869196146"/>
+							<reference ref="193745713"/>
 							<reference ref="393252911"/>
 						</object>
 						<reference key="parent" ref="516989217"/>
@@ -4326,9 +4324,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{21, 669}, {526, 309}}</string>
+					<string>{{414, 511}, {436, 309}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{21, 669}, {526, 309}}</string>
+					<string>{{414, 511}, {436, 309}}</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4339,7 +4337,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="0"/>
-					<integer value="1"/>
+					<integer value="0"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

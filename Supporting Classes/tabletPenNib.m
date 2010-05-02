@@ -144,8 +144,59 @@ NSString * const kTabletPenNibColorKey = @"tabletPenNibColorKey";
     return self;
 }
 
+#pragma mark -
+#pragma mark for creating the looping sample stroke images
+
+- (NSPoint)sampleStrokeImagePoint:(NSUInteger)index
+							   of:(NSUInteger)count
+						 forWidth:(CGFloat)width
+{
+	// a nice looping curve for testing, originally generated with Mathematica
+	// (see "tabletPenNib sampleStrokeImagePoint.nb")
+	return NSMakePoint(width * (
+								-0.0918711
+								+ (0.967484 * index) / count
+								+ 0.114805 * cosf(2 * index * pi / count)
+								+ 0.277164 * sinf(2 * index * pi / count)
+								),
+					   width * (
+								0.289814
+								+ (0.400745 * index) / count
+								- 0.277164 * cosf(2 * index * pi / count)
+								+ 0.114805 * sinf(2 * index * pi / count)
+								)
+					   );
+}
+
+- (NSImage *)sampleStrokeImageWithWidth:(CGFloat)width {
+	NSUInteger pointCount = 24;
+	tabletInkStroke *stroke = [[tabletInkStroke alloc]
+							   initWithPoint:[self sampleStrokeImagePoint:0
+																	   of:pointCount
+																 forWidth:width]];
+	[stroke setColor:[self inkColor]];
+	for (NSUInteger index = 1; index < pointCount; index++) {
+		NSPoint aPoint = [self sampleStrokeImagePoint:index
+												   of:pointCount
+											 forWidth:width];
+		[stroke lineToPoint:aPoint
+			  withThickness:[self lineWidthFrom:[stroke currentPoint]
+								   withPressure:(1.0 * index / pointCount)
+											 to:aPoint
+								   withPressure:(1.0 * (index + 1) / pointCount)]];
+	}
+	
+	NSImage *resultingImage = [stroke imageFromStroke];
+	[stroke release];
+	return resultingImage;
+}
+
 - (NSImage *)sampleStrokeImage {
-	return [tabletInkStroke sampleStrokeImageWithPenNib:self];
+	return [self sampleStrokeImageWithWidth:100.0];
+}
+
+- (NSImage *)sampleStrokeSmallerImage {
+	return [self sampleStrokeImageWithWidth:30.0];
 }
 
 @end

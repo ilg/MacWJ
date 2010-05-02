@@ -45,8 +45,6 @@
 @property (retain) NSColor *color;
 @property (readonly) NSPoint currentPoint;
 
-+ (NSImage *)sampleStrokeImageWithPenNib:(tabletPenNib *)nib;
-
 - (id)initWithPoint:(NSPoint)startingPoint;
 - (void)lineToPoint:(NSPoint)endPoint
 	  withThickness:(CGFloat)lineWidth;
@@ -56,5 +54,7 @@
 		   withRects:(const NSRect *)dirtyRects
 			   count:(NSInteger)dirtyRectsCount;
 - (BOOL)passesThroughRect:(NSRect)rect;
+
+- (NSImage *)imageFromStroke;
 
 @end

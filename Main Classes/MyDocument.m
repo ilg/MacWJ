@@ -81,11 +81,8 @@ NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
 		[penNibSelectionPopUpButton addItemWithTitle:penNibName];
 		[[penNibSelectionPopUpButton itemWithTitle:penNibName]
 		 setRepresentedObject:theNib];
-		NSImage *sampleStroke = [theNib sampleStrokeImage];
-		NSSize sampleStrokeSize = [sampleStroke size];
-		[sampleStroke setSize:NSMakeSize(sampleStrokeSize.width / 3.0, sampleStrokeSize.height / 3.0)];
 		[[penNibSelectionPopUpButton itemWithTitle:penNibName]
-		 setImage:sampleStroke];
+		 setImage:[theNib sampleStrokeSmallerImage]];
 	}
 	if ([penNibs objectForKey:currentTitle]) {
 		[penNibSelectionPopUpButton selectItemWithTitle:currentTitle];
