@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[     29548,        652]
-NotebookOptionsPosition[     28871,        624]
-NotebookOutlinePosition[     29212,        639]
-CellTagsIndexPosition[     29169,        636]
+NotebookDataLength[     29738,        657]
+NotebookOptionsPosition[     29059,        629]
+NotebookOutlinePosition[     29400,        644]
+CellTagsIndexPosition[     29357,        641]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -590,36 +590,41 @@ Cell[BoxData[
       RowBox[{"index", 
        RowBox[{"(", 
         RowBox[{"2", 
-         RowBox[{"\[Pi]", "/", "24"}]}], ")"}]}]}], ")"}]}]}], "]"}]], "Input",\
-
- CellChangeTimes->{{3.4818301125263*^9, 3.4818301999441767`*^9}}],
+         RowBox[{"\[Pi]", "/", "count"}]}], ")"}]}]}], ")"}]}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.4818301125263*^9, 3.4818301999441767`*^9}, {
+  3.481830829805707*^9, 3.481830834561247*^9}}],
 
 Cell[BoxData[
  RowBox[{"{", 
   RowBox[{
    RowBox[{
     RowBox[{"-", "0.09187109601161922`"}], "+", 
-    RowBox[{"0.04031184933526987`", " ", "index"}], "+", 
+    FractionBox[
+     RowBox[{"0.9674843840464769`", " ", "index"}], "count"], "+", 
     RowBox[{"0.11480502970952693`", " ", 
      RowBox[{"Cos", "[", 
       FractionBox[
-       RowBox[{"index", " ", "\[Pi]"}], "12"], "]"}]}], "+", 
+       RowBox[{"2", " ", "index", " ", "\[Pi]"}], "count"], "]"}]}], "+", 
     RowBox[{"0.27716385975338603`", " ", 
      RowBox[{"Sin", "[", 
       FractionBox[
-       RowBox[{"index", " ", "\[Pi]"}], "12"], "]"}]}]}], ",", 
+       RowBox[{"2", " ", "index", " ", "\[Pi]"}], "count"], "]"}]}]}], ",", 
    RowBox[{"0.2898137116859423`", "\[InvisibleSpace]", "+", 
-    RowBox[{"0.016697714719009618`", " ", "index"}], "-", 
+    FractionBox[
+     RowBox[{"0.40074515325623083`", " ", "index"}], "count"], "-", 
     RowBox[{"0.27716385975338603`", " ", 
      RowBox[{"Cos", "[", 
       FractionBox[
-       RowBox[{"index", " ", "\[Pi]"}], "12"], "]"}]}], "+", 
+       RowBox[{"2", " ", "index", " ", "\[Pi]"}], "count"], "]"}]}], "+", 
     RowBox[{"0.11480502970952693`", " ", 
      RowBox[{"Sin", "[", 
       FractionBox[
-       RowBox[{"index", " ", "\[Pi]"}], "12"], "]"}]}]}]}], "}"}]], "Output",
+       RowBox[{"2", " ", "index", " ", "\[Pi]"}], "count"], "]"}]}]}]}], 
+  "}"}]], "Output",
  CellChangeTimes->{
-  3.4818301153114843`*^9, {3.481830172371532*^9, 3.4818302002592287`*^9}}]
+  3.4818301153114843`*^9, {3.481830172371532*^9, 3.4818302002592287`*^9}, 
+   3.481830835278117*^9}]
 }, Open  ]]
 },
 WindowSize->{640, 750},
@@ -651,8 +656,8 @@ Cell[22722, 461, 2249, 58, 148, "Input"],
 Cell[24974, 521, 1549, 27, 403, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[26560, 553, 1305, 41, 88, "Input"],
-Cell[27868, 596, 987, 25, 84, "Output"]
+Cell[26560, 553, 1358, 42, 88, "Input"],
+Cell[27921, 597, 1122, 29, 124, "Output"]
 }, Open  ]]
 }
 ]
