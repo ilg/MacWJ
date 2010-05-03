@@ -1163,7 +1163,7 @@
 										<bool key="EncodedWithXMLCoder">YES</bool>
 										<object class="NSTableView" id="299226722">
 											<reference key="NSNextResponder" ref="832266334"/>
-											<int key="NSvFlags">256</int>
+											<int key="NSvFlags">4352</int>
 											<string key="NSFrameSize">{125, 267}</string>
 											<reference key="NSSuperview" ref="832266334"/>
 											<bool key="NSEnabled">YES</bool>
@@ -3532,8 +3532,8 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="869196146"/>
-							<reference ref="193745713"/>
 							<reference ref="393252911"/>
+							<reference ref="193745713"/>
 						</object>
 						<reference key="parent" ref="516989217"/>
 					</object>
@@ -4324,9 +4324,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{414, 511}, {436, 309}}</string>
+					<string>{{57, 654}, {436, 309}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{414, 511}, {436, 309}}</string>
+					<string>{{57, 654}, {436, 309}}</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4431,7 +4431,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">542</int>
+			<int key="maxID">544</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
