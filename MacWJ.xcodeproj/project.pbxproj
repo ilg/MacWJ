@@ -23,6 +23,7 @@
 		7112B8A6118D56470010FF45 /* pencil.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7112B8A4118D56470010FF45 /* pencil.pdf */; };
 		7112B8A9118D59CF0010FF45 /* eraser.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7112B8A8118D59CF0010FF45 /* eraser.pdf */; };
 		7112B98A118D6CEA0010FF45 /* penEditingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B989118D6CEA0010FF45 /* penEditingController.m */; };
+		71943256118E53750028E980 /* pen options.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 71943255118E53750028E980 /* pen options.pdf */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -60,6 +61,7 @@
 		7112B8A8118D59CF0010FF45 /* eraser.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = eraser.pdf; sourceTree = "<group>"; };
 		7112B988118D6CEA0010FF45 /* penEditingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = penEditingController.h; sourceTree = "<group>"; };
 		7112B989118D6CEA0010FF45 /* penEditingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = penEditingController.m; sourceTree = "<group>"; };
+		71943255118E53750028E980 /* pen options.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "pen options.pdf"; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* MacWJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacWJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -189,6 +191,7 @@
 			children = (
 				7112B6F9118AE8EB0010FF45 /* lined paper background.png */,
 				7112B6FA118AE8EB0010FF45 /* single-dot.png */,
+				71943255118E53750028E980 /* pen options.pdf */,
 				7112B8A3118D56470010FF45 /* pen.pdf */,
 				7112B8A4118D56470010FF45 /* pencil.pdf */,
 				7112B8A8118D59CF0010FF45 /* eraser.pdf */,
@@ -248,6 +251,7 @@
 				7112B8A5118D56470010FF45 /* pen.pdf in Resources */,
 				7112B8A6118D56470010FF45 /* pencil.pdf in Resources */,
 				7112B8A9118D59CF0010FF45 /* eraser.pdf in Resources */,
+				71943256118E53750028E980 /* pen options.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="462"/>
+			<integer value="455"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1141,7 +1141,7 @@
 				<int key="NSWindowStyleMask">23</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 201}, {436, 309}}</string>
-				<int key="NSWTFlags">-1535638528</int>
+				<int key="NSWTFlags">-461896704</int>
 				<string key="NSWindowTitle">Pen Editor</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
@@ -1783,6 +1783,9 @@
 				<bool key="NS.hasthousands">YES</bool>
 				<bool key="NS.localized">NO</bool>
 				<bool key="NS.allowsfloats">YES</bool>
+			</object>
+			<object class="NSUserDefaultsController" id="943559290">
+				<bool key="NSSharedInstance">YES</bool>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -2619,6 +2622,22 @@
 						<reference key="destination" ref="884995137"/>
 					</object>
 					<int key="connectionID">542</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">visible: values.showPenEditor</string>
+						<reference key="source" ref="516989217"/>
+						<reference key="destination" ref="943559290"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="516989217"/>
+							<reference key="NSDestination" ref="943559290"/>
+							<string key="NSLabel">visible: values.showPenEditor</string>
+							<string key="NSBinding">visible</string>
+							<string key="NSKeyPath">values.showPenEditor</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">551</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3850,6 +3869,11 @@
 						<reference key="object" ref="691576830"/>
 						<reference key="parent" ref="595739111"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">549</int>
+						<reference key="object" ref="943559290"/>
+						<reference key="parent" ref="0"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -4099,6 +4123,7 @@
 					<string>526.IBPluginDependency</string>
 					<string>535.IBPluginDependency</string>
 					<string>536.IBPluginDependency</string>
+					<string>549.IBPluginDependency</string>
 					<string>56.IBPluginDependency</string>
 					<string>56.ImportedFromIB2</string>
 					<string>57.IBEditorWindowLastContentRect</string>
@@ -4324,10 +4349,10 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{470, 703}, {436, 309}}</string>
+					<string>{{247, 703}, {436, 309}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{470, 703}, {436, 309}}</string>
-					<boolean value="YES"/>
+					<string>{{247, 703}, {436, 309}}</string>
+					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4366,6 +4391,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4431,7 +4457,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">548</int>
+			<int key="maxID">551</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4624,6 +4650,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="222564059">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSControl.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSController</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">AppKit.framework/Headers/NSController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -5130,6 +5164,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSTextView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSUserDefaultsController</string>
+					<string key="superclassName">NSController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">AppKit.framework/Headers/NSUserDefaultsController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
