@@ -97,6 +97,13 @@ static NSCursor *eraserCursor;
 
 #pragma mark -
 
+- (void)changeDone {
+	NSObject *windowDelegate = [[self window] delegate];
+	if ([windowDelegate respondsToSelector:@selector(updateChangeCount:)]) {
+		[(NSDocument *)windowDelegate updateChangeCount:NSChangeDone];
+	}
+}
+
 - (CGFloat)lineWidthForPressure:(CGFloat)pressure
 						  start:(NSPoint)start
 							end:(NSPoint)end
@@ -149,6 +156,7 @@ static NSCursor *eraserCursor;
 		[strokes addObject:workingStroke];
 	}
 	initialPressure = [theEvent pressure];
+	[self changeDone];
 }
 
 - (void)eraseEvent:(NSEvent *)theEvent {
@@ -164,6 +172,7 @@ static NSCursor *eraserCursor;
 		}
 	}
 	[strokes removeObjectsAtIndexes:indexesToDelete];
+	[self changeDone];
 }
 
 #pragma mark -
