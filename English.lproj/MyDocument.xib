@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="100067"/>
+			<integer value="100029"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -259,7 +259,7 @@
 								<object class="NSSegmentedControl" key="NSToolbarItemView" id="813281572">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">268</int>
-									<string key="NSFrame">{{0, 14}, {104, 25}}</string>
+									<string key="NSFrame">{{0, 14}, {137, 25}}</string>
 									<reference key="NSSuperview"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSSegmentedCell" key="NSCell" id="817253051">
@@ -286,6 +286,7 @@
 												<string key="NSSegmentItemLabel"/>
 												<string key="NSSegmentItemTooltip">Pencil</string>
 												<int key="NSSegmentItemTag">1</int>
+												<bool key="NSSegmentItemDisabled">YES</bool>
 												<int key="NSSegmentItemImageScaling">2</int>
 											</object>
 											<object class="NSSegmentItem">
@@ -296,7 +297,18 @@
 												</object>
 												<string key="NSSegmentItemLabel"/>
 												<string key="NSSegmentItemTooltip">Eraser</string>
+												<bool key="NSSegmentItemDisabled">YES</bool>
 												<int key="NSSegmentItemImageScaling">2</int>
+											</object>
+											<object class="NSSegmentItem">
+												<double key="NSSegmentItemWidth">32</double>
+												<object class="NSCustomResource" key="NSSegmentItemImage">
+													<string key="NSClassName">NSImage</string>
+													<string key="NSResourceName">rectangular marquee</string>
+												</object>
+												<string key="NSSegmentItemTooltip">Select</string>
+												<bool key="NSSegmentItemDisabled">YES</bool>
+												<int key="NSSegmentItemImageScaling">0</int>
 											</object>
 										</object>
 										<int key="NSSegmentStyle">2</int>
@@ -305,8 +317,8 @@
 								<nil key="NSToolbarItemImage"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
-								<string key="NSToolbarItemMinSize">{104, 25}</string>
-								<string key="NSToolbarItemMaxSize">{104, 25}</string>
+								<string key="NSToolbarItemMinSize">{137, 25}</string>
+								<string key="NSToolbarItemMaxSize">{137, 25}</string>
 								<bool key="NSToolbarItemEnabled">YES</bool>
 								<bool key="NSToolbarItemAutovalidates">YES</bool>
 								<int key="NSToolbarItemTag">0</int>
@@ -894,6 +906,7 @@
 					<string>100065.IBPluginDependency</string>
 					<string>100066.IBPluginDependency</string>
 					<string>100066.IBSegmentedControlInspectorSelectedSegmentMetadataKey</string>
+					<string>100067.IBPluginDependency</string>
 					<string>5.IBEditorWindowLastContentRect</string>
 					<string>5.IBPluginDependency</string>
 					<string>5.IBWindowTemplateEditedContentRect</string>
@@ -917,7 +930,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<integer value="2"/>
+					<integer value="0"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -932,6 +945,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="0"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{105, 202}, {507, 413}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{105, 202}, {507, 413}}</string>
@@ -1589,6 +1603,7 @@
 				<string>pen</string>
 				<string>pen options</string>
 				<string>pencil</string>
+				<string>rectangular marquee</string>
 				<string>redo</string>
 				<string>undo</string>
 			</object>
@@ -1601,8 +1616,9 @@
 				<string>{18, 15}</string>
 				<string>{36, 15}</string>
 				<string>{18, 15}</string>
-				<string>{18, 15}</string>
-				<string>{18, 15}</string>
+				<string>{18, 14}</string>
+				<string>{18, 10}</string>
+				<string>{18, 10}</string>
 			</object>
 		</object>
 	</data>
