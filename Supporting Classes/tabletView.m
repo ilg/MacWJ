@@ -96,13 +96,47 @@ static NSCursor *eraserCursor;
 }
 
 #pragma mark -
+#pragma mark for Undo/Redo
 
-- (void)changeDone {
-	NSObject *windowDelegate = [[self window] delegate];
-	if ([windowDelegate respondsToSelector:@selector(updateChangeCount:)]) {
-		[(NSDocument *)windowDelegate updateChangeCount:NSChangeDone];
+- (NSUndoManager *)undoManager {
+	return [[[self window] delegate] undoManager];
+}
+
+- (void)addStrokes:(NSArray *)strokesToAdd {
+	NSUInteger originalCount = [strokes count];
+	NSUInteger addedCount = [strokesToAdd count];
+	[strokes addObjectsFromArray:strokesToAdd];
+	NSUndoManager *undoer = [self undoManager];
+	[[undoer prepareWithInvocationTarget:self]
+	 eraseStrokesWithIndexes:[NSIndexSet indexSetWithIndexesInRange:
+							  NSMakeRange(originalCount, addedCount)]];
+	[undoer setActionName:NSLocalizedString([undoer isUndoing] ? @"Erasing" : @"Inking",@"")];
+	for (tabletInkStroke *aStroke in strokesToAdd) {
+		[self setNeedsDisplayInRect:[aStroke bounds]];
 	}
 }
+
+- (void)addStroke:(tabletInkStroke *)stroke {
+	[self addStrokes:[NSArray arrayWithObject:stroke]];
+}
+
+- (void)eraseStrokesWithIndexes:(NSIndexSet *)indexesToErase {
+	if ([indexesToErase count] > 0) {
+		NSLog(@"eraseStrokesWithIdexes:%@", indexesToErase);
+		NSArray *strokesBeingErased = [strokes objectsAtIndexes:indexesToErase];
+		NSLog(@"[strokesBeingErased = %@", strokesBeingErased);
+		[strokes removeObjectsAtIndexes:indexesToErase];
+		NSUndoManager *undoer = [self undoManager];
+		[[undoer prepareWithInvocationTarget:self]
+		 addStrokes:strokesBeingErased];
+		[undoer setActionName:NSLocalizedString([undoer isUndoing] ? @"Inking" : @"Erasing",@"")];
+		for (tabletInkStroke *aStroke in strokesBeingErased) {
+			[self setNeedsDisplayInRect:[aStroke bounds]];
+		}
+	}
+}
+
+#pragma mark -
 
 - (CGFloat)lineWidthForPressure:(CGFloat)pressure
 						  start:(NSPoint)start
@@ -153,10 +187,9 @@ static NSCursor *eraserCursor;
 						 initWithPoint:[self convertPoint:[theEvent locationInWindow]
 												 fromView:nil]];
 		[workingStroke setColor:[currentPenNib inkColor]];
-		[strokes addObject:workingStroke];
+		[self addStroke:workingStroke];
 	}
 	initialPressure = [theEvent pressure];
-	[self changeDone];
 }
 
 - (void)eraseEvent:(NSEvent *)theEvent {
@@ -168,11 +201,9 @@ static NSCursor *eraserCursor;
 	for (NSUInteger strokeIndex = 0; strokeIndex < [strokes count]; strokeIndex++) {
 		if ([[strokes objectAtIndex:strokeIndex] passesThroughRect:eraseArea]) {
 			[indexesToDelete addIndex:strokeIndex];
-			[self setNeedsDisplayInRect:[[strokes objectAtIndex:strokeIndex] bounds]];
 		}
 	}
-	[strokes removeObjectsAtIndexes:indexesToDelete];
-	[self changeDone];
+	[self eraseStrokesWithIndexes:indexesToDelete];
 }
 
 #pragma mark -
