@@ -47,6 +47,11 @@
 // MARK: keys for document file dictionary
 NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
 
+// MARK: keys for undo/redo segmented control
+const NSInteger kUndoRedoSegmentedUndoSegmentNumber = 0;
+const NSInteger kUndoRedoSegmentedRedoSegmentNumber = 1;
+
+
 #pragma mark -
 
 - (id)init
@@ -63,8 +68,25 @@ NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
     return self;
 }
 
+- (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[super dealloc];
+}
+
+- (void)toggleUndoRedoEnabled:(NSNotification *)notification {
+	[undoRedoSegmentedControl setEnabled:[[self undoManager] canUndo]
+							  forSegment:kUndoRedoSegmentedUndoSegmentNumber];
+	[undoRedoSegmentedControl setEnabled:[[self undoManager] canRedo]
+							  forSegment:kUndoRedoSegmentedRedoSegmentNumber];
+}
+
 - (void)awakeFromNib {
 	[self reloadNibs];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(toggleUndoRedoEnabled:)
+												 name:NSUndoManagerCheckpointNotification
+											   object:[self undoManager]];
+	[self toggleUndoRedoEnabled:nil];
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)notification {
@@ -100,6 +122,14 @@ NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
 		[[penNibSelectionPopUpButton itemAtIndex:0] setTitle:[sender titleOfSelectedItem]];
 		[[penNibSelectionPopUpButton itemAtIndex:0] setImage:[[sender selectedItem] image]];
 		[theTabletView setCurrentPenNib:[[sender selectedItem] representedObject]];
+	}
+}
+
+- (IBAction)undoRedoAction:(id)sender {
+	if ([undoRedoSegmentedControl selectedSegment] == kUndoRedoSegmentedUndoSegmentNumber) {
+		[[self undoManager] undo];
+	} else if ([undoRedoSegmentedControl selectedSegment] == kUndoRedoSegmentedRedoSegmentNumber) {
+		[[self undoManager] redo];
 	}
 }
 

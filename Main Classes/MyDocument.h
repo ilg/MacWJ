@@ -41,10 +41,12 @@
 	IBOutlet tabletView *theTabletView;
 	IBOutlet backgroundView *theBackgroundView;
 	IBOutlet NSSegmentedControl *toolSelectionSegmentedControl;
+	IBOutlet NSSegmentedControl *undoRedoSegmentedControl;
 	IBOutlet NSPopUpButton *penNibSelectionPopUpButton;
 }
 
 - (IBAction)penNibSelected:(id)sender;
+- (IBAction)undoRedoAction:(id)sender;
 
 
 @end
