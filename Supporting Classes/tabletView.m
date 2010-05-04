@@ -40,6 +40,18 @@
 #define ERASER_RADIUS [[NSUserDefaults standardUserDefaults] floatForKey:@"eraserRadius"]
 #define COPY_AS_IMAGE_SCALE_FACTOR [[NSUserDefaults standardUserDefaults] floatForKey:@"copyAsImageScaleFactor"]
 
+@interface tabletView (UndoAndRedo)
+
+- (NSUndoManager *)undoManager;
+- (void)undoableAddStrokes:(NSArray *)strokesToAdd
+				 atIndexes:(NSIndexSet *)indexesToAdd;
+- (void)undoableEraseStrokesAtIndexes:(NSIndexSet *)indexesToErase;
+- (void)addStroke:(tabletInkStroke *)strokeToAdd;
+- (void)eraseStrokesWithIndexes:(NSIndexSet *)indexesToErase;
+
+@end
+
+
 @implementation tabletView
 
 static NSCursor *penCursor;
@@ -102,38 +114,42 @@ static NSCursor *eraserCursor;
 	return [[[self window] delegate] undoManager];
 }
 
-- (void)addStrokes:(NSArray *)strokesToAdd {
-	NSUInteger originalCount = [strokes count];
-	NSUInteger addedCount = [strokesToAdd count];
-	[strokes addObjectsFromArray:strokesToAdd];
+- (void)undoableAddStrokes:(NSArray *)strokesToAdd
+				 atIndexes:(NSIndexSet *)indexesToAdd
+{
+	[strokes insertObjects:strokesToAdd atIndexes:indexesToAdd];
 	NSUndoManager *undoer = [self undoManager];
 	[[undoer prepareWithInvocationTarget:self]
-	 eraseStrokesWithIndexes:[NSIndexSet indexSetWithIndexesInRange:
-							  NSMakeRange(originalCount, addedCount)]];
+	 undoableEraseStrokesAtIndexes:indexesToAdd];
 	[undoer setActionName:NSLocalizedString([undoer isUndoing] ? @"Erasing" : @"Inking",@"")];
 	for (tabletInkStroke *aStroke in strokesToAdd) {
 		[self setNeedsDisplayInRect:[aStroke bounds]];
 	}
 }
 
-- (void)addStroke:(tabletInkStroke *)stroke {
-	[self addStrokes:[NSArray arrayWithObject:stroke]];
-}
-
-- (void)eraseStrokesWithIndexes:(NSIndexSet *)indexesToErase {
+- (void)undoableEraseStrokesAtIndexes:(NSIndexSet *)indexesToErase 
+{
 	if ([indexesToErase count] > 0) {
-		NSLog(@"eraseStrokesWithIdexes:%@", indexesToErase);
 		NSArray *strokesBeingErased = [strokes objectsAtIndexes:indexesToErase];
-		NSLog(@"[strokesBeingErased = %@", strokesBeingErased);
 		[strokes removeObjectsAtIndexes:indexesToErase];
 		NSUndoManager *undoer = [self undoManager];
 		[[undoer prepareWithInvocationTarget:self]
-		 addStrokes:strokesBeingErased];
+		 undoableAddStrokes:strokesBeingErased
+		 atIndexes:indexesToErase];
 		[undoer setActionName:NSLocalizedString([undoer isUndoing] ? @"Inking" : @"Erasing",@"")];
 		for (tabletInkStroke *aStroke in strokesBeingErased) {
 			[self setNeedsDisplayInRect:[aStroke bounds]];
 		}
 	}
+}
+
+- (void)addStroke:(tabletInkStroke *)strokeToAdd {
+	[self undoableAddStrokes:[NSArray arrayWithObject:strokeToAdd]
+				   atIndexes:[NSIndexSet indexSetWithIndex:[strokes count]]];
+}
+
+- (void)eraseStrokesWithIndexes:(NSIndexSet *)indexesToErase {
+	[self undoableEraseStrokesAtIndexes:indexesToErase];
 }
 
 #pragma mark -
