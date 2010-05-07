@@ -38,6 +38,7 @@
 #define MIN_STROKE_WIDTH [[NSUserDefaults standardUserDefaults] floatForKey:@"minStrokeWidth"]
 #define MAX_STROKE_WIDTH [[NSUserDefaults standardUserDefaults] floatForKey:@"maxStrokeWidth"]
 #define ERASER_RADIUS [[NSUserDefaults standardUserDefaults] floatForKey:@"eraserRadius"]
+#define ATOP_SELECTION_RADIUS 1.0
 #define COPY_AS_IMAGE_SCALE_FACTOR [[NSUserDefaults standardUserDefaults] floatForKey:@"copyAsImageScaleFactor"]
 
 // MARK: tool type constants
@@ -380,6 +381,26 @@ static NSCursor *eraserCursor;
 }
 
 #pragma mark -
+#pragma mark selection handling
+
+- (BOOL)isOverSelectedStroke:(NSEvent *)theEvent {
+	NSPoint currentPoint = [self convertPoint:[theEvent locationInWindow]
+									 fromView:nil];
+	NSRect cursorRect = NSMakeRect(currentPoint.x - ATOP_SELECTION_RADIUS,
+								   currentPoint.y - ATOP_SELECTION_RADIUS,
+								   2.0 * ATOP_SELECTION_RADIUS,
+								   2.0 * ATOP_SELECTION_RADIUS);
+	BOOL result = NO;
+	for (tabletInkStroke *aStroke in [strokes objectsAtIndexes:[self selectedStrokeIndexes]]) {
+		if ([aStroke passesThroughRect:cursorRect]) {
+			result = YES;
+			break;
+		}
+	}
+	return result;
+}
+
+#pragma mark -
 
 - (NSRect)pathBounds {
 	if ([strokes count] > 0) {
@@ -540,6 +561,23 @@ static NSCursor *eraserCursor;
 		[self endRectangularSelection:theEvent];
 	}
 }
+
+- (void)mouseMoved:(NSEvent *)theEvent {
+	BOOL isTabletPossibleMovingCursor = (([theEvent subtype] == NSTabletPointEventSubtype)
+										 && (([self toolType] == kTabletViewRectangularMarqueeToolType)
+											 || ([self toolType] == kTabletViewLassoToolType)));
+	BOOL isMousePossibleMovingCursor = ([theEvent subtype] == NSMouseEventSubtype);
+	if ((isTabletPossibleMovingCursor || isMousePossibleMovingCursor)
+		&& [self isOverSelectedStroke:theEvent]) {
+		if ([NSCursor currentCursor] != [NSCursor openHandCursor]) {
+			[[NSCursor openHandCursor] push];
+		}
+	} else if ([NSCursor currentCursor] == [NSCursor openHandCursor]) {
+		[NSCursor pop];
+	} else {
+	}
+}
+
 
 
 

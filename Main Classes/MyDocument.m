@@ -93,6 +93,7 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 												 name:NSUndoManagerCheckpointNotification
 											   object:[self undoManager]];
 	[self toggleUndoRedoEnabled:nil];
+	[[theTabletView window] setAcceptsMouseMovedEvents:YES];
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)notification {
