@@ -129,6 +129,8 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 		[[penNibSelectionPopUpButton itemAtIndex:0] setTitle:[sender titleOfSelectedItem]];
 		[[penNibSelectionPopUpButton itemAtIndex:0] setImage:[[sender selectedItem] image]];
 		[theTabletView setCurrentPenNib:[[sender selectedItem] representedObject]];
+		[toolSelectionSegmentedControl setSelectedSegment:kToolSelectionSegmentedPenSegmentNumber];
+		[self toolSelectionAction:sender];
 	}
 }
 
