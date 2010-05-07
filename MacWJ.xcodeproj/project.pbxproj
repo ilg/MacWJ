@@ -30,6 +30,7 @@
 		71943363118FB8600028E980 /* undo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 71943361118FB8600028E980 /* undo.pdf */; };
 		7194339F118FC7020028E980 /* rectangular marquee.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7194339E118FC7020028E980 /* rectangular marquee.pdf */; };
 		719434851193AC630028E980 /* NSBezierPath+highlightedStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 719434841193AC630028E980 /* NSBezierPath+highlightedStroke.m */; };
+		719435871193C3500028E980 /* NSBezierPath+isInRect_withRects_count_.m in Sources */ = {isa = PBXBuildFile; fileRef = 719435861193C3500028E980 /* NSBezierPath+isInRect_withRects_count_.m */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -75,6 +76,8 @@
 		7194339E118FC7020028E980 /* rectangular marquee.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "rectangular marquee.pdf"; sourceTree = "<group>"; };
 		719434831193AC630028E980 /* NSBezierPath+highlightedStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+highlightedStroke.h"; sourceTree = "<group>"; };
 		719434841193AC630028E980 /* NSBezierPath+highlightedStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+highlightedStroke.m"; sourceTree = "<group>"; };
+		719435851193C3500028E980 /* NSBezierPath+isInRect_withRects_count_.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+isInRect_withRects_count_.h"; sourceTree = "<group>"; };
+		719435861193C3500028E980 /* NSBezierPath+isInRect_withRects_count_.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+isInRect_withRects_count_.m"; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* MacWJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacWJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -185,12 +188,9 @@
 		7112B6E9118AE8D70010FF45 /* Supporting Classes */ = {
 			isa = PBXGroup;
 			children = (
+				719435841193C2FF0028E980 /* NSBezierPath+ */,
 				7112B6EA118AE8D70010FF45 /* backgroundView.h */,
 				7112B6EB118AE8D70010FF45 /* backgroundView.m */,
-				7112B6EC118AE8D70010FF45 /* NSBezierPath+boundsWithLines.h */,
-				7112B6ED118AE8D70010FF45 /* NSBezierPath+boundsWithLines.m */,
-				719434831193AC630028E980 /* NSBezierPath+highlightedStroke.h */,
-				719434841193AC630028E980 /* NSBezierPath+highlightedStroke.m */,
 				7112B6EE118AE8D70010FF45 /* tabletInkStroke.h */,
 				7112B6EF118AE8D70010FF45 /* tabletInkStroke.m */,
 				7112B6F0118AE8D70010FF45 /* tabletView.h */,
@@ -217,6 +217,19 @@
 				71943361118FB8600028E980 /* undo.pdf */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		719435841193C2FF0028E980 /* NSBezierPath+ */ = {
+			isa = PBXGroup;
+			children = (
+				7112B6EC118AE8D70010FF45 /* NSBezierPath+boundsWithLines.h */,
+				7112B6ED118AE8D70010FF45 /* NSBezierPath+boundsWithLines.m */,
+				719434831193AC630028E980 /* NSBezierPath+highlightedStroke.h */,
+				719434841193AC630028E980 /* NSBezierPath+highlightedStroke.m */,
+				719435851193C3500028E980 /* NSBezierPath+isInRect_withRects_count_.h */,
+				719435861193C3500028E980 /* NSBezierPath+isInRect_withRects_count_.m */,
+			);
+			name = "NSBezierPath+";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,6 +310,7 @@
 				7112B819118B18B30010FF45 /* tabletPenNib.m in Sources */,
 				7112B98A118D6CEA0010FF45 /* penEditingController.m in Sources */,
 				719434851193AC630028E980 /* NSBezierPath+highlightedStroke.m in Sources */,
+				719435871193C3500028E980 /* NSBezierPath+isInRect_withRects_count_.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

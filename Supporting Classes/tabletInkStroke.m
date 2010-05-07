@@ -34,6 +34,7 @@
 #import "tabletPenNib.h"
 #import "NSBezierPath+boundsWithLines.h"
 #import "NSBezierPath+highlightedStroke.h"
+#import "NSBezierPath+isInRect_withRects_count_.h"
 
 
 @implementation tabletInkStroke
@@ -108,19 +109,11 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
 	[[NSGraphicsContext currentContext] saveGraphicsState];
 	
 	[[self color] setStroke];
-    NSInteger i;
 	for (NSBezierPath *aPath in paths) {
-        // First test against coalesced rect.
-		CGRect pathBounds = NSRectToCGRect([aPath boundsWithLines]);
-		// NOTE: CGRectIntersectsRect behaves better than NSIntersectsRect when width or height is zero
-		if (CGRectIntersectsRect(pathBounds,NSRectToCGRect(dirtyRect))) {
-			// Then test per dirty rect
-            for (i = 0; i < dirtyRectsCount; i++) {
-				if (CGRectIntersectsRect(pathBounds,NSRectToCGRect(dirtyRects[i]))) {
-					[aPath stroke];
-                    break;
-                }
-            }
+		if ([aPath isInRect:dirtyRect
+				  withRects:dirtyRects
+					  count:dirtyRectsCount]) {
+			[aPath stroke];
         }
     }
 	
@@ -137,19 +130,11 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
 	
 	// draw the highlight behind the stroke
 	[[self color] setStroke];
-    NSInteger i;
 	for (NSBezierPath *aPath in paths) {
-        // First test against coalesced rect.
-		CGRect pathBounds = NSRectToCGRect([aPath boundsWithLines]);
-		// NOTE: CGRectIntersectsRect behaves better than NSIntersectsRect when width or height is zero
-		if (CGRectIntersectsRect(pathBounds,NSRectToCGRect(dirtyRect))) {
-			// Then test per dirty rect
-            for (i = 0; i < dirtyRectsCount; i++) {
-				if (CGRectIntersectsRect(pathBounds,NSRectToCGRect(dirtyRects[i]))) {
-					[aPath highlightedStroke];
-                    break;
-                }
-            }
+		if ([aPath isInRect:dirtyRect
+				  withRects:dirtyRects
+					  count:dirtyRectsCount]) {
+			[aPath highlightedStroke];
         }
     }
 	// draw the stroke on top of the highlight
