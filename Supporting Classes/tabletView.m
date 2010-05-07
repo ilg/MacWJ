@@ -57,6 +57,8 @@ NSUInteger const kTabletViewLassoToolType = 3;
 - (void)undoableEraseStrokesAtIndexes:(NSIndexSet *)indexesToErase;
 - (void)addStroke:(tabletInkStroke *)strokeToAdd;
 - (void)eraseStrokesWithIndexes:(NSIndexSet *)indexesToErase;
+- (void)undoableApplyTransform:(NSAffineTransform *)theTransform
+		  toStrokesWithIndexes:(NSIndexSet *)indexesToTransform;
 
 @end
 
@@ -217,6 +219,25 @@ static NSCursor *eraserCursor;
 
 - (void)eraseStrokesWithIndexes:(NSIndexSet *)indexesToErase {
 	[self undoableEraseStrokesAtIndexes:indexesToErase];
+}
+
+- (void)undoableApplyTransform:(NSAffineTransform *)theTransform
+		  toStrokesWithIndexes:(NSIndexSet *)indexesToTransform
+{
+	NSUndoManager *undoer = [self undoManager];
+	NSAffineTransform *inverseTransform = [theTransform copy];
+	[inverseTransform invert];
+	[[undoer prepareWithInvocationTarget:self]
+	 undoableApplyTransform:inverseTransform
+	 toStrokesWithIndexes:indexesToTransform];
+	[undoer setActionName:NSLocalizedString(@"Move",@"")];
+	NSRect needsDisplayRect = [[strokes objectAtIndex:[indexesToTransform firstIndex]] highlightBounds];
+	for (tabletInkStroke *aStroke in [strokes objectsAtIndexes:indexesToTransform]) {
+		needsDisplayRect = NSUnionRect(needsDisplayRect, [aStroke highlightBounds]);
+		[aStroke transformUsingAffineTransform:theTransform];
+		needsDisplayRect = NSUnionRect(needsDisplayRect, [aStroke highlightBounds]);
+	}
+	[self setNeedsDisplayInRect:needsDisplayRect];
 }
 
 #pragma mark -
@@ -419,14 +440,8 @@ static NSCursor *eraserCursor;
 	[movement translateXBy:(newPoint.x - previousPoint.x)
 					   yBy:(newPoint.y - previousPoint.y)];
 	previousPoint = newPoint;
-	NSRect needsDisplayRect = NSUnionRect(NSMakeRect(previousPoint.x, previousPoint.y, 0.0, 0.0),
-										  NSMakeRect(newPoint.x, newPoint.y, 0.0, 0.0));
-	for (tabletInkStroke *aStroke in [strokes objectsAtIndexes:[self selectedStrokeIndexes]]) {
-		needsDisplayRect = NSUnionRect(needsDisplayRect, [aStroke highlightBounds]);
-		[aStroke transformUsingAffineTransform:movement];
-		needsDisplayRect = NSUnionRect(needsDisplayRect, [aStroke highlightBounds]);
-	}
-	[self setNeedsDisplayInRect:needsDisplayRect];
+	[self undoableApplyTransform:movement
+			toStrokesWithIndexes:selectedStrokeIndexes];
 }
 
 - (void)endMovingSelection:(NSEvent *)theEvent {
