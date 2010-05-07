@@ -432,6 +432,8 @@ static NSCursor *eraserCursor;
 		[self tabletPoint:theEvent];
 	} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
 		[self tabletProximity:theEvent];
+	} else if ([theEvent subtype] == NSMouseEventSubtype) {
+		[self startRectangularSelection:theEvent];
 	}
 }
 
@@ -451,6 +453,8 @@ static NSCursor *eraserCursor;
 		[self tabletPoint:theEvent];
 	} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
 		[self tabletProximity:theEvent];
+	} else if ([theEvent subtype] == NSMouseEventSubtype) {
+		[self continueRectangularSelection:theEvent];
 	}
 }
 
@@ -466,6 +470,8 @@ static NSCursor *eraserCursor;
 		[self tabletPoint:theEvent];
 	} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
 		[self tabletProximity:theEvent];
+	} else if ([theEvent subtype] == NSMouseEventSubtype) {
+		[self endRectangularSelection:theEvent];
 	}
 }
 
