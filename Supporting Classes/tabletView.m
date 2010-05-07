@@ -187,6 +187,13 @@ static NSCursor *eraserCursor;
 	[self setSelectionPath:nil];
 }
 
+- (IBAction)selectAll:(id)sender {
+	[self setSelectedStrokeIndexes:[NSIndexSet
+									indexSetWithIndexesInRange:
+									NSMakeRange(0, [strokes count])]];
+	[self setNeedsDisplay:YES];
+}
+
 - (BOOL)isOverSelectedStroke:(NSEvent *)theEvent {
 	NSPoint currentPoint = [self convertPoint:[theEvent locationInWindow]
 									 fromView:nil];
