@@ -73,8 +73,13 @@ NSUInteger const kTabletViewLassoToolType = 3;
 - (void)continueLasso:(NSEvent *)theEvent;
 - (void)endLasso:(NSEvent *)theEvent;
 
+- (void)startMovingSelection:(NSEvent *)theEvent;
+- (void)continueMovingSelection:(NSEvent *)theEvent;
+- (void)endMovingSelection:(NSEvent *)theEvent;
+
 @end
 
+#pragma mark -
 
 @implementation tabletView
 
@@ -400,6 +405,33 @@ static NSCursor *eraserCursor;
 	return result;
 }
 
+- (void)startMovingSelection:(NSEvent *)theEvent {
+	[[NSCursor closedHandCursor] push];
+	previousPoint = [self convertPoint:[theEvent locationInWindow]
+							  fromView:nil];
+}
+
+- (void)continueMovingSelection:(NSEvent *)theEvent {
+	NSPoint newPoint = [self convertPoint:[theEvent locationInWindow]
+								 fromView:nil];
+	NSAffineTransform *movement = [NSAffineTransform transform];
+	[movement translateXBy:(newPoint.x - previousPoint.x)
+					   yBy:(newPoint.y - previousPoint.y)];
+	previousPoint = newPoint;
+	NSRect needsDisplayRect = NSUnionRect(NSMakeRect(previousPoint.x, previousPoint.y, 0.0, 0.0),
+										  NSMakeRect(newPoint.x, newPoint.y, 0.0, 0.0));
+	for (tabletInkStroke *aStroke in [strokes objectsAtIndexes:[self selectedStrokeIndexes]]) {
+		needsDisplayRect = NSUnionRect(needsDisplayRect, [aStroke bounds]);
+		[aStroke transformUsingAffineTransform:movement];
+		needsDisplayRect = NSUnionRect(needsDisplayRect, [aStroke bounds]);
+	}
+	[self setNeedsDisplayInRect:needsDisplayRect];
+}
+
+- (void)endMovingSelection:(NSEvent *)theEvent {
+	[NSCursor pop];
+}
+
 #pragma mark -
 
 - (NSRect)pathBounds {
@@ -496,32 +528,38 @@ static NSCursor *eraserCursor;
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
-	if ([[self selectedStrokeIndexes] count] > 0) {
-		// if there's a selection, wipe it out and redraw everything
-		[self setNeedsDisplay:YES];
-		[self setSelectedStrokeIndexes:[NSIndexSet indexSet]];
-	}
-	
-	if ([theEvent subtype] == NSTabletPointEventSubtype) {
-		if (pointingDeviceType == NSPenPointingDevice) {
-			if ([self toolType] == kTabletViewPenToolType) {
-				[self startStroke:theEvent];
-			} else if ([self toolType] == kTabletViewRectangularMarqueeToolType) {
-				[self startRectangularSelection:theEvent];
-			} else if ([self toolType] == kTabletViewLassoToolType) {
-				[self startLasso:theEvent];
-			}
+	if ([NSCursor currentCursor] == [NSCursor openHandCursor]) {
+		[self startMovingSelection:theEvent];
+	} else {
+		if ([[self selectedStrokeIndexes] count] > 0) {
+			// if there's a selection, wipe it out and redraw everything
+			[self setNeedsDisplay:YES];
+			[self setSelectedStrokeIndexes:[NSIndexSet indexSet]];
 		}
-		[self tabletPoint:theEvent];
-	} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
-		[self tabletProximity:theEvent];
-	} else if ([theEvent subtype] == NSMouseEventSubtype) {
-		[self startRectangularSelection:theEvent];
+		
+		if ([theEvent subtype] == NSTabletPointEventSubtype) {
+			if (pointingDeviceType == NSPenPointingDevice) {
+				if ([self toolType] == kTabletViewPenToolType) {
+					[self startStroke:theEvent];
+				} else if ([self toolType] == kTabletViewRectangularMarqueeToolType) {
+					[self startRectangularSelection:theEvent];
+				} else if ([self toolType] == kTabletViewLassoToolType) {
+					[self startLasso:theEvent];
+				}
+			}
+			[self tabletPoint:theEvent];
+		} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
+			[self tabletProximity:theEvent];
+		} else if ([theEvent subtype] == NSMouseEventSubtype) {
+			[self startRectangularSelection:theEvent];
+		}
 	}
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
-	if ([theEvent subtype] == NSTabletPointEventSubtype) {
+	if ([NSCursor currentCursor] == [NSCursor closedHandCursor]) {
+		[self continueMovingSelection:theEvent];
+	} else if ([theEvent subtype] == NSTabletPointEventSubtype) {
 		if (pointingDeviceType == NSPenPointingDevice) {
 			if ([self toolType] == kTabletViewPenToolType) {
 				[self continueStroke:theEvent];
@@ -544,7 +582,9 @@ static NSCursor *eraserCursor;
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
-	if ([theEvent subtype] == NSTabletPointEventSubtype) {
+	if ([NSCursor currentCursor] == [NSCursor closedHandCursor]) {
+		[self endMovingSelection:theEvent];
+	} else if ([theEvent subtype] == NSTabletPointEventSubtype) {
 		if (pointingDeviceType == NSPenPointingDevice) {
 			if ([self toolType] == kTabletViewPenToolType) {
 				[self endStroke:theEvent];

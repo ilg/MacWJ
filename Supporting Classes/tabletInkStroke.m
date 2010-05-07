@@ -181,6 +181,12 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
 	return passesThrough;
 }
 
+- (void)transformUsingAffineTransform:(NSAffineTransform *)aTransform {
+	for (NSBezierPath *aPath in paths) {
+		[aPath transformUsingAffineTransform:aTransform];
+	}
+}
+
 
 #pragma mark -
 #pragma mark for archiving/unarchiving (for saving/loading documents)

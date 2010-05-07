@@ -53,6 +53,7 @@ extern NSUInteger const kTabletViewLassoToolType;
 	NSIndexSet *selectedStrokeIndexes;
 	NSPoint rectangularSelectionOrigin;
 	NSBezierPath *selectionPath;
+	NSPoint previousPoint;
 }
 
 @property (retain) tabletPenNib *currentPenNib;

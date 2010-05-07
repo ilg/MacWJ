@@ -58,6 +58,7 @@
 							count:(NSInteger)dirtyRectsCount;
 - (BOOL)passesThroughRect:(NSRect)rect;
 - (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path;
+- (void)transformUsingAffineTransform:(NSAffineTransform *)aTransform;
 
 - (NSImage *)imageFromStroke;
 
