@@ -115,12 +115,10 @@ static NSCursor *eraserCursor;
 	for (tabletInkStroke *aStroke in strokes) {
 		if (![selectedStrokes containsObject:aStroke]) {
 			// First test against coalesced rect.
-			CGRect strokeBounds = NSRectToCGRect([aStroke bounds]);
-			// NOTE: CGRectIntersectsRect behaves better than NSIntersectsRect when width or height is zero
-			if (CGRectIntersectsRect(strokeBounds,NSRectToCGRect(dirtyRect))) {
+			if ([aStroke passesThroughRect:dirtyRect]) {
 				// Then test per dirty rect
 				for (i = 0; i < dirtyRectsCount; i++) {
-					if (CGRectIntersectsRect(strokeBounds,NSRectToCGRect(dirtyRects[i]))) {
+					if ([aStroke passesThroughRect:dirtyRects[i]]) {
 						[aStroke strokeInRect:dirtyRect
 									withRects:dirtyRects
 										count:dirtyRectsCount];
