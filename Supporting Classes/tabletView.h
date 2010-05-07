@@ -39,6 +39,7 @@
 extern NSUInteger const kTabletViewPenToolType;
 extern NSUInteger const kTabletViewEraserToolType;
 extern NSUInteger const kTabletViewRectangularMarqueeToolType;
+extern NSUInteger const kTabletViewLassoToolType;
 
 @interface tabletView : NSView {
 	tabletPenNib *currentPenNib;

@@ -44,6 +44,7 @@
 NSUInteger const kTabletViewPenToolType = 0;
 NSUInteger const kTabletViewEraserToolType = 1;
 NSUInteger const kTabletViewRectangularMarqueeToolType = 2;
+NSUInteger const kTabletViewLassoToolType = 3;
 
 
 @interface tabletView (UndoAndRedo)

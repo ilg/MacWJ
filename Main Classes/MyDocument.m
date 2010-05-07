@@ -56,6 +56,7 @@ NSInteger const kToolSelectionSegmentedPenSegmentNumber = 0;
 NSInteger const kToolSelectionSegmentedPencilSegmentNumber = 1;
 NSInteger const kToolSelectionSegmentedEraserSegmentNumber = 2;
 NSInteger const kToolSelectionSegmentedRectangularMarqueeSegmentNumber = 3;
+NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 
 #pragma mark -
 
@@ -147,6 +148,8 @@ NSInteger const kToolSelectionSegmentedRectangularMarqueeSegmentNumber = 3;
 		[theTabletView setToolType:kTabletViewEraserToolType];
 	} else if ([toolSelectionSegmentedControl selectedSegment] == kToolSelectionSegmentedRectangularMarqueeSegmentNumber) {
 		[theTabletView setToolType:kTabletViewRectangularMarqueeToolType];
+	} else if ([toolSelectionSegmentedControl selectedSegment] == kToolSelectionSegmentedLassoSegmentNumber) {
+		[theTabletView setToolType:kTabletViewLassoToolType];
 	} else {
 		[theTabletView setToolType:kTabletViewPenToolType];
 	}

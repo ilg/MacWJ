@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="100037"/>
+			<integer value="100038"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -195,10 +195,6 @@
 										<reference key="NSControlView" ref="226423984"/>
 										<int key="NSButtonFlags">-2038415105</int>
 										<int key="NSButtonFlags2">163</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="818698584">
-											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">pen</string>
-										</object>
 										<string key="NSAlternateContents"/>
 										<string key="NSKeyEquivalent"/>
 										<int key="NSPeriodicDelay">400</int>
@@ -210,7 +206,10 @@
 											<int key="NSKeyEquivModMask">1048576</int>
 											<int key="NSMnemonicLoc">2147483647</int>
 											<int key="NSState">1</int>
-											<reference key="NSImage" ref="818698584"/>
+											<object class="NSCustomResource" key="NSImage" id="582306874">
+												<string key="NSClassName">NSImage</string>
+												<string key="NSResourceName">pen</string>
+											</object>
 											<object class="NSCustomResource" key="NSOnImage" id="957002923">
 												<string key="NSClassName">NSImage</string>
 												<string key="NSResourceName">NSMenuCheckmark</string>
@@ -238,7 +237,7 @@
 										<int key="NSArrowPosition">2</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="818698584"/>
+								<reference key="NSToolbarItemImage" ref="582306874"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{150, 25}</string>
@@ -259,7 +258,7 @@
 								<object class="NSSegmentedControl" key="NSToolbarItemView" id="813281572">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">268</int>
-									<string key="NSFrame">{{0, 14}, {137, 25}}</string>
+									<string key="NSFrame">{{0, 14}, {170, 25}}</string>
 									<reference key="NSSuperview"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSSegmentedCell" key="NSCell" id="817253051">
@@ -271,7 +270,7 @@
 											<bool key="EncodedWithXMLCoder">YES</bool>
 											<object class="NSSegmentItem">
 												<double key="NSSegmentItemWidth">32</double>
-												<reference key="NSSegmentItemImage" ref="818698584"/>
+												<reference key="NSSegmentItemImage" ref="582306874"/>
 												<string key="NSSegmentItemLabel"/>
 												<string key="NSSegmentItemTooltip">Pen</string>
 												<bool key="NSSegmentItemSelected">YES</bool>
@@ -308,6 +307,15 @@
 												<string key="NSSegmentItemTooltip">Select</string>
 												<int key="NSSegmentItemImageScaling">0</int>
 											</object>
+											<object class="NSSegmentItem">
+												<double key="NSSegmentItemWidth">32</double>
+												<object class="NSCustomResource" key="NSSegmentItemImage">
+													<string key="NSClassName">NSImage</string>
+													<string key="NSResourceName">lasso</string>
+												</object>
+												<string key="NSSegmentItemTooltip">Lasso</string>
+												<int key="NSSegmentItemImageScaling">0</int>
+											</object>
 										</object>
 										<int key="NSSegmentStyle">2</int>
 									</object>
@@ -316,7 +324,7 @@
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{137, 25}</string>
-								<string key="NSToolbarItemMaxSize">{137, 25}</string>
+								<string key="NSToolbarItemMaxSize">{170, 25}</string>
 								<bool key="NSToolbarItemEnabled">YES</bool>
 								<bool key="NSToolbarItemAutovalidates">YES</bool>
 								<int key="NSToolbarItemTag">0</int>
@@ -936,7 +944,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<integer value="1"/>
+					<integer value="4"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1608,6 +1616,7 @@
 				<string>NSMenuMixedState</string>
 				<string>NSToolbarCustomizeToolbarItemImage</string>
 				<string>eraser</string>
+				<string>lasso</string>
 				<string>pen</string>
 				<string>pen options</string>
 				<string>pencil</string>
@@ -1621,6 +1630,7 @@
 				<string>{7, 2}</string>
 				<string>{32, 32}</string>
 				<string>{18, 15}</string>
+				<string>{15, 12}</string>
 				<string>{18, 15}</string>
 				<string>{36, 15}</string>
 				<string>{18, 15}</string>
