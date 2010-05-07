@@ -48,9 +48,14 @@
 NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
 
 // MARK: keys for undo/redo segmented control
-const NSInteger kUndoRedoSegmentedUndoSegmentNumber = 0;
-const NSInteger kUndoRedoSegmentedRedoSegmentNumber = 1;
+NSInteger const kUndoRedoSegmentedUndoSegmentNumber = 0;
+NSInteger const kUndoRedoSegmentedRedoSegmentNumber = 1;
 
+// MARK: keys for tool selection segmented control
+NSInteger const kToolSelectionSegmentedPenSegmentNumber = 0;
+NSInteger const kToolSelectionSegmentedPencilSegmentNumber = 1;
+NSInteger const kToolSelectionSegmentedEraserSegmentNumber = 2;
+NSInteger const kToolSelectionSegmentedRectangularMarqueeSegmentNumber = 3;
 
 #pragma mark -
 
@@ -130,6 +135,20 @@ const NSInteger kUndoRedoSegmentedRedoSegmentNumber = 1;
 		[[self undoManager] undo];
 	} else if ([undoRedoSegmentedControl selectedSegment] == kUndoRedoSegmentedRedoSegmentNumber) {
 		[[self undoManager] redo];
+	}
+}
+
+- (IBAction)toolSelectionAction:(id)sender {
+	if ([toolSelectionSegmentedControl selectedSegment] == kToolSelectionSegmentedPenSegmentNumber) {
+		[theTabletView setToolType:kTabletViewPenToolType];
+	} else if ([toolSelectionSegmentedControl selectedSegment] == kToolSelectionSegmentedPencilSegmentNumber) {
+		[theTabletView setToolType:kTabletViewPenToolType];
+	} else if ([toolSelectionSegmentedControl selectedSegment] == kToolSelectionSegmentedEraserSegmentNumber) {
+		[theTabletView setToolType:kTabletViewEraserToolType];
+	} else if ([toolSelectionSegmentedControl selectedSegment] == kToolSelectionSegmentedRectangularMarqueeSegmentNumber) {
+		[theTabletView setToolType:kTabletViewRectangularMarqueeToolType];
+	} else {
+		[theTabletView setToolType:kTabletViewPenToolType];
 	}
 }
 

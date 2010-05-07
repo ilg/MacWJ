@@ -33,6 +33,7 @@
 #import "tabletInkStroke.h"
 #import "tabletPenNib.h"
 #import "NSBezierPath+boundsWithLines.h"
+#import "NSBezierPath+highlightedStroke.h"
 
 
 @implementation tabletInkStroke
@@ -108,6 +109,48 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
 	
 	[[self color] setStroke];
     NSInteger i;
+	for (NSBezierPath *aPath in paths) {
+        // First test against coalesced rect.
+		CGRect pathBounds = NSRectToCGRect([aPath boundsWithLines]);
+		// NOTE: CGRectIntersectsRect behaves better than NSIntersectsRect when width or height is zero
+		if (CGRectIntersectsRect(pathBounds,NSRectToCGRect(dirtyRect))) {
+			// Then test per dirty rect
+            for (i = 0; i < dirtyRectsCount; i++) {
+				if (CGRectIntersectsRect(pathBounds,NSRectToCGRect(dirtyRects[i]))) {
+					[aPath stroke];
+                    break;
+                }
+            }
+        }
+    }
+	
+	// Restore the original graphics state.
+	[[NSGraphicsContext currentContext] restoreGraphicsState];
+}
+
+- (void)strokeWithHighlightInRect:(NSRect)dirtyRect
+						withRects:(const NSRect *)dirtyRects
+							count:(NSInteger)dirtyRectsCount
+{
+	// Save the current graphics state first so we can restore it.
+	[[NSGraphicsContext currentContext] saveGraphicsState];
+	
+	[[self color] setStroke];
+    NSInteger i;
+	for (NSBezierPath *aPath in paths) {
+        // First test against coalesced rect.
+		CGRect pathBounds = NSRectToCGRect([aPath boundsWithLines]);
+		// NOTE: CGRectIntersectsRect behaves better than NSIntersectsRect when width or height is zero
+		if (CGRectIntersectsRect(pathBounds,NSRectToCGRect(dirtyRect))) {
+			// Then test per dirty rect
+            for (i = 0; i < dirtyRectsCount; i++) {
+				if (CGRectIntersectsRect(pathBounds,NSRectToCGRect(dirtyRects[i]))) {
+					[aPath highlightedStroke];
+                    break;
+                }
+            }
+        }
+    }
 	for (NSBezierPath *aPath in paths) {
         // First test against coalesced rect.
 		CGRect pathBounds = NSRectToCGRect([aPath boundsWithLines]);

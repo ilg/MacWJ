@@ -35,17 +35,30 @@
 @class tabletInkStroke;
 @class tabletPenNib;
 
+// MARK: tool type constants
+extern NSUInteger const kTabletViewPenToolType;
+extern NSUInteger const kTabletViewEraserToolType;
+extern NSUInteger const kTabletViewRectangularMarqueeToolType;
+
 @interface tabletView : NSView {
 	tabletPenNib *currentPenNib;
+	NSUInteger toolType;
 	
 	@private
 	NSMutableArray *strokes;
 	tabletInkStroke *workingStroke;
 	CGFloat initialPressure;
 	NSPointingDeviceType pointingDeviceType;
+	NSIndexSet *selectedStrokeIndexes;
+	NSPoint rectangularSelectionOrigin;
+	NSBezierPath *selectionPath;
 }
 
 @property (retain) tabletPenNib *currentPenNib;
+@property NSUInteger toolType;
+
+@property (retain) NSIndexSet *selectedStrokeIndexes;
+@property (retain) NSBezierPath *selectionPath;
 
 - (IBAction)copy:(id)sender;
 

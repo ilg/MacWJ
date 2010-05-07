@@ -53,6 +53,9 @@
 - (void)strokeInRect:(NSRect)dirtyRect
 		   withRects:(const NSRect *)dirtyRects
 			   count:(NSInteger)dirtyRectsCount;
+- (void)strokeWithHighlightInRect:(NSRect)dirtyRect
+						withRects:(const NSRect *)dirtyRects
+							count:(NSInteger)dirtyRectsCount;
 - (BOOL)passesThroughRect:(NSRect)rect;
 
 - (NSImage *)imageFromStroke;

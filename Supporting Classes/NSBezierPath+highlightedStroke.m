@@ -26,27 +26,31 @@
  *********************************************************************************/
 
 //
-//  MyDocument.h
+//  NSBezierPath+highlightedStroke.m
 //  MacWJ
 //
 
+#import "NSBezierPath+highlightedStroke.h"
 
-#import <Cocoa/Cocoa.h>
 
-@class tabletView;
-@class backgroundView;
+#define HIGHLIGHT_WIDTH 1.5
 
-@interface MyDocument : NSDocument {
-	@private
-	IBOutlet tabletView *theTabletView;
-	IBOutlet backgroundView *theBackgroundView;
-	IBOutlet NSSegmentedControl *toolSelectionSegmentedControl;
-	IBOutlet NSSegmentedControl *undoRedoSegmentedControl;
-	IBOutlet NSPopUpButton *penNibSelectionPopUpButton;
+@implementation NSBezierPath (highlightedStroke)
+
+- (void)highlightedStroke {
+	NSBezierPath *highlightPath = [self copy];
+	[highlightPath setLineWidth:([self lineWidth] + 2.0 * HIGHLIGHT_WIDTH)];
+	
+	// Save the current graphics state first so we can restore it.
+	[[NSGraphicsContext currentContext] saveGraphicsState];
+	
+	[[NSColor selectedTextBackgroundColor] setStroke];
+	[highlightPath stroke];
+	
+	// Restore the original graphics state.
+	[[NSGraphicsContext currentContext] restoreGraphicsState];
+	
+	[highlightPath release];
 }
-
-- (IBAction)penNibSelected:(id)sender;
-- (IBAction)undoRedoAction:(id)sender;
-- (IBAction)toolSelectionAction:(id)sender;
 
 @end

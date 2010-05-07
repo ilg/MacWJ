@@ -26,27 +26,15 @@
  *********************************************************************************/
 
 //
-//  MyDocument.h
+//  NSBezierPath+highlightedStroke.h
 //  MacWJ
 //
 
-
 #import <Cocoa/Cocoa.h>
 
-@class tabletView;
-@class backgroundView;
 
-@interface MyDocument : NSDocument {
-	@private
-	IBOutlet tabletView *theTabletView;
-	IBOutlet backgroundView *theBackgroundView;
-	IBOutlet NSSegmentedControl *toolSelectionSegmentedControl;
-	IBOutlet NSSegmentedControl *undoRedoSegmentedControl;
-	IBOutlet NSPopUpButton *penNibSelectionPopUpButton;
-}
+@interface NSBezierPath (highlightedStroke)
 
-- (IBAction)penNibSelected:(id)sender;
-- (IBAction)undoRedoAction:(id)sender;
-- (IBAction)toolSelectionAction:(id)sender;
+- (void)highlightedStroke;
 
 @end
