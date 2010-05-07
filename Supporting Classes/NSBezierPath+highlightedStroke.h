@@ -36,5 +36,6 @@
 @interface NSBezierPath (highlightedStroke)
 
 - (void)highlightedStroke;
+- (NSRect)highlightedStrokeBounds;
 
 @end

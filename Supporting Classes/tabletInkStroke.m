@@ -82,6 +82,18 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
 	}
 }
 
+- (NSRect)highlightBounds {
+	if ([paths count] > 0) {
+		NSRect result = [[paths objectAtIndex:0] highlightedStrokeBounds];
+		for (NSBezierPath *path in paths) {
+			result = NSUnionRect(result, [path highlightedStrokeBounds]);
+		}
+		return result;
+	} else {
+		return NSMakeRect(0.0, 0.0, 0.0, 0.0);
+	}
+}
+
 - (NSRect)lastSegmentBounds {
 	if ([paths count] > 0) {
 		return [[paths lastObject] boundsWithLines];

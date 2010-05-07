@@ -49,6 +49,7 @@
 - (void)lineToPoint:(NSPoint)endPoint
 	  withThickness:(CGFloat)lineWidth;
 - (NSRect)bounds;
+- (NSRect)highlightBounds;
 - (NSRect)lastSegmentBounds;
 - (void)strokeInRect:(NSRect)dirtyRect
 		   withRects:(const NSRect *)dirtyRects

@@ -31,7 +31,7 @@
 //
 
 #import "NSBezierPath+highlightedStroke.h"
-
+#import "NSBezierPath+boundsWithLines.h"
 
 #define HIGHLIGHT_WIDTH 1.5
 
@@ -51,6 +51,14 @@
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
 	
 	[highlightPath release];
+}
+
+- (NSRect)highlightedStrokeBounds {
+	NSBezierPath *highlightPath = [self copy];
+	[highlightPath setLineWidth:([self lineWidth] + 2.0 * HIGHLIGHT_WIDTH)];
+	NSRect bounds = [highlightPath boundsWithLines];
+	[highlightPath release];
+	return bounds;
 }
 
 @end

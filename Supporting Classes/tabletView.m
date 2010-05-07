@@ -421,9 +421,9 @@ static NSCursor *eraserCursor;
 	NSRect needsDisplayRect = NSUnionRect(NSMakeRect(previousPoint.x, previousPoint.y, 0.0, 0.0),
 										  NSMakeRect(newPoint.x, newPoint.y, 0.0, 0.0));
 	for (tabletInkStroke *aStroke in [strokes objectsAtIndexes:[self selectedStrokeIndexes]]) {
-		needsDisplayRect = NSUnionRect(needsDisplayRect, [aStroke bounds]);
+		needsDisplayRect = NSUnionRect(needsDisplayRect, [aStroke highlightBounds]);
 		[aStroke transformUsingAffineTransform:movement];
-		needsDisplayRect = NSUnionRect(needsDisplayRect, [aStroke bounds]);
+		needsDisplayRect = NSUnionRect(needsDisplayRect, [aStroke highlightBounds]);
 	}
 	[self setNeedsDisplayInRect:needsDisplayRect];
 }
