@@ -152,7 +152,7 @@ static NSCursor *eraserCursor;
 		}
     }
 	
-	if (NSIntersectsRect(dirtyRect, [[self selectionPath] bounds])) {
+	if ([self selectionPath] && NSIntersectsRect(dirtyRect, [[self selectionPath] bounds])) {
 		[[NSColor blackColor] setStroke];
 		NSBezierPath *marquee = [self selectionPath];
 		[marquee setLineWidth:1.0];
@@ -535,6 +535,7 @@ static NSCursor *eraserCursor;
 			// if there's a selection, wipe it out and redraw everything
 			[self setNeedsDisplay:YES];
 			[self setSelectedStrokeIndexes:[NSIndexSet indexSet]];
+			[self setSelectionPath:nil];
 		}
 		
 		if ([theEvent subtype] == NSTabletPointEventSubtype) {
