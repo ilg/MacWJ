@@ -374,6 +374,10 @@ static NSCursor *eraserCursor;
 	[self eraseStrokesWithIndexes:indexesToDelete];
 }
 
+- (IBAction)delete:(id)sender {
+	[self undoableEraseStrokesAtIndexes:[self selectedStrokeIndexes]];
+}
+
 #pragma mark -
 #pragma mark for rectangular marquee selection
 
