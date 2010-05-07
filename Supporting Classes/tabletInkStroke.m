@@ -159,6 +159,28 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
 	return passesThrough;
 }
 
+- (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path {
+	BOOL passesThrough = NO;
+	for (NSBezierPath *aPath in paths) {
+		NSRect bounds = [aPath bounds];
+		// test the four corners of the bounds
+		// (this isn't perfect, but since the individual path segments in a stroke
+		//  should be relatively short, this should be good enough)
+		if ([path containsPoint:bounds.origin]
+			|| [path containsPoint:NSMakePoint(bounds.origin.x,
+											   bounds.origin.y + bounds.size.height)]
+			|| [path containsPoint:NSMakePoint(bounds.origin.x + bounds.size.width,
+											   bounds.origin.y)]
+			|| [path containsPoint:NSMakePoint(bounds.origin.x + bounds.size.width,
+											   bounds.origin.y + bounds.size.height)]
+			) {
+			passesThrough = YES;
+			break;
+        }
+    }
+	return passesThrough;
+}
+
 
 #pragma mark -
 #pragma mark for archiving/unarchiving (for saving/loading documents)

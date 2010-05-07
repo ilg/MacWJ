@@ -57,6 +57,7 @@
 						withRects:(const NSRect *)dirtyRects
 							count:(NSInteger)dirtyRectsCount;
 - (BOOL)passesThroughRect:(NSRect)rect;
+- (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path;
 
 - (NSImage *)imageFromStroke;
 
