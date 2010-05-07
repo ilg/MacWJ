@@ -177,6 +177,57 @@ static NSCursor *eraserCursor;
 }
 
 #pragma mark -
+#pragma mark selection handling
+
+- (void)selectNone {
+	if ([[self selectedStrokeIndexes] count] > 0) {
+		[self setNeedsDisplay:YES];
+		[self setSelectedStrokeIndexes:[NSIndexSet indexSet]];
+	}
+	[self setSelectionPath:nil];
+}
+
+- (BOOL)isOverSelectedStroke:(NSEvent *)theEvent {
+	NSPoint currentPoint = [self convertPoint:[theEvent locationInWindow]
+									 fromView:nil];
+	NSRect cursorRect = NSMakeRect(currentPoint.x - ATOP_SELECTION_RADIUS,
+								   currentPoint.y - ATOP_SELECTION_RADIUS,
+								   2.0 * ATOP_SELECTION_RADIUS,
+								   2.0 * ATOP_SELECTION_RADIUS);
+	BOOL result = NO;
+	for (tabletInkStroke *aStroke in [strokes objectsAtIndexes:[self selectedStrokeIndexes]]) {
+		if ([aStroke passesThroughRect:cursorRect]) {
+			result = YES;
+			break;
+		}
+	}
+	return result;
+}
+
+- (void)startMovingSelection:(NSEvent *)theEvent {
+	[[NSCursor closedHandCursor] push];
+	[[self undoManager] beginUndoGrouping];
+	previousPoint = [self convertPoint:[theEvent locationInWindow]
+							  fromView:nil];
+}
+
+- (void)continueMovingSelection:(NSEvent *)theEvent {
+	NSPoint newPoint = [self convertPoint:[theEvent locationInWindow]
+								 fromView:nil];
+	NSAffineTransform *movement = [NSAffineTransform transform];
+	[movement translateXBy:(newPoint.x - previousPoint.x)
+					   yBy:(newPoint.y - previousPoint.y)];
+	previousPoint = newPoint;
+	[self undoableApplyTransform:movement
+			toStrokesWithIndexes:selectedStrokeIndexes];
+}
+
+- (void)endMovingSelection:(NSEvent *)theEvent {
+	[[self undoManager] endUndoGrouping];
+	[NSCursor pop];
+}
+
+#pragma mark -
 #pragma mark for Undo/Redo
 
 - (NSUndoManager *)undoManager {
@@ -186,6 +237,7 @@ static NSCursor *eraserCursor;
 - (void)undoableAddStrokes:(NSArray *)strokesToAdd
 				 atIndexes:(NSIndexSet *)indexesToAdd
 {
+	[self selectNone];
 	[strokes insertObjects:strokesToAdd atIndexes:indexesToAdd];
 	NSUndoManager *undoer = [self undoManager];
 	[[undoer prepareWithInvocationTarget:self]
@@ -198,6 +250,7 @@ static NSCursor *eraserCursor;
 
 - (void)undoableEraseStrokesAtIndexes:(NSIndexSet *)indexesToErase 
 {
+	[self selectNone];
 	if ([indexesToErase count] > 0) {
 		NSArray *strokesBeingErased = [strokes objectsAtIndexes:indexesToErase];
 		[strokes removeObjectsAtIndexes:indexesToErase];
@@ -408,47 +461,6 @@ static NSCursor *eraserCursor;
 }
 
 #pragma mark -
-#pragma mark selection handling
-
-- (BOOL)isOverSelectedStroke:(NSEvent *)theEvent {
-	NSPoint currentPoint = [self convertPoint:[theEvent locationInWindow]
-									 fromView:nil];
-	NSRect cursorRect = NSMakeRect(currentPoint.x - ATOP_SELECTION_RADIUS,
-								   currentPoint.y - ATOP_SELECTION_RADIUS,
-								   2.0 * ATOP_SELECTION_RADIUS,
-								   2.0 * ATOP_SELECTION_RADIUS);
-	BOOL result = NO;
-	for (tabletInkStroke *aStroke in [strokes objectsAtIndexes:[self selectedStrokeIndexes]]) {
-		if ([aStroke passesThroughRect:cursorRect]) {
-			result = YES;
-			break;
-		}
-	}
-	return result;
-}
-
-- (void)startMovingSelection:(NSEvent *)theEvent {
-	[[NSCursor closedHandCursor] push];
-	previousPoint = [self convertPoint:[theEvent locationInWindow]
-							  fromView:nil];
-}
-
-- (void)continueMovingSelection:(NSEvent *)theEvent {
-	NSPoint newPoint = [self convertPoint:[theEvent locationInWindow]
-								 fromView:nil];
-	NSAffineTransform *movement = [NSAffineTransform transform];
-	[movement translateXBy:(newPoint.x - previousPoint.x)
-					   yBy:(newPoint.y - previousPoint.y)];
-	previousPoint = newPoint;
-	[self undoableApplyTransform:movement
-			toStrokesWithIndexes:selectedStrokeIndexes];
-}
-
-- (void)endMovingSelection:(NSEvent *)theEvent {
-	[NSCursor pop];
-}
-
-#pragma mark -
 
 - (NSRect)pathBounds {
 	if ([strokes count] > 0) {
@@ -551,9 +563,7 @@ static NSCursor *eraserCursor;
 	} else {
 		if ([[self selectedStrokeIndexes] count] > 0) {
 			// if there's a selection, wipe it out and redraw everything
-			[self setNeedsDisplay:YES];
-			[self setSelectedStrokeIndexes:[NSIndexSet indexSet]];
-			[self setSelectionPath:nil];
+			[self selectNone];
 		}
 		
 		if ([theEvent subtype] == NSTabletPointEventSubtype) {
