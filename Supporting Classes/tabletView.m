@@ -131,8 +131,13 @@ static NSCursor *eraserCursor;
 	
 	if (NSIntersectsRect(dirtyRect, [[self selectionPath] bounds])) {
 		[[NSColor blackColor] setStroke];
-		[[self selectionPath] setLineWidth:1.0];
-		[[self selectionPath] stroke];
+		NSBezierPath *marquee = [self selectionPath];
+		[marquee setLineWidth:1.0];
+		CGFloat dashing[] = { 3.0, 3.0 };
+		[marquee setLineDash:dashing
+					   count:2
+					   phase:0.0];
+		[marquee stroke];
 	}
 }
 
