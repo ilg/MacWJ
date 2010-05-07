@@ -58,6 +58,22 @@ NSUInteger const kTabletViewLassoToolType = 3;
 
 @end
 
+@interface tabletView (startContinueEndMethods)
+
+- (void)startStroke:(NSEvent *)theEvent;
+- (void)continueStroke:(NSEvent *)theEvent;
+- (void)endStroke:(NSEvent *)theEvent;
+
+- (void)startRectangularSelection:(NSEvent *)theEvent;
+- (void)continueRectangularSelection:(NSEvent *)theEvent;
+- (void)endRectangularSelection:(NSEvent *)theEvent;
+
+- (void)startLasso:(NSEvent *)theEvent;
+- (void)continueLasso:(NSEvent *)theEvent;
+- (void)endLasso:(NSEvent *)theEvent;
+
+@end
+
 
 @implementation tabletView
 
@@ -210,16 +226,16 @@ static NSCursor *eraserCursor;
 }
 
 - (void)continueStroke:(NSEvent *)theEvent {
-	NSPoint newPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	CGFloat width = [self lineWidthForPressure:[theEvent pressure]
-										 start:[workingStroke currentPoint]
-										   end:newPoint];
-	if (workingStroke) {
+	if (!workingStroke) {
+		[self startStroke:theEvent];
+	} else {
+		NSPoint newPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+		CGFloat width = [self lineWidthForPressure:[theEvent pressure]
+											 start:[workingStroke currentPoint]
+											   end:newPoint];
 		[workingStroke lineToPoint:newPoint
 					 withThickness:width];
 		[self setNeedsDisplayInRect:[workingStroke lastSegmentBounds]];
-	} else {
-		NSLog(@"continueStroke: with no workingStroke");
 	}
 }
 
@@ -318,6 +334,49 @@ static NSCursor *eraserCursor;
 - (void)startRectangularSelection:(NSEvent *)theEvent {
 	rectangularSelectionOrigin = [self convertPoint:[theEvent locationInWindow]
 										   fromView:nil];
+}
+
+#pragma mark -
+#pragma mark for lasso selection
+
+- (void)continueLasso:(NSEvent *)theEvent {
+	if (![self selectionPath]) {
+		[self startLasso:theEvent];
+	} else {
+		[[self selectionPath] lineToPoint:[self convertPoint:[theEvent locationInWindow]
+													fromView:nil]];
+		[self setNeedsDisplayInRect:[[self selectionPath] boundsWithLines]];
+	}
+}
+
+- (void)endLasso:(NSEvent *)theEvent {
+	[[self selectionPath] lineToPoint:[self convertPoint:[theEvent locationInWindow]
+												fromView:nil]];
+	[[self selectionPath] closePath];
+	
+	NSRect needsDisplayRect = [[self selectionPath] boundsWithLines];
+	NSMutableIndexSet *indexesToSelect = [[NSMutableIndexSet alloc] init];
+	for (NSUInteger strokeIndex = 0; strokeIndex < [strokes count]; strokeIndex++) {
+		if ([[strokes objectAtIndex:strokeIndex] passesThroughRegionEnclosedByPath:[self selectionPath]]) {
+			[indexesToSelect addIndex:strokeIndex];
+			needsDisplayRect = NSUnionRect(needsDisplayRect, [[strokes objectAtIndex:strokeIndex] bounds]);
+		}
+	}
+	[self setSelectedStrokeIndexes:[[[NSIndexSet alloc] initWithIndexSet:indexesToSelect] autorelease]];
+	[indexesToSelect release];
+	
+	[self setNeedsDisplayInRect:needsDisplayRect];
+	[self setSelectionPath:nil];
+}
+
+- (void)startLasso:(NSEvent *)theEvent {
+	if ([self selectionPath]) {
+		[self continueLasso:theEvent];
+	} else {
+		[self setSelectionPath:[NSBezierPath bezierPath]];
+		[[self selectionPath] moveToPoint:[self convertPoint:[theEvent locationInWindow]
+													fromView:nil]];
+	}
 }
 
 #pragma mark -
@@ -428,6 +487,8 @@ static NSCursor *eraserCursor;
 				[self startStroke:theEvent];
 			} else if ([self toolType] == kTabletViewRectangularMarqueeToolType) {
 				[self startRectangularSelection:theEvent];
+			} else if ([self toolType] == kTabletViewLassoToolType) {
+				[self startLasso:theEvent];
 			}
 		}
 		[self tabletPoint:theEvent];
@@ -447,6 +508,8 @@ static NSCursor *eraserCursor;
 				[self eraseEvent:theEvent];
 			} else if ([self toolType] == kTabletViewRectangularMarqueeToolType) {
 				[self continueRectangularSelection:theEvent];
+			} else if ([self toolType] == kTabletViewLassoToolType) {
+				[self continueLasso:theEvent];
 			}
 		} else if (pointingDeviceType == NSEraserPointingDevice) {
 			[self eraseEvent:theEvent];
@@ -466,6 +529,8 @@ static NSCursor *eraserCursor;
 				[self endStroke:theEvent];
 			} else if ([self toolType] == kTabletViewRectangularMarqueeToolType) {
 				[self endRectangularSelection:theEvent];
+			} else if ([self toolType] == kTabletViewLassoToolType) {
+				[self endLasso:theEvent];
 			}
 		}
 		[self tabletPoint:theEvent];
