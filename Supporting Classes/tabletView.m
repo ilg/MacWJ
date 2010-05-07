@@ -303,8 +303,9 @@ static NSCursor *eraserCursor;
 		}
 	}
 	[self setSelectedStrokeIndexes:[[[NSIndexSet alloc] initWithIndexSet:indexesToSelect] autorelease]];
-	[self setNeedsDisplayInRect:needsDisplayRect];
+	[indexesToSelect release];
 	
+	[self setNeedsDisplayInRect:needsDisplayRect];
 	[self setSelectionPath:nil];
 }
 
