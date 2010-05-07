@@ -54,6 +54,7 @@ extern NSUInteger const kTabletViewLassoToolType;
 	NSPoint rectangularSelectionOrigin;
 	NSBezierPath *selectionPath;
 	NSPoint previousPoint;
+	NSTimeInterval timeOfLastTabletEvent;
 }
 
 @property (retain) tabletPenNib *currentPenNib;

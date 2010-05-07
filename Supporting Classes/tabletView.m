@@ -40,6 +40,7 @@
 #define ERASER_RADIUS [[NSUserDefaults standardUserDefaults] floatForKey:@"eraserRadius"]
 #define ATOP_SELECTION_RADIUS 1.0
 #define COPY_AS_IMAGE_SCALE_FACTOR [[NSUserDefaults standardUserDefaults] floatForKey:@"copyAsImageScaleFactor"]
+#define TABLET_MOUSE_TIME_MARGIN 0.5
 
 // MARK: tool type constants
 NSUInteger const kTabletViewPenToolType = 0;
@@ -522,9 +523,11 @@ static NSCursor *eraserCursor;
 	} else {
 //		NSLog(@"pointing device type is not a recognized constant");
 	}
+	timeOfLastTabletEvent = [theEvent timestamp];
 }
 
 - (void)tabletPoint:(NSEvent *)theEvent {
+	timeOfLastTabletEvent = [theEvent timestamp];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
@@ -552,7 +555,9 @@ static NSCursor *eraserCursor;
 		} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
 			[self tabletProximity:theEvent];
 		} else if ([theEvent subtype] == NSMouseEventSubtype) {
-			[self startRectangularSelection:theEvent];
+			if ([theEvent timestamp] - timeOfLastTabletEvent > TABLET_MOUSE_TIME_MARGIN) {
+				[self startRectangularSelection:theEvent];
+			}
 		}
 	}
 }
@@ -578,7 +583,9 @@ static NSCursor *eraserCursor;
 	} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
 		[self tabletProximity:theEvent];
 	} else if ([theEvent subtype] == NSMouseEventSubtype) {
-		[self continueRectangularSelection:theEvent];
+		if ([theEvent timestamp] - timeOfLastTabletEvent > TABLET_MOUSE_TIME_MARGIN) {
+			[self continueRectangularSelection:theEvent];
+		}
 	}
 }
 
@@ -599,7 +606,9 @@ static NSCursor *eraserCursor;
 	} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
 		[self tabletProximity:theEvent];
 	} else if ([theEvent subtype] == NSMouseEventSubtype) {
-		[self endRectangularSelection:theEvent];
+		if ([theEvent timestamp] - timeOfLastTabletEvent > TABLET_MOUSE_TIME_MARGIN) {
+			[self endRectangularSelection:theEvent];
+		}
 	}
 }
 
