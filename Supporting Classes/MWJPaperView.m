@@ -206,7 +206,7 @@ static NSCursor *eraserCursor;
 - (void)setSelectionByTestingWithSelector:(SEL)testingSelector
 					  withObjectParameter:(id)testingArgument
 {
-	NSRect needsDisplayRect = [[self selectionPath] boundsWithLines];
+	[self setNeedsDisplayInRect:[[self selectionPath] boundsWithLines]];
 	
 	NSMutableIndexSet *indexesToSelect = [[NSMutableIndexSet alloc] init];
 	NSUInteger objectIndex = 0;
@@ -214,15 +214,13 @@ static NSCursor *eraserCursor;
 		if ([anObjectOnPaper performSelector:testingSelector
 								  withObject:testingArgument]) {
 			[indexesToSelect addIndex:objectIndex];
-			needsDisplayRect = NSUnionRect(needsDisplayRect,
-										   [anObjectOnPaper highlightBounds]);
+			[self setNeedsDisplayInRect:[anObjectOnPaper highlightBounds]];
 		}
 		objectIndex++;
 	}
 	[self setSelectedObjectIndexes:[[[NSIndexSet alloc] initWithIndexSet:indexesToSelect] autorelease]];
 	[indexesToSelect release];
 	
-	[self setNeedsDisplayInRect:needsDisplayRect];
 	[self setSelectionPath:nil];
 }
 
@@ -338,13 +336,11 @@ static NSCursor *eraserCursor;
 	 withActionName:actionName];
 	[inverseTransform release];
 	[undoer setActionName:actionName];
-	NSRect needsDisplayRect = [[objectsOnPaper objectAtIndex:[indexesToTransform firstIndex]] highlightBounds];
 	for (id<MWJObjectOnPaper> anObjectOnPaper in [objectsOnPaper objectsAtIndexes:indexesToTransform]) {
-		needsDisplayRect = NSUnionRect(needsDisplayRect, [anObjectOnPaper highlightBounds]);
+		[self setNeedsDisplayInRect:[anObjectOnPaper highlightBounds]];
 		[anObjectOnPaper transformUsingAffineTransform:theTransform];
-		needsDisplayRect = NSUnionRect(needsDisplayRect, [anObjectOnPaper highlightBounds]);
+		[self setNeedsDisplayInRect:[anObjectOnPaper highlightBounds]];
 	}
-	[self setNeedsDisplayInRect:needsDisplayRect];
 }
 
 - (void)undoableMoveObjectsAtIndexes:(NSIndexSet *)indexesToMove
