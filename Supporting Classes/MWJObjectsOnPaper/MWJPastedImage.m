@@ -19,7 +19,13 @@
 	self = [super init];
 	if (self) {
 		theImage = [[NSImage alloc] initWithData:theData];
-		imageFrame = theFrame;
+		[theImage setFlipped:YES];
+		if (NSEqualRects(theFrame, NSZeroRect)) {
+			imageFrame.size = [theImage size];
+			imageFrame.origin = NSZeroPoint;
+		} else {
+			imageFrame = theFrame;
+		}
 	}
 	return self;
 }

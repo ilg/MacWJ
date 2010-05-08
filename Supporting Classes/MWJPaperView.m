@@ -35,6 +35,7 @@
 #import "NSBezierPath+boundsWithLines.h"
 #import "MWJInkingStroke.h"
 #import "MWJInkingPenNib.h"
+#import "MWJPastedImage.h"
 
 #define ERASER_RADIUS [[NSUserDefaults standardUserDefaults] floatForKey:@"eraserRadius"]
 #define ATOP_SELECTION_RADIUS 1.0
@@ -600,6 +601,22 @@ static NSCursor *eraserCursor;
 				  withActionName:NSLocalizedString(@"Paste",@"")];
 		[self setSelectedObjectIndexes:pastedIndexes];
 		[self setNeedsDisplay:YES];
+	} else {
+		NSString *imageType = [pb availableTypeFromArray:[NSArray arrayWithObjects:
+														  NSPDFPboardType,
+														  NSPostScriptPboardType,
+														  NSTIFFPboardType,
+														  NSPICTPboardType,
+														  nil]];
+		if (imageType) {
+			MWJPastedImage *pastedImage = [[MWJPastedImage alloc]
+										   initWithData:[pb dataForType:imageType]
+										   inFrame:NSZeroRect];
+			[self undoableAddObjectOnPaper:pastedImage
+							withActionName:NSLocalizedString(@"Paste",@"")];
+			[self setSelectedObjectIndexes:[NSIndexSet indexSetWithIndex:([objectsOnPaper count] - 1)]];
+			[self setNeedsDisplay:YES];
+		}
 	}
 }
 
