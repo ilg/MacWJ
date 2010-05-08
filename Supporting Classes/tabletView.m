@@ -304,6 +304,7 @@ static NSCursor *eraserCursor;
 	[[undoer prepareWithInvocationTarget:self]
 	 undoableApplyTransform:inverseTransform
 	 toStrokesWithIndexes:indexesToTransform];
+	[inverseTransform release];
 	[undoer setActionName:NSLocalizedString(@"Move",@"")];
 	NSRect needsDisplayRect = [[strokes objectAtIndex:[indexesToTransform firstIndex]] highlightBounds];
 	for (tabletInkStroke *aStroke in [strokes objectsAtIndexes:indexesToTransform]) {
