@@ -600,14 +600,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">theBackgroundView</string>
-						<reference key="source" ref="512844837"/>
-						<reference key="destination" ref="523976059"/>
-					</object>
-					<int key="connectionID">100028</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">penNibSelectionPopUpButton</string>
 						<reference key="source" ref="512844837"/>
 						<reference key="destination" ref="226423984"/>
@@ -685,6 +677,22 @@
 						<reference key="destination" ref="689830501"/>
 					</object>
 					<int key="connectionID">100075</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">theScrollView</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="510894227"/>
+					</object>
+					<int key="connectionID">100076</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">theBackgroundView</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="523976059"/>
+					</object>
+					<int key="connectionID">100077</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1041,7 +1049,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">100075</int>
+			<int key="maxID">100077</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1073,6 +1081,7 @@
 							<string>penNibSelectionPopUpButton</string>
 							<string>theBackgroundView</string>
 							<string>thePaperView</string>
+							<string>theScrollView</string>
 							<string>toolSelectionSegmentedControl</string>
 							<string>undoRedoSegmentedControl</string>
 						</object>
@@ -1081,6 +1090,7 @@
 							<string>NSPopUpButton</string>
 							<string>MWJPaperBackgroundView</string>
 							<string>MWJPaperView</string>
+							<string>NSScrollView</string>
 							<string>NSSegmentedControl</string>
 							<string>NSSegmentedControl</string>
 						</object>

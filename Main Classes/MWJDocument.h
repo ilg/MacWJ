@@ -40,6 +40,7 @@
 	@private
 	IBOutlet MWJPaperView *thePaperView;
 	IBOutlet MWJPaperBackgroundView *theBackgroundView;
+	IBOutlet NSScrollView *theScrollView;
 	IBOutlet NSSegmentedControl *toolSelectionSegmentedControl;
 	IBOutlet NSSegmentedControl *undoRedoSegmentedControl;
 	IBOutlet NSPopUpButton *penNibSelectionPopUpButton;
