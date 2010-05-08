@@ -196,8 +196,8 @@
 		7112B6E9118AE8D70010FF45 /* Supporting Classes */ = {
 			isa = PBXGroup;
 			children = (
-				719439FF1195824F0028E980 /* MWJObjectsOnPaper */,
 				719438CF11956F340028E980 /* NSBezierPath+ */,
+				719439FF1195824F0028E980 /* MWJObjectsOnPaper */,
 				719438D911956F400028E980 /* MWJInkingPenNib.h */,
 				719438DA11956F400028E980 /* MWJInkingPenNib.m */,
 				719438DD11956F400028E980 /* MWJPaperBackgroundView.h */,

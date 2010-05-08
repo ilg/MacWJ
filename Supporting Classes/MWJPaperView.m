@@ -133,40 +133,29 @@ static NSCursor *eraserCursor;
     NSInteger dirtyRectsCount, i;
     [self getRectsBeingDrawn:&dirtyRects count:&dirtyRectsCount];
 	
-	NSArray *selectedObjects = [self selectedObjects];
-	
-	// draw any selected (highlighted) objectsOnPaper first
-	for (id<MWJObjectOnPaper> anObjectOnPaper in selectedObjects) {
-        // First test against coalesced rect.
+	// draw the objectsOnPaper
+	NSUInteger objectIndex = 0;
+	for (id<MWJObjectOnPaper> anObjectOnPaper in objectsOnPaper) {
+		// First test against coalesced rect.
 		if ([anObjectOnPaper passesThroughRect:dirtyRect]) {
 			// Then test per dirty rect
-            for (i = 0; i < dirtyRectsCount; i++) {
+			for (i = 0; i < dirtyRectsCount; i++) {
 				if ([anObjectOnPaper passesThroughRect:dirtyRects[i]]) {
-					[anObjectOnPaper drawWithHighlightInRect:dirtyRect
-												   withRects:dirtyRects
-													   count:dirtyRectsCount];
-                    break;
-                }
-            }
-        }
-    }
-	
-	// draw the unselected objectsOnPaper
-	for (id<MWJObjectOnPaper> anObjectOnPaper in objectsOnPaper) {
-		if (![selectedObjects containsObject:anObjectOnPaper]) {
-			// First test against coalesced rect.
-			if ([anObjectOnPaper passesThroughRect:dirtyRect]) {
-				// Then test per dirty rect
-				for (i = 0; i < dirtyRectsCount; i++) {
-					if ([anObjectOnPaper passesThroughRect:dirtyRects[i]]) {
+					if ([[self selectedObjectIndexes] containsIndex:objectIndex]) {
+						// object is selected, so draw it with its highlight
+						[anObjectOnPaper drawWithHighlightInRect:dirtyRect
+													   withRects:dirtyRects
+														   count:dirtyRectsCount];
+					} else {
 						[anObjectOnPaper drawInRect:dirtyRect
 										  withRects:dirtyRects
 											  count:dirtyRectsCount];
-						break;
 					}
+					break;
 				}
 			}
 		}
+		objectIndex++;
     }
 	
 	if ([self selectionPath] && NSIntersectsRect(dirtyRect, [[self selectionPath] bounds])) {
