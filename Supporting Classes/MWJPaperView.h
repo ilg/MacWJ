@@ -26,53 +26,51 @@
  *********************************************************************************/
 
 //
-//  penEditingController.h
+//  MWJPaperView.h
 //  MacWJ
 //
 
 #import <Cocoa/Cocoa.h>
 
+@class MWJInkingStroke;
+@class MWJInkingPenNib;
 
-@interface penEditingController : NSObject {
-	NSString *penName;
+// MARK: tool type constants
+extern NSUInteger const kMWJPaperViewPenToolType;
+extern NSUInteger const kMWJPaperViewEraserToolType;
+extern NSUInteger const kMWJPaperViewRectangularMarqueeToolType;
+extern NSUInteger const kMWJPaperViewLassoToolType;
+
+@interface MWJPaperView : NSView {
+	MWJInkingPenNib *currentPenNib;
+	NSUInteger toolType;
 	
-	CGFloat minimumStrokeWidth;
-	CGFloat maximumStrokeWidth;
-	BOOL isAngleDependent;
-	CGFloat widestAngle;
-	NSColor *inkColor;
-	
-	CGFloat angleCircularSliderValue;
-	
-	NSMutableDictionary *nibs;
-	NSMutableArray *nibNames;
-	NSString *selectedPen;
-	
-	IBOutlet NSSlider *angleCircularSlider;
-	IBOutlet NSTextField *angleNumeratorTextField;
-	IBOutlet NSBox *angleFractionBar;
-	IBOutlet NSTextField *angleDenominatorTextField;
-	
-	IBOutlet NSTableView *penNibListTableView;
-	IBOutlet NSSegmentedControl *penNibListSegmentedControl;
-	IBOutlet NSBox *penEditingBox;
-	IBOutlet NSImageView *inkStrokePreview;
-	
-	BOOL isLoadingPen;
+	@private
+	NSMutableArray *objectsOnPaper;
+	MWJInkingStroke *workingStroke;
+	CGFloat initialPressure;
+	NSPointingDeviceType pointingDeviceType;
+	NSIndexSet *selectedObjectIndexes;
+	NSPoint rectangularSelectionOrigin;
+	NSBezierPath *selectionPath;
+	NSPoint previousPoint;
+	NSTimeInterval timeOfLastTabletEvent;
 }
 
-@property (retain) NSString *penName;
+@property (retain) MWJInkingPenNib *currentPenNib;
+@property NSUInteger toolType;
 
-@property CGFloat minimumStrokeWidth;
-@property CGFloat maximumStrokeWidth;
-@property BOOL isAngleDependent;
-@property CGFloat widestAngle;
-@property (retain) NSColor *inkColor;
+@property (retain) NSIndexSet *selectedObjectIndexes;
+@property (retain) NSBezierPath *selectionPath;
 
-@property CGFloat angleCircularSliderValue;
+- (IBAction)cut:(id)sender;
+- (IBAction)copy:(id)sender;
+- (IBAction)paste:(id)sender;
 
-- (IBAction)angleCircularSliderAction:(id)sender;
-- (IBAction)penNibListAction:(id)sender;
-- (IBAction)penNibListSegmentedControlAction:(id)sender;
+- (NSData *)data;
+- (void)loadFromData:(NSData *)data;
+
+- (NSData *)PNGData;
+- (NSData *)PDFData;
 
 @end

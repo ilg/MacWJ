@@ -26,20 +26,42 @@
  *********************************************************************************/
 
 //
-//  tabletPenNib.h
+//  MWJInkingPenNibEditingController.h
 //  MacWJ
 //
 
 #import <Cocoa/Cocoa.h>
 
 
-@interface tabletPenNib : NSObject {
+@interface MWJInkingPenNibEditingController : NSObject {
+	NSString *penName;
+	
 	CGFloat minimumStrokeWidth;
 	CGFloat maximumStrokeWidth;
 	BOOL isAngleDependent;
 	CGFloat widestAngle;
 	NSColor *inkColor;
+	
+	CGFloat angleCircularSliderValue;
+	
+	NSMutableDictionary *nibs;
+	NSMutableArray *nibNames;
+	NSString *selectedPen;
+	
+	IBOutlet NSSlider *angleCircularSlider;
+	IBOutlet NSTextField *angleNumeratorTextField;
+	IBOutlet NSBox *angleFractionBar;
+	IBOutlet NSTextField *angleDenominatorTextField;
+	
+	IBOutlet NSTableView *penNibListTableView;
+	IBOutlet NSSegmentedControl *penNibListSegmentedControl;
+	IBOutlet NSBox *penEditingBox;
+	IBOutlet NSImageView *inkStrokePreview;
+	
+	BOOL isLoadingPen;
 }
+
+@property (retain) NSString *penName;
 
 @property CGFloat minimumStrokeWidth;
 @property CGFloat maximumStrokeWidth;
@@ -47,22 +69,10 @@
 @property CGFloat widestAngle;
 @property (retain) NSColor *inkColor;
 
-+ (tabletPenNib *)tabletPenNibWithMinimumWidth:(CGFloat)minimumWidth
-								  maximumWidth:(CGFloat)maximumWidth
-							  isAngleDependent:(BOOL)angleDependence
-							  angleForMaxWidth:(CGFloat)maxWidthAngle
-										 color:(NSColor *)color;
-+ (tabletPenNib *)defaultTabletPenNib;
+@property CGFloat angleCircularSliderValue;
 
-+ (NSDictionary *)penNibs;
-+ (void)savePenNibs:(NSDictionary *)nibs;
-
-- (CGFloat)lineWidthFrom:(NSPoint)startingPoint
-			withPressure:(CGFloat)startingPressure
-					  to:(NSPoint)endingPoint
-			withPressure:(CGFloat)endingPressure;
-
-- (NSImage *)sampleStrokeImage;
-- (NSImage *)sampleStrokeSmallerImage;
+- (IBAction)angleCircularSliderAction:(id)sender;
+- (IBAction)penNibListAction:(id)sender;
+- (IBAction)penNibListSegmentedControlAction:(id)sender;
 
 @end

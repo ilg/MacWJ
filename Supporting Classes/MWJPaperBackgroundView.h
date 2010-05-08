@@ -26,44 +26,19 @@
  *********************************************************************************/
 
 //
-//  AppDelegate.m
+//  MWJPaperBackgroundView.h
 //  MacWJ
 //
 
-#import "MacWJ_AppDelegate.h"
-#import "MWJInkingPenNib.h"
+#import <Cocoa/Cocoa.h>
 
 
-@implementation MacWJ_AppDelegate
-
-+ (void)initialize {
-	[[NSUserDefaults standardUserDefaults]
-	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-					   // object, key; nil-terminated
-					   [NSKeyedArchiver archivedDataWithRootObject:
-						[NSDictionary dictionaryWithObjectsAndKeys:
-						 [MWJInkingPenNib inkingPenNibithMinimumWidth:0.5
-													   maximumWidth:5.0
-												   isAngleDependent:YES
-												   angleForMaxWidth:(-pi/4.0)
-															  color:[NSColor blackColor]],
-						 @"Default Black Pen",
-						 [MWJInkingPenNib inkingPenNibithMinimumWidth:0.5
-													   maximumWidth:5.0
-												   isAngleDependent:YES
-												   angleForMaxWidth:(-pi/4.0)
-															  color:[NSColor blueColor]],
-						 @"Default Blue Pen",
-						 nil]], @"penNibs",
-					   [NSNumber numberWithFloat:0.5], @"minStrokeWidth",
-					   [NSNumber numberWithFloat:5.0], @"maxStrokeWidth",
-					   [NSNumber numberWithFloat:1.0], @"eraserRadius",
-					   [NSNumber numberWithFloat:1.0], @"copyAsImageScaleFactor",
-					   nil]];
+@interface MWJPaperBackgroundView : NSView {
+	NSImage *backgroundImage;
+	NSColor *backgroundColor;
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// Insert code here to initialize your application
-}
+@property (retain) NSImage *backgroundImage;
+@property (retain) NSColor *backgroundColor;
 
 @end

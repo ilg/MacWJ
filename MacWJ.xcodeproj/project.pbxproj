@@ -7,32 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1DDD582C0DA1D0D100B32029 /* MyDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58280DA1D0D100B32029 /* MyDocument.xib */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
 		7112B6F2118AE8D70010FF45 /* MacWJ_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B6E6118AE8D70010FF45 /* MacWJ_AppDelegate.m */; };
-		7112B6F3118AE8D70010FF45 /* MyDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B6E8118AE8D70010FF45 /* MyDocument.m */; };
-		7112B6F4118AE8D70010FF45 /* backgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B6EB118AE8D70010FF45 /* backgroundView.m */; };
-		7112B6F5118AE8D70010FF45 /* NSBezierPath+boundsWithLines.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B6ED118AE8D70010FF45 /* NSBezierPath+boundsWithLines.m */; };
-		7112B6F6118AE8D70010FF45 /* tabletInkStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B6EF118AE8D70010FF45 /* tabletInkStroke.m */; };
-		7112B6F7118AE8D70010FF45 /* tabletView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B6F1118AE8D70010FF45 /* tabletView.m */; };
 		7112B6FB118AE8EB0010FF45 /* lined paper background.png in Resources */ = {isa = PBXBuildFile; fileRef = 7112B6F9118AE8EB0010FF45 /* lined paper background.png */; };
 		7112B6FC118AE8EB0010FF45 /* single-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 7112B6FA118AE8EB0010FF45 /* single-dot.png */; };
 		7112B7E3118B0F580010FF45 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 7112B7E2118B0F580010FF45 /* Credits.html */; };
-		7112B819118B18B30010FF45 /* tabletPenNib.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B818118B18B30010FF45 /* tabletPenNib.m */; };
 		7112B8A5118D56470010FF45 /* pen.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7112B8A3118D56470010FF45 /* pen.pdf */; };
 		7112B8A6118D56470010FF45 /* pencil.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7112B8A4118D56470010FF45 /* pencil.pdf */; };
 		7112B8A9118D59CF0010FF45 /* eraser.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7112B8A8118D59CF0010FF45 /* eraser.pdf */; };
-		7112B98A118D6CEA0010FF45 /* penEditingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B989118D6CEA0010FF45 /* penEditingController.m */; };
 		71943256118E53750028E980 /* pen options.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 71943255118E53750028E980 /* pen options.pdf */; };
 		71943290118ED0EE0028E980 /* MacWJ Document Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7194328E118ED0EE0028E980 /* MacWJ Document Icon.icns */; };
 		71943291118ED0EE0028E980 /* MacWJ Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7194328F118ED0EE0028E980 /* MacWJ Icon.icns */; };
 		71943362118FB8600028E980 /* redo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 71943360118FB8600028E980 /* redo.pdf */; };
 		71943363118FB8600028E980 /* undo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 71943361118FB8600028E980 /* undo.pdf */; };
 		7194339F118FC7020028E980 /* rectangular marquee.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7194339E118FC7020028E980 /* rectangular marquee.pdf */; };
-		719434851193AC630028E980 /* NSBezierPath+highlightedStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 719434841193AC630028E980 /* NSBezierPath+highlightedStroke.m */; };
-		719435871193C3500028E980 /* NSBezierPath+isInRect_withRects_count_.m in Sources */ = {isa = PBXBuildFile; fileRef = 719435861193C3500028E980 /* NSBezierPath+isInRect_withRects_count_.m */; };
 		719435D61193CF8C0028E980 /* lasso.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 719435D51193CF8C0028E980 /* lasso.pdf */; };
 		719438A711955FE40028E980 /* extend page.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 719438A611955FE40028E980 /* extend page.pdf */; };
+		719438D611956F340028E980 /* NSBezierPath+boundsWithLines.m in Sources */ = {isa = PBXBuildFile; fileRef = 719438D111956F340028E980 /* NSBezierPath+boundsWithLines.m */; };
+		719438D711956F340028E980 /* NSBezierPath+highlightedStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 719438D311956F340028E980 /* NSBezierPath+highlightedStroke.m */; };
+		719438D811956F340028E980 /* NSBezierPath+isInRect_withRects_count_.m in Sources */ = {isa = PBXBuildFile; fileRef = 719438D511956F340028E980 /* NSBezierPath+isInRect_withRects_count_.m */; };
+		719438E111956F400028E980 /* MWJInkingPenNib.m in Sources */ = {isa = PBXBuildFile; fileRef = 719438DA11956F400028E980 /* MWJInkingPenNib.m */; };
+		719438E311956F400028E980 /* MWJPaperBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 719438DE11956F400028E980 /* MWJPaperBackgroundView.m */; };
+		719438E411956F400028E980 /* MWJPaperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 719438E011956F400028E980 /* MWJPaperView.m */; };
+		719438E911956F510028E980 /* MWJDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 719438E611956F510028E980 /* MWJDocument.m */; };
+		719438EA11956F510028E980 /* MWJInkingPenNibEditingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 719438E811956F510028E980 /* MWJInkingPenNibEditingController.m */; };
+		7194393E119572B80028E980 /* MWJDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7194393C119572B80028E980 /* MWJDocument.xib */; };
+		71943A031195824F0028E980 /* MWJInkingStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 71943A011195824F0028E980 /* MWJInkingStroke.m */; };
+		71943A09119582A80028E980 /* MWJPastedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 71943A08119582A80028E980 /* MWJPastedImage.m */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -42,7 +43,6 @@
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FBA07B3F13500E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		1DDD58290DA1D0D100B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MyDocument.xib; sourceTree = "<group>"; };
 		1DDD582B0DA1D0D100B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -50,38 +50,42 @@
 		32DBCF750370BD2300C91783 /* MacWJ_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacWJ_Prefix.pch; sourceTree = "<group>"; };
 		7112B6E5118AE8D70010FF45 /* MacWJ_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacWJ_AppDelegate.h; sourceTree = "<group>"; };
 		7112B6E6118AE8D70010FF45 /* MacWJ_AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacWJ_AppDelegate.m; sourceTree = "<group>"; };
-		7112B6E7118AE8D70010FF45 /* MyDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDocument.h; sourceTree = "<group>"; };
-		7112B6E8118AE8D70010FF45 /* MyDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDocument.m; sourceTree = "<group>"; };
-		7112B6EA118AE8D70010FF45 /* backgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = backgroundView.h; sourceTree = "<group>"; };
-		7112B6EB118AE8D70010FF45 /* backgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = backgroundView.m; sourceTree = "<group>"; };
-		7112B6EC118AE8D70010FF45 /* NSBezierPath+boundsWithLines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+boundsWithLines.h"; sourceTree = "<group>"; };
-		7112B6ED118AE8D70010FF45 /* NSBezierPath+boundsWithLines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+boundsWithLines.m"; sourceTree = "<group>"; };
-		7112B6EE118AE8D70010FF45 /* tabletInkStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tabletInkStroke.h; sourceTree = "<group>"; };
-		7112B6EF118AE8D70010FF45 /* tabletInkStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tabletInkStroke.m; sourceTree = "<group>"; };
-		7112B6F0118AE8D70010FF45 /* tabletView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tabletView.h; sourceTree = "<group>"; };
-		7112B6F1118AE8D70010FF45 /* tabletView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tabletView.m; sourceTree = "<group>"; };
 		7112B6F9118AE8EB0010FF45 /* lined paper background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lined paper background.png"; sourceTree = "<group>"; };
 		7112B6FA118AE8EB0010FF45 /* single-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "single-dot.png"; sourceTree = "<group>"; };
 		7112B7E0118B0F4C0010FF45 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/Credits.html; sourceTree = "<group>"; };
-		7112B817118B18B30010FF45 /* tabletPenNib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tabletPenNib.h; sourceTree = "<group>"; };
-		7112B818118B18B30010FF45 /* tabletPenNib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tabletPenNib.m; sourceTree = "<group>"; };
 		7112B8A3118D56470010FF45 /* pen.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pen.pdf; sourceTree = "<group>"; };
 		7112B8A4118D56470010FF45 /* pencil.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pencil.pdf; sourceTree = "<group>"; };
 		7112B8A8118D59CF0010FF45 /* eraser.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = eraser.pdf; sourceTree = "<group>"; };
-		7112B988118D6CEA0010FF45 /* penEditingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = penEditingController.h; sourceTree = "<group>"; };
-		7112B989118D6CEA0010FF45 /* penEditingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = penEditingController.m; sourceTree = "<group>"; };
 		71943255118E53750028E980 /* pen options.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "pen options.pdf"; sourceTree = "<group>"; };
 		7194328E118ED0EE0028E980 /* MacWJ Document Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "MacWJ Document Icon.icns"; sourceTree = "<group>"; };
 		7194328F118ED0EE0028E980 /* MacWJ Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "MacWJ Icon.icns"; sourceTree = "<group>"; };
 		71943360118FB8600028E980 /* redo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = redo.pdf; sourceTree = "<group>"; };
 		71943361118FB8600028E980 /* undo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = undo.pdf; sourceTree = "<group>"; };
 		7194339E118FC7020028E980 /* rectangular marquee.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "rectangular marquee.pdf"; sourceTree = "<group>"; };
-		719434831193AC630028E980 /* NSBezierPath+highlightedStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+highlightedStroke.h"; sourceTree = "<group>"; };
-		719434841193AC630028E980 /* NSBezierPath+highlightedStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+highlightedStroke.m"; sourceTree = "<group>"; };
-		719435851193C3500028E980 /* NSBezierPath+isInRect_withRects_count_.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+isInRect_withRects_count_.h"; sourceTree = "<group>"; };
-		719435861193C3500028E980 /* NSBezierPath+isInRect_withRects_count_.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+isInRect_withRects_count_.m"; sourceTree = "<group>"; };
 		719435D51193CF8C0028E980 /* lasso.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = lasso.pdf; sourceTree = "<group>"; };
 		719438A611955FE40028E980 /* extend page.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "extend page.pdf"; sourceTree = "<group>"; };
+		719438D011956F340028E980 /* NSBezierPath+boundsWithLines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+boundsWithLines.h"; sourceTree = "<group>"; };
+		719438D111956F340028E980 /* NSBezierPath+boundsWithLines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+boundsWithLines.m"; sourceTree = "<group>"; };
+		719438D211956F340028E980 /* NSBezierPath+highlightedStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+highlightedStroke.h"; sourceTree = "<group>"; };
+		719438D311956F340028E980 /* NSBezierPath+highlightedStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+highlightedStroke.m"; sourceTree = "<group>"; };
+		719438D411956F340028E980 /* NSBezierPath+isInRect_withRects_count_.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+isInRect_withRects_count_.h"; sourceTree = "<group>"; };
+		719438D511956F340028E980 /* NSBezierPath+isInRect_withRects_count_.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+isInRect_withRects_count_.m"; sourceTree = "<group>"; };
+		719438D911956F400028E980 /* MWJInkingPenNib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJInkingPenNib.h; sourceTree = "<group>"; };
+		719438DA11956F400028E980 /* MWJInkingPenNib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJInkingPenNib.m; sourceTree = "<group>"; };
+		719438DD11956F400028E980 /* MWJPaperBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJPaperBackgroundView.h; sourceTree = "<group>"; };
+		719438DE11956F400028E980 /* MWJPaperBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJPaperBackgroundView.m; sourceTree = "<group>"; };
+		719438DF11956F400028E980 /* MWJPaperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJPaperView.h; sourceTree = "<group>"; };
+		719438E011956F400028E980 /* MWJPaperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJPaperView.m; sourceTree = "<group>"; };
+		719438E511956F510028E980 /* MWJDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJDocument.h; sourceTree = "<group>"; };
+		719438E611956F510028E980 /* MWJDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJDocument.m; sourceTree = "<group>"; };
+		719438E711956F510028E980 /* MWJInkingPenNibEditingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJInkingPenNibEditingController.h; sourceTree = "<group>"; };
+		719438E811956F510028E980 /* MWJInkingPenNibEditingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJInkingPenNibEditingController.m; sourceTree = "<group>"; };
+		7194393D119572B80028E980 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MWJDocument.xib; sourceTree = "<group>"; };
+		71943A001195824F0028E980 /* MWJInkingStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJInkingStroke.h; sourceTree = "<group>"; };
+		71943A011195824F0028E980 /* MWJInkingStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJInkingStroke.m; sourceTree = "<group>"; };
+		71943A021195824F0028E980 /* MWJObjectOnPaper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJObjectOnPaper.h; sourceTree = "<group>"; };
+		71943A07119582A80028E980 /* MWJPastedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJPastedImage.h; sourceTree = "<group>"; };
+		71943A08119582A80028E980 /* MWJPastedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJPastedImage.m; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* MacWJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacWJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -160,7 +164,7 @@
 				7112B6F8118AE8EB0010FF45 /* Images */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
-				1DDD58280DA1D0D100B32029 /* MyDocument.xib */,
+				7194393C119572B80028E980 /* MWJDocument.xib */,
 				1DDD582A0DA1D0D100B32029 /* MainMenu.xib */,
 				7112B7E2118B0F580010FF45 /* Credits.html */,
 			);
@@ -181,10 +185,10 @@
 			children = (
 				7112B6E5118AE8D70010FF45 /* MacWJ_AppDelegate.h */,
 				7112B6E6118AE8D70010FF45 /* MacWJ_AppDelegate.m */,
-				7112B6E7118AE8D70010FF45 /* MyDocument.h */,
-				7112B6E8118AE8D70010FF45 /* MyDocument.m */,
-				7112B988118D6CEA0010FF45 /* penEditingController.h */,
-				7112B989118D6CEA0010FF45 /* penEditingController.m */,
+				719438E511956F510028E980 /* MWJDocument.h */,
+				719438E611956F510028E980 /* MWJDocument.m */,
+				719438E711956F510028E980 /* MWJInkingPenNibEditingController.h */,
+				719438E811956F510028E980 /* MWJInkingPenNibEditingController.m */,
 			);
 			path = "Main Classes";
 			sourceTree = "<group>";
@@ -192,15 +196,14 @@
 		7112B6E9118AE8D70010FF45 /* Supporting Classes */ = {
 			isa = PBXGroup;
 			children = (
-				719435841193C2FF0028E980 /* NSBezierPath+ */,
-				7112B6EA118AE8D70010FF45 /* backgroundView.h */,
-				7112B6EB118AE8D70010FF45 /* backgroundView.m */,
-				7112B6EE118AE8D70010FF45 /* tabletInkStroke.h */,
-				7112B6EF118AE8D70010FF45 /* tabletInkStroke.m */,
-				7112B6F0118AE8D70010FF45 /* tabletView.h */,
-				7112B6F1118AE8D70010FF45 /* tabletView.m */,
-				7112B817118B18B30010FF45 /* tabletPenNib.h */,
-				7112B818118B18B30010FF45 /* tabletPenNib.m */,
+				719438CF11956F340028E980 /* NSBezierPath+ */,
+				719439FF1195824F0028E980 /* MWJObjectsOnPaper */,
+				719438D911956F400028E980 /* MWJInkingPenNib.h */,
+				719438DA11956F400028E980 /* MWJInkingPenNib.m */,
+				719438DD11956F400028E980 /* MWJPaperBackgroundView.h */,
+				719438DE11956F400028E980 /* MWJPaperBackgroundView.m */,
+				719438DF11956F400028E980 /* MWJPaperView.h */,
+				719438E011956F400028E980 /* MWJPaperView.m */,
 			);
 			path = "Supporting Classes";
 			sourceTree = "<group>";
@@ -225,17 +228,29 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
-		719435841193C2FF0028E980 /* NSBezierPath+ */ = {
+		719438CF11956F340028E980 /* NSBezierPath+ */ = {
 			isa = PBXGroup;
 			children = (
-				7112B6EC118AE8D70010FF45 /* NSBezierPath+boundsWithLines.h */,
-				7112B6ED118AE8D70010FF45 /* NSBezierPath+boundsWithLines.m */,
-				719434831193AC630028E980 /* NSBezierPath+highlightedStroke.h */,
-				719434841193AC630028E980 /* NSBezierPath+highlightedStroke.m */,
-				719435851193C3500028E980 /* NSBezierPath+isInRect_withRects_count_.h */,
-				719435861193C3500028E980 /* NSBezierPath+isInRect_withRects_count_.m */,
+				719438D011956F340028E980 /* NSBezierPath+boundsWithLines.h */,
+				719438D111956F340028E980 /* NSBezierPath+boundsWithLines.m */,
+				719438D211956F340028E980 /* NSBezierPath+highlightedStroke.h */,
+				719438D311956F340028E980 /* NSBezierPath+highlightedStroke.m */,
+				719438D411956F340028E980 /* NSBezierPath+isInRect_withRects_count_.h */,
+				719438D511956F340028E980 /* NSBezierPath+isInRect_withRects_count_.m */,
 			);
-			name = "NSBezierPath+";
+			path = "NSBezierPath+";
+			sourceTree = "<group>";
+		};
+		719439FF1195824F0028E980 /* MWJObjectsOnPaper */ = {
+			isa = PBXGroup;
+			children = (
+				71943A021195824F0028E980 /* MWJObjectOnPaper.h */,
+				71943A001195824F0028E980 /* MWJInkingStroke.h */,
+				71943A011195824F0028E980 /* MWJInkingStroke.m */,
+				71943A07119582A80028E980 /* MWJPastedImage.h */,
+				71943A08119582A80028E980 /* MWJPastedImage.m */,
+			);
+			path = MWJObjectsOnPaper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -282,7 +297,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
-				1DDD582C0DA1D0D100B32029 /* MyDocument.xib in Resources */,
 				1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */,
 				7112B6FB118AE8EB0010FF45 /* lined paper background.png in Resources */,
 				7112B6FC118AE8EB0010FF45 /* single-dot.png in Resources */,
@@ -298,6 +312,7 @@
 				7194339F118FC7020028E980 /* rectangular marquee.pdf in Resources */,
 				719435D61193CF8C0028E980 /* lasso.pdf in Resources */,
 				719438A711955FE40028E980 /* extend page.pdf in Resources */,
+				7194393E119572B80028E980 /* MWJDocument.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,15 +325,16 @@
 			files = (
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
 				7112B6F2118AE8D70010FF45 /* MacWJ_AppDelegate.m in Sources */,
-				7112B6F3118AE8D70010FF45 /* MyDocument.m in Sources */,
-				7112B6F4118AE8D70010FF45 /* backgroundView.m in Sources */,
-				7112B6F5118AE8D70010FF45 /* NSBezierPath+boundsWithLines.m in Sources */,
-				7112B6F6118AE8D70010FF45 /* tabletInkStroke.m in Sources */,
-				7112B6F7118AE8D70010FF45 /* tabletView.m in Sources */,
-				7112B819118B18B30010FF45 /* tabletPenNib.m in Sources */,
-				7112B98A118D6CEA0010FF45 /* penEditingController.m in Sources */,
-				719434851193AC630028E980 /* NSBezierPath+highlightedStroke.m in Sources */,
-				719435871193C3500028E980 /* NSBezierPath+isInRect_withRects_count_.m in Sources */,
+				719438D611956F340028E980 /* NSBezierPath+boundsWithLines.m in Sources */,
+				719438D711956F340028E980 /* NSBezierPath+highlightedStroke.m in Sources */,
+				719438D811956F340028E980 /* NSBezierPath+isInRect_withRects_count_.m in Sources */,
+				719438E111956F400028E980 /* MWJInkingPenNib.m in Sources */,
+				719438E311956F400028E980 /* MWJPaperBackgroundView.m in Sources */,
+				719438E411956F400028E980 /* MWJPaperView.m in Sources */,
+				719438E911956F510028E980 /* MWJDocument.m in Sources */,
+				719438EA11956F510028E980 /* MWJInkingPenNibEditingController.m in Sources */,
+				71943A031195824F0028E980 /* MWJInkingStroke.m in Sources */,
+				71943A09119582A80028E980 /* MWJPastedImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,14 +347,6 @@
 				089C1660FE840EACC02AAC07 /* English */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		1DDD58280DA1D0D100B32029 /* MyDocument.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1DDD58290DA1D0D100B32029 /* English */,
-			);
-			name = MyDocument.xib;
 			sourceTree = "<group>";
 		};
 		1DDD582A0DA1D0D100B32029 /* MainMenu.xib */ = {
@@ -355,6 +363,14 @@
 				7112B7E0118B0F4C0010FF45 /* English */,
 			);
 			name = Credits.html;
+			sourceTree = "<group>";
+		};
+		7194393C119572B80028E980 /* MWJDocument.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7194393D119572B80028E980 /* English */,
+			);
+			name = MWJDocument.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

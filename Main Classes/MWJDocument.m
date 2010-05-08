@@ -26,30 +26,25 @@
  *********************************************************************************/
 
 //
-//  MyDocument.m
+//  MWJDocument.m
 //  MacWJ
 //
 
-#import "MyDocument.h"
-#import "tabletView.h"
-#import "tabletPenNib.h"
-#import "backgroundView.h"
+#import "MWJDocument.h"
+#import "MWJPaperView.h"
+#import "MWJInkingPenNib.h"
+#import "MWJPaperBackgroundView.h"
 
 #define EXTEND_PAGE_AMOUNT 100.0
 
-@interface MyDocument (private)
+@interface MWJDocument (private)
 
 - (void)reloadNibs;
 
 @end
 
 
-@implementation MyDocument
-
-// MARK: keys for document file dictionary
-NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
-NSString * const kMacWJDocumentWindowFrameDataKey = @"windowFrame";
-NSString * const kMacWJDocumentBackgroundViewSizeDataKey = @"backgroundViewSize";
+@implementation MWJDocument
 
 // MARK: keys for undo/redo segmented control
 NSInteger const kUndoRedoSegmentedUndoSegmentNumber = 0;
@@ -97,7 +92,7 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 												 name:NSUndoManagerCheckpointNotification
 											   object:[self undoManager]];
 	[self toggleUndoRedoEnabled:nil];
-	[[theTabletView window] setAcceptsMouseMovedEvents:YES];
+	[[thePaperView window] setAcceptsMouseMovedEvents:YES];
 	[theBackgroundView setFrame:[[theBackgroundView superview] bounds]];
 }
 
@@ -109,9 +104,9 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 	NSString *currentTitle = [penNibSelectionPopUpButton titleOfSelectedItem];
 	[penNibSelectionPopUpButton removeAllItems];
 	[penNibSelectionPopUpButton addItemWithTitle:@""];
-	NSDictionary *penNibs = [tabletPenNib penNibs];
+	NSDictionary *penNibs = [MWJInkingPenNib penNibs];
 	for (NSString *penNibName in [[penNibs allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
-		tabletPenNib *theNib = [penNibs objectForKey:penNibName];
+		MWJInkingPenNib *theNib = [penNibs objectForKey:penNibName];
 		[penNibSelectionPopUpButton addItemWithTitle:penNibName];
 		[[penNibSelectionPopUpButton itemWithTitle:penNibName]
 		 setRepresentedObject:theNib];
@@ -148,11 +143,11 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 		// we didn't used to have a horizontal scroller, but now we do--
 		// the vertical scroller must have been added, throwing off the width;
 		// widen the window to make it go away.
-		NSRect windowFrame = [[theTabletView window] frame];
+		NSRect windowFrame = [[thePaperView window] frame];
 		windowFrame.size.width += [[theScrollView verticalScroller] frame].size.width;
-		[[theTabletView window] setFrame:windowFrame
-								 display:YES
-								 animate:YES];
+		[[thePaperView window] setFrame:windowFrame
+								display:YES
+								animate:YES];
 	}
 }
 
@@ -160,7 +155,7 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 	if ([sender respondsToSelector:@selector(menu)]) {
 		[[penNibSelectionPopUpButton itemAtIndex:0] setTitle:[sender titleOfSelectedItem]];
 		[[penNibSelectionPopUpButton itemAtIndex:0] setImage:[[sender selectedItem] image]];
-		[theTabletView setCurrentPenNib:[[sender selectedItem] representedObject]];
+		[thePaperView setCurrentPenNib:[[sender selectedItem] representedObject]];
 		[toolSelectionSegmentedControl setSelectedSegment:kToolSelectionSegmentedPenSegmentNumber];
 		[self toolSelectionAction:sender];
 	}
@@ -176,17 +171,17 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 
 - (IBAction)toolSelectionAction:(id)sender {
 	if ([toolSelectionSegmentedControl selectedSegment] == kToolSelectionSegmentedPenSegmentNumber) {
-		[theTabletView setToolType:kTabletViewPenToolType];
+		[thePaperView setToolType:kMWJPaperViewPenToolType];
 	} else if ([toolSelectionSegmentedControl selectedSegment] == kToolSelectionSegmentedPencilSegmentNumber) {
-		[theTabletView setToolType:kTabletViewPenToolType];
+		[thePaperView setToolType:kMWJPaperViewPenToolType];
 	} else if ([toolSelectionSegmentedControl selectedSegment] == kToolSelectionSegmentedEraserSegmentNumber) {
-		[theTabletView setToolType:kTabletViewEraserToolType];
+		[thePaperView setToolType:kMWJPaperViewEraserToolType];
 	} else if ([toolSelectionSegmentedControl selectedSegment] == kToolSelectionSegmentedRectangularMarqueeSegmentNumber) {
-		[theTabletView setToolType:kTabletViewRectangularMarqueeToolType];
+		[thePaperView setToolType:kMWJPaperViewRectangularMarqueeToolType];
 	} else if ([toolSelectionSegmentedControl selectedSegment] == kToolSelectionSegmentedLassoSegmentNumber) {
-		[theTabletView setToolType:kTabletViewLassoToolType];
+		[thePaperView setToolType:kMWJPaperViewLassoToolType];
 	} else {
-		[theTabletView setToolType:kTabletViewPenToolType];
+		[thePaperView setToolType:kMWJPaperViewPenToolType];
 	}
 }
 
@@ -198,7 +193,7 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 {
     // Override returning the nib file name of the document
     // If you need to use a subclass of NSWindowController or if your document supports multiple NSWindowControllers, you should remove this method and override -makeWindowControllers instead.
-    return @"MyDocument";
+    return @"MWJDocument";
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
@@ -206,6 +201,17 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 }
+
+
+// MARK: keys for document file dictionary
+NSString * const kMacWJDocumentRawObjectDataKey = @"rawObjectData";
+NSString * const kMacWJDocumentWindowFrameDataKey = @"windowFrame";
+NSString * const kMacWJDocumentBackgroundViewSizeDataKey = @"paperBackgroundViewSize";
+// legacy keys:
+NSString * const kMacWJDocumentRawObjectDataLegacyKey = @"rawInkData";
+NSString * const kMacWJDocumentWindowFrameDataLegacyKey = @"windowFrame";
+NSString * const kMacWJDocumentBackgroundViewSizeDataLegacyKey = @"backgroundViewSize";
+
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
@@ -220,17 +226,17 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 	if ([typeName isEqualToString:@"MacWJ Document"]) {
 		NSDictionary *theSavedDictionary
 		= [NSDictionary dictionaryWithObjectsAndKeys:
-		   [theTabletView data], kMacWJDocumentRawInkDataKey,
-		   NSStringFromRect([[theTabletView window] frame]), kMacWJDocumentWindowFrameDataKey,
+		   [thePaperView data], kMacWJDocumentRawObjectDataKey,
+		   NSStringFromRect([[thePaperView window] frame]), kMacWJDocumentWindowFrameDataKey,
 		   NSStringFromSize([theBackgroundView frame].size), kMacWJDocumentBackgroundViewSizeDataKey,
 		   nil];
 		theData = [NSPropertyListSerialization dataFromPropertyList:theSavedDictionary
 															 format:NSPropertyListXMLFormat_v1_0
 												   errorDescription:&strError];
 	} else if ([typeName isEqualToString:@"PNG File"]) {
-		theData = [theTabletView PNGData];
+		theData = [thePaperView PNGData];
 	} else if ([typeName isEqualToString:@"PDF File"]) {
-		theData = [theTabletView PDFData];
+		theData = [thePaperView PDFData];
 	} else {
 		strError = [NSString stringWithFormat:@"unknown file type: %@", typeName];
 	}
@@ -265,19 +271,23 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
     return YES;
 }
 
-// helper method since theTabletView isn't set up at the moment readFromData:ofType:error: is called
+// helper method since thePaperView isn't set up at the moment readFromData:ofType:error: is called
 - (void)delayedSavedDictionaryLoad:(NSDictionary *)theSavedDictionary {
 	NSString *windowFrameString = [theSavedDictionary objectForKey:kMacWJDocumentWindowFrameDataKey];
-	if (windowFrameString) [[theTabletView window]
+	if (!windowFrameString) windowFrameString = [theSavedDictionary objectForKey:kMacWJDocumentWindowFrameDataLegacyKey];
+	if (windowFrameString) [[thePaperView window]
 							setFrame:NSRectFromString(windowFrameString)
 							display:YES];
 	
-	NSString *backgroundViewSizeString = [theSavedDictionary objectForKey:kMacWJDocumentBackgroundViewSizeDataKey];
-	if (backgroundViewSizeString) [theBackgroundView
-								   setFrameSize:NSSizeFromString(backgroundViewSizeString)];
+	NSString *paperBackgroundViewSizeString = [theSavedDictionary objectForKey:kMacWJDocumentBackgroundViewSizeDataKey];
+	if (!paperBackgroundViewSizeString) paperBackgroundViewSizeString = [theSavedDictionary objectForKey:kMacWJDocumentBackgroundViewSizeDataLegacyKey];
+	if (paperBackgroundViewSizeString) [theBackgroundView
+										setFrameSize:NSSizeFromString(paperBackgroundViewSizeString)];
 	
-	[theTabletView loadFromData:[theSavedDictionary objectForKey:kMacWJDocumentRawInkDataKey]];
-	[theTabletView setNeedsDisplay:YES];
+	NSData *rawObjectData = [theSavedDictionary objectForKey:kMacWJDocumentRawObjectDataKey];
+	if (!rawObjectData) rawObjectData = [theSavedDictionary objectForKey:kMacWJDocumentRawObjectDataLegacyKey];
+	[thePaperView loadFromData:rawObjectData];
+	[thePaperView setNeedsDisplay:YES];
 }
 
 @end

@@ -26,51 +26,52 @@
  *********************************************************************************/
 
 //
-//  tabletView.h
+//  MWJPaperBackgroundView.m
 //  MacWJ
 //
 
-#import <Cocoa/Cocoa.h>
+#import "MWJPaperBackgroundView.h"
 
-@class tabletInkStroke;
-@class tabletPenNib;
 
-// MARK: tool type constants
-extern NSUInteger const kTabletViewPenToolType;
-extern NSUInteger const kTabletViewEraserToolType;
-extern NSUInteger const kTabletViewRectangularMarqueeToolType;
-extern NSUInteger const kTabletViewLassoToolType;
+@implementation MWJPaperBackgroundView
 
-@interface tabletView : NSView {
-	tabletPenNib *currentPenNib;
-	NSUInteger toolType;
-	
-	@private
-	NSMutableArray *strokes;
-	tabletInkStroke *workingStroke;
-	CGFloat initialPressure;
-	NSPointingDeviceType pointingDeviceType;
-	NSIndexSet *selectedStrokeIndexes;
-	NSPoint rectangularSelectionOrigin;
-	NSBezierPath *selectionPath;
-	NSPoint previousPoint;
-	NSTimeInterval timeOfLastTabletEvent;
+@synthesize backgroundImage, backgroundColor;
+
+- (id)initWithFrame:(NSRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        // Initialization code here.
+		[self setBackgroundColor:[NSColor whiteColor]];
+		[self setBackgroundImage:[NSImage imageNamed:@"lined paper background"]];
+    }
+    return self;
 }
 
-@property (retain) tabletPenNib *currentPenNib;
-@property NSUInteger toolType;
+- (void)drawRect:(NSRect)dirtyRect {
+    // Drawing code here.
+	
+	// Save the current graphics state first so we can restore it.
+	[[NSGraphicsContext currentContext] saveGraphicsState];
+	
+	// fill with the background color
+	[backgroundColor set];
+	NSRectFill([self bounds]);
 
-@property (retain) NSIndexSet *selectedStrokeIndexes;
-@property (retain) NSBezierPath *selectionPath;
+	// Change the pattern phase.
+	[[NSGraphicsContext currentContext]
+	 setPatternPhase:[self convertPoint:NSZeroPoint
+								 toView:[[self window] contentView]]];
+	
+	// Stick the image in a color and fill the view with that color.
+	[[NSColor colorWithPatternImage:backgroundImage] set];
+	NSRectFill([self visibleRect]);
+	
+	// Restore the original graphics state.
+	[[NSGraphicsContext currentContext] restoreGraphicsState];
+}
 
-- (IBAction)cut:(id)sender;
-- (IBAction)copy:(id)sender;
-- (IBAction)paste:(id)sender;
-
-- (NSData *)data;
-- (void)loadFromData:(NSData *)data;
-
-- (NSData *)PNGData;
-- (NSData *)PDFData;
+- (BOOL)isFlipped {
+	return YES;
+}
 
 @end

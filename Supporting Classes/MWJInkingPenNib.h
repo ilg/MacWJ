@@ -26,30 +26,43 @@
  *********************************************************************************/
 
 //
-//  MyDocument.h
+//  MWJInkingPenNib.h
 //  MacWJ
 //
 
-
 #import <Cocoa/Cocoa.h>
 
-@class tabletView;
-@class backgroundView;
 
-@interface MyDocument : NSDocument {
-	@private
-	IBOutlet tabletView *theTabletView;
-	IBOutlet backgroundView *theBackgroundView;
-	IBOutlet NSScrollView *theScrollView;
-	IBOutlet NSSegmentedControl *toolSelectionSegmentedControl;
-	IBOutlet NSSegmentedControl *undoRedoSegmentedControl;
-	IBOutlet NSPopUpButton *penNibSelectionPopUpButton;
+@interface MWJInkingPenNib : NSObject {
+	CGFloat minimumStrokeWidth;
+	CGFloat maximumStrokeWidth;
+	BOOL isAngleDependent;
+	CGFloat widestAngle;
+	NSColor *inkColor;
 }
 
-- (IBAction)extendPage:(id)sender;
+@property CGFloat minimumStrokeWidth;
+@property CGFloat maximumStrokeWidth;
+@property BOOL isAngleDependent;
+@property CGFloat widestAngle;
+@property (retain) NSColor *inkColor;
 
-- (IBAction)penNibSelected:(id)sender;
-- (IBAction)undoRedoAction:(id)sender;
-- (IBAction)toolSelectionAction:(id)sender;
++ (MWJInkingPenNib *)inkingPenNibithMinimumWidth:(CGFloat)minimumWidth
+								  maximumWidth:(CGFloat)maximumWidth
+							  isAngleDependent:(BOOL)angleDependence
+							  angleForMaxWidth:(CGFloat)maxWidthAngle
+										 color:(NSColor *)color;
++ (MWJInkingPenNib *)defaultTabletPenNib;
+
++ (NSDictionary *)penNibs;
++ (void)savePenNibs:(NSDictionary *)nibs;
+
+- (CGFloat)lineWidthFrom:(NSPoint)startingPoint
+			withPressure:(CGFloat)startingPressure
+					  to:(NSPoint)endingPoint
+			withPressure:(CGFloat)endingPressure;
+
+- (NSImage *)sampleStrokeImage;
+- (NSImage *)sampleStrokeSmallerImage;
 
 @end

@@ -26,52 +26,26 @@
  *********************************************************************************/
 
 //
-//  backgroundView.m
+//  MWJObjectOnPaper.h
 //  MacWJ
 //
 
-#import "backgroundView.h"
+#import <Cocoa/Cocoa.h>
 
 
-@implementation backgroundView
+@protocol MWJObjectOnPaper < NSObject, NSCoding >
 
-@synthesize backgroundImage, backgroundColor;
-
-- (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code here.
-		[self setBackgroundColor:[NSColor whiteColor]];
-		[self setBackgroundImage:[NSImage imageNamed:@"lined paper background"]];
-    }
-    return self;
-}
-
-- (void)drawRect:(NSRect)dirtyRect {
-    // Drawing code here.
-	
-	// Save the current graphics state first so we can restore it.
-	[[NSGraphicsContext currentContext] saveGraphicsState];
-	
-	// fill with the background color
-	[backgroundColor set];
-	NSRectFill([self bounds]);
-
-	// Change the pattern phase.
-	[[NSGraphicsContext currentContext]
-	 setPatternPhase:[self convertPoint:NSZeroPoint
-								 toView:[[self window] contentView]]];
-	
-	// Stick the image in a color and fill the view with that color.
-	[[NSColor colorWithPatternImage:backgroundImage] set];
-	NSRectFill([self visibleRect]);
-	
-	// Restore the original graphics state.
-	[[NSGraphicsContext currentContext] restoreGraphicsState];
-}
-
-- (BOOL)isFlipped {
-	return YES;
-}
+- (NSRect)bounds;
+- (NSRect)highlightBounds;
+- (void)drawInRect:(NSRect)dirtyRect
+		 withRects:(const NSRect *)dirtyRects
+			 count:(NSInteger)dirtyRectsCount;
+- (void)drawWithHighlightInRect:(NSRect)dirtyRect
+					  withRects:(const NSRect *)dirtyRects
+						  count:(NSInteger)dirtyRectsCount;
+- (BOOL)passesThroughRect:(NSRect)rect;
+- (BOOL)passesThroughRectValue:(NSValue *)rectValue;
+- (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path;
+- (void)transformUsingAffineTransform:(NSAffineTransform *)aTransform;
 
 @end

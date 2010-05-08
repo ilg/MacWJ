@@ -26,19 +26,29 @@
  *********************************************************************************/
 
 //
-//  backgroundView.h
+//  MWJInkingStroke.h
 //  MacWJ
 //
 
 #import <Cocoa/Cocoa.h>
+#import "MWJObjectOnPaper.h"
 
-
-@interface backgroundView : NSView {
-	NSImage *backgroundImage;
-	NSColor *backgroundColor;
+@interface MWJInkingStroke : NSObject < MWJObjectOnPaper > {
+	NSColor *color;
+	
+	@private
+	NSMutableArray *paths;
+	NSPoint currentPoint;
 }
 
-@property (retain) NSImage *backgroundImage;
-@property (retain) NSColor *backgroundColor;
+@property (retain) NSColor *color;
+@property (readonly) NSPoint currentPoint;
+
+- (id)initWithPoint:(NSPoint)startingPoint;
+- (void)lineToPoint:(NSPoint)endPoint
+	  withThickness:(CGFloat)lineWidth;
+- (NSRect)lastSegmentBounds;
+
+- (NSImage *)imageFromStroke;
 
 @end

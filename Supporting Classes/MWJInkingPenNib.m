@@ -26,27 +26,27 @@
  *********************************************************************************/
 
 //
-//  tabletPenNib.m
+//  MWJInkingPenNib.m
 //  MacWJ
 //
 
-#import "tabletPenNib.h"
-#import "tabletInkStroke.h"
+#import "MWJInkingPenNib.h"
+#import "MWJInkingStroke.h"
 
 
-@implementation tabletPenNib
+@implementation MWJInkingPenNib
 
 @synthesize minimumStrokeWidth, maximumStrokeWidth, isAngleDependent, widestAngle, inkColor;
 
 #define MIN_ANGLE_FACTOR 0.2
 
-+ (tabletPenNib *)tabletPenNibWithMinimumWidth:(CGFloat)minimumWidth
-								  maximumWidth:(CGFloat)maximumWidth
-							  isAngleDependent:(BOOL)angleDependence
-							  angleForMaxWidth:(CGFloat)maxWidthAngle
-										 color:(NSColor *)color
++ (MWJInkingPenNib *)inkingPenNibithMinimumWidth:(CGFloat)minimumWidth
+									maximumWidth:(CGFloat)maximumWidth
+								isAngleDependent:(BOOL)angleDependence
+								angleForMaxWidth:(CGFloat)maxWidthAngle
+										   color:(NSColor *)color
 {
-	tabletPenNib *newPen = [[[tabletPenNib alloc] init] autorelease];
+	MWJInkingPenNib *newPen = [[[MWJInkingPenNib alloc] init] autorelease];
 	[newPen setMinimumStrokeWidth:minimumWidth];
 	[newPen setMaximumStrokeWidth:maximumWidth];
 	[newPen setIsAngleDependent:angleDependence];
@@ -55,9 +55,9 @@
 	return newPen;
 }
 
-+ (tabletPenNib *)defaultTabletPenNib {
++ (MWJInkingPenNib *)defaultTabletPenNib {
 	// kind of arbitrary--these are my current favorite values
-	return [self tabletPenNibWithMinimumWidth:0.5
+	return [self inkingPenNibithMinimumWidth:0.5
 								 maximumWidth:5.0
 							 isAngleDependent:YES
 							 angleForMaxWidth:(-pi/4)
@@ -65,6 +65,7 @@
 }
 
 + (NSDictionary *)penNibs {
+	[NSKeyedUnarchiver setClass:[MWJInkingPenNib class] forClassName:@"tabletPenNib"];
 	return [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults]
 													   objectForKey:@"penNibs"]];
 }
@@ -112,11 +113,19 @@
 #pragma mark -
 #pragma mark for archiving/unarchiving (for saving/loading documents)
 
-NSString * const kTabletPenNibMinWidthKey = @"tabletPenNibMinWidthKey";
-NSString * const kTabletPenNibMaxWidthKey = @"tabletPenNibMaxWidthKey";
-NSString * const kTabletPenNibAngleDependenceKey = @"tabletPenNibAngleDependenceKey";
-NSString * const kTabletPenNibMaxAngleKey = @"tabletPenNibMaxAngleKey";
-NSString * const kTabletPenNibColorKey = @"tabletPenNibColorKey";
+// MARK: string keys for NSCoding
+NSString * const kTabletPenNibMinWidthKey = @"MWJInkingPenNibMinWidthKey";
+NSString * const kTabletPenNibMaxWidthKey = @"MWJInkingPenNibMaxWidthKey";
+NSString * const kTabletPenNibAngleDependenceKey = @"MWJInkingPenNibAngleDependenceKey";
+NSString * const kTabletPenNibMaxAngleKey = @"MWJInkingPenNibMaxAngleKey";
+NSString * const kTabletPenNibColorKey = @"MWJInkingPenNibColorKey";
+// legacy keys
+NSString * const kTabletPenNibMinWidthLegacyKey = @"tabletPenNibMinWidthKey";
+NSString * const kTabletPenNibMaxWidthLegacyKey = @"tabletPenNibMaxWidthKey";
+NSString * const kTabletPenNibAngleDependenceLegacyKey = @"tabletPenNibAngleDependenceKey";
+NSString * const kTabletPenNibMaxAngleLegacyKey = @"tabletPenNibMaxAngleKey";
+NSString * const kTabletPenNibColorLegacyKey = @"tabletPenNibColorKey";
+
 
 - (void)encodeWithCoder:(NSCoder *)coder {
 	// NSObject does not conform to NSCoding
@@ -133,13 +142,30 @@ NSString * const kTabletPenNibColorKey = @"tabletPenNibColorKey";
 	//    self = [super initWithCoder:coder];
 	self = [super init];
 	if (self) {
-		[self setMinimumStrokeWidth:[coder decodeFloatForKey:kTabletPenNibMinWidthKey]];
-		[self setMaximumStrokeWidth:[coder decodeFloatForKey:kTabletPenNibMaxWidthKey]];
-		[self setIsAngleDependent:[coder decodeBoolForKey:kTabletPenNibAngleDependenceKey]];
+		if ([coder containsValueForKey:kTabletPenNibMinWidthKey]) {
+			[self setMinimumStrokeWidth:[coder decodeFloatForKey:kTabletPenNibMinWidthKey]];
+		} else if ([coder containsValueForKey:kTabletPenNibMinWidthLegacyKey]) {
+			[self setMinimumStrokeWidth:[coder decodeFloatForKey:kTabletPenNibMinWidthLegacyKey]];
+		}
+		if ([coder containsValueForKey:kTabletPenNibMaxWidthKey]) {
+			[self setMaximumStrokeWidth:[coder decodeFloatForKey:kTabletPenNibMaxWidthKey]];
+		} else if ([coder containsValueForKey:kTabletPenNibMaxWidthLegacyKey]) {
+			[self setMaximumStrokeWidth:[coder decodeFloatForKey:kTabletPenNibMaxWidthLegacyKey]];
+		}
+		if ([coder containsValueForKey:kTabletPenNibAngleDependenceKey]) {
+			[self setIsAngleDependent:[coder decodeBoolForKey:kTabletPenNibAngleDependenceKey]];
+		} else if ([coder containsValueForKey:kTabletPenNibAngleDependenceLegacyKey]) {
+			[self setIsAngleDependent:[coder decodeBoolForKey:kTabletPenNibAngleDependenceLegacyKey]];
+		}
 		if ([self isAngleDependent]) {
-			[self setWidestAngle:[coder decodeFloatForKey:kTabletPenNibMaxAngleKey]];
+			if ([coder containsValueForKey:kTabletPenNibMaxAngleKey]) {
+				[self setWidestAngle:[coder decodeFloatForKey:kTabletPenNibMaxAngleKey]];
+			} else if ([coder containsValueForKey:kTabletPenNibMaxAngleLegacyKey]) {
+				[self setWidestAngle:[coder decodeFloatForKey:kTabletPenNibMaxAngleLegacyKey]];
+			}
 		}
 		[self setInkColor:[coder decodeObjectForKey:kTabletPenNibColorKey]];
+		if (![self inkColor]) [self setInkColor:[coder decodeObjectForKey:kTabletPenNibColorLegacyKey]];
 	}
     return self;
 }
@@ -152,7 +178,7 @@ NSString * const kTabletPenNibColorKey = @"tabletPenNibColorKey";
 						 forWidth:(CGFloat)width
 {
 	// a nice looping curve for testing, originally generated with Mathematica
-	// (see "tabletPenNib sampleStrokeImagePoint.nb")
+	// (see "MWJInkingPenNib sampleStrokeImagePoint.nb")
 	return NSMakePoint(width * (
 								-0.0918711
 								+ (0.967484 * index) / count
@@ -170,7 +196,7 @@ NSString * const kTabletPenNibColorKey = @"tabletPenNibColorKey";
 
 - (NSImage *)sampleStrokeImageWithWidth:(CGFloat)width {
 	NSUInteger pointCount = 24;
-	tabletInkStroke *stroke = [[tabletInkStroke alloc]
+	MWJInkingStroke *stroke = [[MWJInkingStroke alloc]
 							   initWithPoint:[self sampleStrokeImagePoint:0
 																	   of:pointCount
 																 forWidth:width]];

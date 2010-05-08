@@ -26,41 +26,30 @@
  *********************************************************************************/
 
 //
-//  tabletInkStroke.h
+//  MWJDocument.h
 //  MacWJ
 //
 
+
 #import <Cocoa/Cocoa.h>
 
-@class tabletPenNib;
+@class MWJPaperView;
+@class MWJPaperBackgroundView;
 
-@interface tabletInkStroke : NSObject {
-	NSColor *color;
-	
+@interface MWJDocument : NSDocument {
 	@private
-	NSMutableArray *paths;
-	NSPoint currentPoint;
+	IBOutlet MWJPaperView *thePaperView;
+	IBOutlet MWJPaperBackgroundView *theBackgroundView;
+	IBOutlet NSScrollView *theScrollView;
+	IBOutlet NSSegmentedControl *toolSelectionSegmentedControl;
+	IBOutlet NSSegmentedControl *undoRedoSegmentedControl;
+	IBOutlet NSPopUpButton *penNibSelectionPopUpButton;
 }
 
-@property (retain) NSColor *color;
-@property (readonly) NSPoint currentPoint;
+- (IBAction)extendPage:(id)sender;
 
-- (id)initWithPoint:(NSPoint)startingPoint;
-- (void)lineToPoint:(NSPoint)endPoint
-	  withThickness:(CGFloat)lineWidth;
-- (NSRect)bounds;
-- (NSRect)highlightBounds;
-- (NSRect)lastSegmentBounds;
-- (void)strokeInRect:(NSRect)dirtyRect
-		   withRects:(const NSRect *)dirtyRects
-			   count:(NSInteger)dirtyRectsCount;
-- (void)strokeWithHighlightInRect:(NSRect)dirtyRect
-						withRects:(const NSRect *)dirtyRects
-							count:(NSInteger)dirtyRectsCount;
-- (BOOL)passesThroughRect:(NSRect)rect;
-- (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path;
-- (void)transformUsingAffineTransform:(NSAffineTransform *)aTransform;
-
-- (NSImage *)imageFromStroke;
+- (IBAction)penNibSelected:(id)sender;
+- (IBAction)undoRedoAction:(id)sender;
+- (IBAction)toolSelectionAction:(id)sender;
 
 @end

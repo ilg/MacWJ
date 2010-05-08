@@ -26,25 +26,20 @@
  *********************************************************************************/
 
 //
-//  tabletInkStroke.m
+//  MWJInkingStroke.m
 //  MacWJ
 //
 
-#import "tabletInkStroke.h"
-#import "tabletPenNib.h"
+#import "MWJInkingStroke.h"
+#import "MWJInkingPenNib.h"
 #import "NSBezierPath+boundsWithLines.h"
 #import "NSBezierPath+highlightedStroke.h"
 #import "NSBezierPath+isInRect_withRects_count_.h"
 
 
-@implementation tabletInkStroke
+@implementation MWJInkingStroke
 
 @synthesize color, currentPoint;
-
-// MARK: string keys for NSCoding
-NSString * const kTabletInkStrokeColorKey = @"tabletInkStrokeColorKey";
-NSString * const kTabletInkStrokePathsKey = @"tabletInkStrokePathsKey";
-NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPointKey";
 
 #pragma mark -
 
@@ -113,7 +108,7 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
 	return resultingImage;
 }
 
-- (void)strokeInRect:(NSRect)dirtyRect
+- (void)drawInRect:(NSRect)dirtyRect
 		   withRects:(const NSRect *)dirtyRects
 			   count:(NSInteger)dirtyRectsCount
 {
@@ -133,7 +128,7 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
 }
 
-- (void)strokeWithHighlightInRect:(NSRect)dirtyRect
+- (void)drawWithHighlightInRect:(NSRect)dirtyRect
 						withRects:(const NSRect *)dirtyRects
 							count:(NSInteger)dirtyRectsCount
 {
@@ -150,7 +145,7 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
         }
     }
 	// draw the stroke on top of the highlight
-	[self strokeInRect:dirtyRect
+	[self drawInRect:dirtyRect
 			 withRects:dirtyRects
 				 count:dirtyRectsCount];
 	
@@ -169,6 +164,10 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
         }
     }
 	return passesThrough;
+}
+
+- (BOOL)passesThroughRectValue:(NSValue *)rectValue {
+	return [self passesThroughRect:[rectValue rectValue]];
 }
 
 - (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path {
@@ -203,12 +202,21 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
 #pragma mark -
 #pragma mark for archiving/unarchiving (for saving/loading documents)
 
+// MARK: string keys for NSCoding
+NSString * const kMWJInkingStrokeColorKey = @"MWJInkingStrokeColorKey";
+NSString * const kMWJInkingStrokePathsKey = @"MWJInkingStrokePathsKey";
+NSString * const kMWJInkingStrokeCurrentPointKey = @"MWJInkingStrokeCurrentPointKey";
+// legacy keys:
+NSString * const kMWJInkingStrokeColorLegacyKey = @"tabletInkStrokeColorKey";
+NSString * const kMWJInkingStrokePathsLegacyKey = @"tabletInkStrokePathsKey";
+NSString * const kMWJInkingStrokeCurrentPointLegacyKey = @"tabletInkStrokeCurrentPointKey";
+
 - (void)encodeWithCoder:(NSCoder *)coder {
 	// NSObject does not conform to NSCoding
 //    [super encodeWithCoder:coder];
-    [coder encodeObject:color forKey:kTabletInkStrokeColorKey];
-    [coder encodeObject:paths forKey:kTabletInkStrokePathsKey];
-	[coder encodePoint:currentPoint forKey:kTabletInkStrokeCurrentPointKey];
+    [coder encodeObject:color forKey:kMWJInkingStrokeColorKey];
+    [coder encodeObject:paths forKey:kMWJInkingStrokePathsKey];
+	[coder encodePoint:currentPoint forKey:kMWJInkingStrokeCurrentPointKey];
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
@@ -216,9 +224,19 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
 //    self = [super initWithCoder:coder];
 	self = [super init];
 	if (self) {
-		[self setColor:[coder decodeObjectForKey:kTabletInkStrokeColorKey]];
-		paths = [[coder decodeObjectForKey:kTabletInkStrokePathsKey] retain];
-		currentPoint = [coder decodePointForKey:kTabletInkStrokeCurrentPointKey];
+		[self setColor:[coder decodeObjectForKey:kMWJInkingStrokeColorKey]];
+		if (![self color]) [self setColor:[coder decodeObjectForKey:kMWJInkingStrokeColorLegacyKey]];
+		
+		paths = [[coder decodeObjectForKey:kMWJInkingStrokePathsKey] retain];
+		if (!paths) paths = [[coder decodeObjectForKey:kMWJInkingStrokePathsLegacyKey] retain];
+		
+		if ([coder containsValueForKey:kMWJInkingStrokeCurrentPointKey]) {
+			currentPoint = [coder decodePointForKey:kMWJInkingStrokeCurrentPointKey];
+		} else if ([coder containsValueForKey:kMWJInkingStrokeCurrentPointLegacyKey]) {
+			currentPoint = [coder decodePointForKey:kMWJInkingStrokeCurrentPointLegacyKey];
+		} else {
+			currentPoint = NSZeroPoint;
+		}
 	}
     return self;
 }
