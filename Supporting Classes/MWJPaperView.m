@@ -362,7 +362,7 @@ static NSCursor *eraserCursor;
 	 withActionName:actionName];
 	[undoer setActionName:actionName];
 	for (id<MWJObjectOnPaper> anObjectOnPaper in objectsToMove) {
-		[self setNeedsDisplayInRect:[anObjectOnPaper bounds]];
+		[self setNeedsDisplayInRect:[anObjectOnPaper highlightBounds]];
 	}
 }
 
