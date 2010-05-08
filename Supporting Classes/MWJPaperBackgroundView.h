@@ -26,14 +26,14 @@
  *********************************************************************************/
 
 //
-//  backgroundView.h
+//  MWJPaperBackgroundView.h
 //  MacWJ
 //
 
 #import <Cocoa/Cocoa.h>
 
 
-@interface backgroundView : NSView {
+@interface MWJPaperBackgroundView : NSView {
 	NSImage *backgroundImage;
 	NSColor *backgroundColor;
 }

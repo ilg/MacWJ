@@ -26,14 +26,14 @@
  *********************************************************************************/
 
 //
-//  backgroundView.m
+//  MWJPaperBackgroundView.m
 //  MacWJ
 //
 
-#import "backgroundView.h"
+#import "MWJPaperBackgroundView.h"
 
 
-@implementation backgroundView
+@implementation MWJPaperBackgroundView
 
 @synthesize backgroundImage, backgroundColor;
 

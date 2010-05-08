@@ -26,20 +26,20 @@
  *********************************************************************************/
 
 //
-//  MyDocument.h
+//  MWJDocument.h
 //  MacWJ
 //
 
 
 #import <Cocoa/Cocoa.h>
 
-@class tabletView;
-@class backgroundView;
+@class MWJPaperView;
+@class MWJPaperBackgroundView;
 
-@interface MyDocument : NSDocument {
+@interface MWJDocument : NSDocument {
 	@private
-	IBOutlet tabletView *theTabletView;
-	IBOutlet backgroundView *theBackgroundView;
+	IBOutlet MWJPaperView *thePaperView;
+	IBOutlet MWJPaperBackgroundView *theBackgroundView;
 	IBOutlet NSSegmentedControl *toolSelectionSegmentedControl;
 	IBOutlet NSSegmentedControl *undoRedoSegmentedControl;
 	IBOutlet NSPopUpButton *penNibSelectionPopUpButton;

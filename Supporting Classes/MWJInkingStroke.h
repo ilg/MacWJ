@@ -26,15 +26,15 @@
  *********************************************************************************/
 
 //
-//  tabletInkStroke.h
+//  MWJInkingStroke.h
 //  MacWJ
 //
 
 #import <Cocoa/Cocoa.h>
 
-@class tabletPenNib;
+@class MWJInkingPenNib;
 
-@interface tabletInkStroke : NSObject {
+@interface MWJInkingStroke : NSObject {
 	NSColor *color;
 	
 	@private

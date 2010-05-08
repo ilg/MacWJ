@@ -26,14 +26,14 @@
  *********************************************************************************/
 
 //
-//  tabletPenNib.h
+//  MWJInkingPenNib.h
 //  MacWJ
 //
 
 #import <Cocoa/Cocoa.h>
 
 
-@interface tabletPenNib : NSObject {
+@interface MWJInkingPenNib : NSObject {
 	CGFloat minimumStrokeWidth;
 	CGFloat maximumStrokeWidth;
 	BOOL isAngleDependent;
@@ -47,12 +47,12 @@
 @property CGFloat widestAngle;
 @property (retain) NSColor *inkColor;
 
-+ (tabletPenNib *)tabletPenNibWithMinimumWidth:(CGFloat)minimumWidth
++ (MWJInkingPenNib *)inkingPenNibithMinimumWidth:(CGFloat)minimumWidth
 								  maximumWidth:(CGFloat)maximumWidth
 							  isAngleDependent:(BOOL)angleDependence
 							  angleForMaxWidth:(CGFloat)maxWidthAngle
 										 color:(NSColor *)color;
-+ (tabletPenNib *)defaultTabletPenNib;
++ (MWJInkingPenNib *)defaultTabletPenNib;
 
 + (NSDictionary *)penNibs;
 + (void)savePenNibs:(NSDictionary *)nibs;

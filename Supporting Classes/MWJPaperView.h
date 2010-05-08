@@ -26,28 +26,28 @@
  *********************************************************************************/
 
 //
-//  tabletView.h
+//  MWJPaperView.h
 //  MacWJ
 //
 
 #import <Cocoa/Cocoa.h>
 
-@class tabletInkStroke;
-@class tabletPenNib;
+@class MWJInkingStroke;
+@class MWJInkingPenNib;
 
 // MARK: tool type constants
-extern NSUInteger const kTabletViewPenToolType;
-extern NSUInteger const kTabletViewEraserToolType;
-extern NSUInteger const kTabletViewRectangularMarqueeToolType;
-extern NSUInteger const kTabletViewLassoToolType;
+extern NSUInteger const kMWJPaperViewPenToolType;
+extern NSUInteger const kMWJPaperViewEraserToolType;
+extern NSUInteger const kMWJPaperViewRectangularMarqueeToolType;
+extern NSUInteger const kMWJPaperViewLassoToolType;
 
-@interface tabletView : NSView {
-	tabletPenNib *currentPenNib;
+@interface MWJPaperView : NSView {
+	MWJInkingPenNib *currentPenNib;
 	NSUInteger toolType;
 	
 	@private
 	NSMutableArray *strokes;
-	tabletInkStroke *workingStroke;
+	MWJInkingStroke *workingStroke;
 	CGFloat initialPressure;
 	NSPointingDeviceType pointingDeviceType;
 	NSIndexSet *selectedStrokeIndexes;
@@ -57,7 +57,7 @@ extern NSUInteger const kTabletViewLassoToolType;
 	NSTimeInterval timeOfLastTabletEvent;
 }
 
-@property (retain) tabletPenNib *currentPenNib;
+@property (retain) MWJInkingPenNib *currentPenNib;
 @property NSUInteger toolType;
 
 @property (retain) NSIndexSet *selectedStrokeIndexes;

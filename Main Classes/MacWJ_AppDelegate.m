@@ -31,7 +31,7 @@
 //
 
 #import "MacWJ_AppDelegate.h"
-#import "tabletPenNib.h"
+#import "MWJInkingPenNib.h"
 
 
 @implementation MacWJ_AppDelegate
@@ -42,13 +42,13 @@
 					   // object, key; nil-terminated
 					   [NSKeyedArchiver archivedDataWithRootObject:
 						[NSDictionary dictionaryWithObjectsAndKeys:
-						 [tabletPenNib tabletPenNibWithMinimumWidth:0.5
+						 [MWJInkingPenNib inkingPenNibithMinimumWidth:0.5
 													   maximumWidth:5.0
 												   isAngleDependent:YES
 												   angleForMaxWidth:(-pi/4.0)
 															  color:[NSColor blackColor]],
 						 @"Default Black Pen",
-						 [tabletPenNib tabletPenNibWithMinimumWidth:0.5
+						 [MWJInkingPenNib inkingPenNibithMinimumWidth:0.5
 													   maximumWidth:5.0
 												   isAngleDependent:YES
 												   angleForMaxWidth:(-pi/4.0)

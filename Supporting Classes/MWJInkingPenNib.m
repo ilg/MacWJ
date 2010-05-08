@@ -26,27 +26,27 @@
  *********************************************************************************/
 
 //
-//  tabletPenNib.m
+//  MWJInkingPenNib.m
 //  MacWJ
 //
 
-#import "tabletPenNib.h"
-#import "tabletInkStroke.h"
+#import "MWJInkingPenNib.h"
+#import "MWJInkingStroke.h"
 
 
-@implementation tabletPenNib
+@implementation MWJInkingPenNib
 
 @synthesize minimumStrokeWidth, maximumStrokeWidth, isAngleDependent, widestAngle, inkColor;
 
 #define MIN_ANGLE_FACTOR 0.2
 
-+ (tabletPenNib *)tabletPenNibWithMinimumWidth:(CGFloat)minimumWidth
-								  maximumWidth:(CGFloat)maximumWidth
-							  isAngleDependent:(BOOL)angleDependence
-							  angleForMaxWidth:(CGFloat)maxWidthAngle
-										 color:(NSColor *)color
++ (MWJInkingPenNib *)inkingPenNibithMinimumWidth:(CGFloat)minimumWidth
+									maximumWidth:(CGFloat)maximumWidth
+								isAngleDependent:(BOOL)angleDependence
+								angleForMaxWidth:(CGFloat)maxWidthAngle
+										   color:(NSColor *)color
 {
-	tabletPenNib *newPen = [[[tabletPenNib alloc] init] autorelease];
+	MWJInkingPenNib *newPen = [[[MWJInkingPenNib alloc] init] autorelease];
 	[newPen setMinimumStrokeWidth:minimumWidth];
 	[newPen setMaximumStrokeWidth:maximumWidth];
 	[newPen setIsAngleDependent:angleDependence];
@@ -55,9 +55,9 @@
 	return newPen;
 }
 
-+ (tabletPenNib *)defaultTabletPenNib {
++ (MWJInkingPenNib *)defaultTabletPenNib {
 	// kind of arbitrary--these are my current favorite values
-	return [self tabletPenNibWithMinimumWidth:0.5
+	return [self inkingPenNibithMinimumWidth:0.5
 								 maximumWidth:5.0
 							 isAngleDependent:YES
 							 angleForMaxWidth:(-pi/4)
@@ -112,11 +112,11 @@
 #pragma mark -
 #pragma mark for archiving/unarchiving (for saving/loading documents)
 
-NSString * const kTabletPenNibMinWidthKey = @"tabletPenNibMinWidthKey";
-NSString * const kTabletPenNibMaxWidthKey = @"tabletPenNibMaxWidthKey";
-NSString * const kTabletPenNibAngleDependenceKey = @"tabletPenNibAngleDependenceKey";
-NSString * const kTabletPenNibMaxAngleKey = @"tabletPenNibMaxAngleKey";
-NSString * const kTabletPenNibColorKey = @"tabletPenNibColorKey";
+NSString * const kTabletPenNibMinWidthKey = @"MWJInkingPenNibMinWidthKey";
+NSString * const kTabletPenNibMaxWidthKey = @"MWJInkingPenNibMaxWidthKey";
+NSString * const kTabletPenNibAngleDependenceKey = @"MWJInkingPenNibAngleDependenceKey";
+NSString * const kTabletPenNibMaxAngleKey = @"MWJInkingPenNibMaxAngleKey";
+NSString * const kTabletPenNibColorKey = @"MWJInkingPenNibColorKey";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
 	// NSObject does not conform to NSCoding
@@ -152,7 +152,7 @@ NSString * const kTabletPenNibColorKey = @"tabletPenNibColorKey";
 						 forWidth:(CGFloat)width
 {
 	// a nice looping curve for testing, originally generated with Mathematica
-	// (see "tabletPenNib sampleStrokeImagePoint.nb")
+	// (see "MWJInkingPenNib sampleStrokeImagePoint.nb")
 	return NSMakePoint(width * (
 								-0.0918711
 								+ (0.967484 * index) / count
@@ -170,7 +170,7 @@ NSString * const kTabletPenNibColorKey = @"tabletPenNibColorKey";
 
 - (NSImage *)sampleStrokeImageWithWidth:(CGFloat)width {
 	NSUInteger pointCount = 24;
-	tabletInkStroke *stroke = [[tabletInkStroke alloc]
+	MWJInkingStroke *stroke = [[MWJInkingStroke alloc]
 							   initWithPoint:[self sampleStrokeImagePoint:0
 																	   of:pointCount
 																 forWidth:width]];

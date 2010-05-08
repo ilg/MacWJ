@@ -26,25 +26,25 @@
  *********************************************************************************/
 
 //
-//  tabletInkStroke.m
+//  MWJInkingStroke.m
 //  MacWJ
 //
 
-#import "tabletInkStroke.h"
-#import "tabletPenNib.h"
+#import "MWJInkingStroke.h"
+#import "MWJInkingPenNib.h"
 #import "NSBezierPath+boundsWithLines.h"
 #import "NSBezierPath+highlightedStroke.h"
 #import "NSBezierPath+isInRect_withRects_count_.h"
 
 
-@implementation tabletInkStroke
+@implementation MWJInkingStroke
 
 @synthesize color, currentPoint;
 
 // MARK: string keys for NSCoding
-NSString * const kTabletInkStrokeColorKey = @"tabletInkStrokeColorKey";
-NSString * const kTabletInkStrokePathsKey = @"tabletInkStrokePathsKey";
-NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPointKey";
+NSString * const kMWJInkingStrokeColorKey = @"MWJInkingStrokeColorKey";
+NSString * const kMWJInkingStrokePathsKey = @"MWJInkingStrokePathsKey";
+NSString * const kMWJInkingStrokeCurrentPointKey = @"MWJInkingStrokeCurrentPointKey";
 
 #pragma mark -
 
@@ -206,9 +206,9 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
 - (void)encodeWithCoder:(NSCoder *)coder {
 	// NSObject does not conform to NSCoding
 //    [super encodeWithCoder:coder];
-    [coder encodeObject:color forKey:kTabletInkStrokeColorKey];
-    [coder encodeObject:paths forKey:kTabletInkStrokePathsKey];
-	[coder encodePoint:currentPoint forKey:kTabletInkStrokeCurrentPointKey];
+    [coder encodeObject:color forKey:kMWJInkingStrokeColorKey];
+    [coder encodeObject:paths forKey:kMWJInkingStrokePathsKey];
+	[coder encodePoint:currentPoint forKey:kMWJInkingStrokeCurrentPointKey];
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
@@ -216,9 +216,9 @@ NSString * const kTabletInkStrokeCurrentPointKey = @"tabletInkStrokeCurrentPoint
 //    self = [super initWithCoder:coder];
 	self = [super init];
 	if (self) {
-		[self setColor:[coder decodeObjectForKey:kTabletInkStrokeColorKey]];
-		paths = [[coder decodeObjectForKey:kTabletInkStrokePathsKey] retain];
-		currentPoint = [coder decodePointForKey:kTabletInkStrokeCurrentPointKey];
+		[self setColor:[coder decodeObjectForKey:kMWJInkingStrokeColorKey]];
+		paths = [[coder decodeObjectForKey:kMWJInkingStrokePathsKey] retain];
+		currentPoint = [coder decodePointForKey:kMWJInkingStrokeCurrentPointKey];
 	}
     return self;
 }

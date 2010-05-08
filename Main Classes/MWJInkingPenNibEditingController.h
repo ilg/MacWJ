@@ -26,14 +26,14 @@
  *********************************************************************************/
 
 //
-//  penEditingController.h
+//  MWJInkingPenNibEditingController.h
 //  MacWJ
 //
 
 #import <Cocoa/Cocoa.h>
 
 
-@interface penEditingController : NSObject {
+@interface MWJInkingPenNibEditingController : NSObject {
 	NSString *penName;
 	
 	CGFloat minimumStrokeWidth;

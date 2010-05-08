@@ -22,7 +22,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>NSDocumentClass</key>
-			<string>MyDocument</string>
+			<string>MWJDocument</string>
 			<key>NSExportableAs</key>
 			<array>
 				<string>PNG File</string>

@@ -26,14 +26,14 @@
  *********************************************************************************/
 
 //
-//  tabletView.m
+//  MWJPaperView.m
 //  MacWJ
 //
 
-#import "tabletView.h"
+#import "MWJPaperView.h"
 #import "NSBezierPath+boundsWithLines.h"
-#import "tabletInkStroke.h"
-#import "tabletPenNib.h"
+#import "MWJInkingStroke.h"
+#import "MWJInkingPenNib.h"
 
 #define MIN_STROKE_WIDTH [[NSUserDefaults standardUserDefaults] floatForKey:@"minStrokeWidth"]
 #define MAX_STROKE_WIDTH [[NSUserDefaults standardUserDefaults] floatForKey:@"maxStrokeWidth"]
@@ -43,16 +43,16 @@
 #define TABLET_MOUSE_TIME_MARGIN 0.5
 
 // MARK: tool type constants
-NSUInteger const kTabletViewPenToolType = 0;
-NSUInteger const kTabletViewEraserToolType = 1;
-NSUInteger const kTabletViewRectangularMarqueeToolType = 2;
-NSUInteger const kTabletViewLassoToolType = 3;
+NSUInteger const kMWJPaperViewPenToolType = 0;
+NSUInteger const kMWJPaperViewEraserToolType = 1;
+NSUInteger const kMWJPaperViewRectangularMarqueeToolType = 2;
+NSUInteger const kMWJPaperViewLassoToolType = 3;
 
 // MARK: pasteboard type constant
-NSString * const kTabletViewInkStrokesPboardType = @"kTabletViewInkStrokesPboardType";
+NSString * const kMWJPaperViewInkStrokesPboardType = @"kMWJPaperViewInkStrokesPboardType";
 
 
-@interface tabletView (UndoAndRedo)
+@interface MWJPaperView (UndoAndRedo)
 
 - (NSUndoManager *)undoManager;
 - (void)undoableAddStrokes:(NSArray *)strokesToAdd
@@ -60,7 +60,7 @@ NSString * const kTabletViewInkStrokesPboardType = @"kTabletViewInkStrokesPboard
 			withActionName:(NSString *)actionName;
 - (void)undoableEraseStrokesAtIndexes:(NSIndexSet *)indexesToErase
 					   withActionName:(NSString *)actionName;
-- (void)addStroke:(tabletInkStroke *)strokeToAdd;
+- (void)addStroke:(MWJInkingStroke *)strokeToAdd;
 - (void)eraseStrokesWithIndexes:(NSIndexSet *)indexesToErase;
 - (void)undoableApplyTransform:(NSAffineTransform *)theTransform
 		  toStrokesWithIndexes:(NSIndexSet *)indexesToTransform
@@ -68,7 +68,7 @@ NSString * const kTabletViewInkStrokesPboardType = @"kTabletViewInkStrokesPboard
 
 @end
 
-@interface tabletView (startContinueEndMethods)
+@interface MWJPaperView (startContinueEndMethods)
 
 - (void)startStroke:(NSEvent *)theEvent;
 - (void)continueStroke:(NSEvent *)theEvent;
@@ -88,7 +88,7 @@ NSString * const kTabletViewInkStrokesPboardType = @"kTabletViewInkStrokesPboard
 
 @end
 
-@interface tabletView (selectionHandling)
+@interface MWJPaperView (selectionHandling)
 
 - (NSArray *)selectedStrokes;
 
@@ -97,7 +97,7 @@ NSString * const kTabletViewInkStrokesPboardType = @"kTabletViewInkStrokesPboard
 
 #pragma mark -
 
-@implementation tabletView
+@implementation MWJPaperView
 
 static NSCursor *penCursor;
 static NSCursor *eraserCursor;
@@ -118,7 +118,7 @@ static NSCursor *eraserCursor;
     if (self) {
         // Initialization code here.
 		strokes = [[NSMutableArray alloc] init];
-		[self setToolType:kTabletViewPenToolType];
+		[self setToolType:kMWJPaperViewPenToolType];
 		
 		[self setSelectedStrokeIndexes:[NSIndexSet indexSet]];
 		[self setSelectionPath:nil];
@@ -135,7 +135,7 @@ static NSCursor *eraserCursor;
 	NSArray *selectedStrokes = [self selectedStrokes];
 	
 	// draw any selected (highlighted) strokes first
-	for (tabletInkStroke *aStroke in selectedStrokes) {
+	for (MWJInkingStroke *aStroke in selectedStrokes) {
         // First test against coalesced rect.
 		if ([aStroke passesThroughRect:dirtyRect]) {
 			// Then test per dirty rect
@@ -151,7 +151,7 @@ static NSCursor *eraserCursor;
     }
 	
 	// draw the unselected strokes
-	for (tabletInkStroke *aStroke in strokes) {
+	for (MWJInkingStroke *aStroke in strokes) {
 		if (![selectedStrokes containsObject:aStroke]) {
 			// First test against coalesced rect.
 			if ([aStroke passesThroughRect:dirtyRect]) {
@@ -218,7 +218,7 @@ static NSCursor *eraserCursor;
 								   2.0 * ATOP_SELECTION_RADIUS,
 								   2.0 * ATOP_SELECTION_RADIUS);
 	BOOL result = NO;
-	for (tabletInkStroke *aStroke in [self selectedStrokes]) {
+	for (MWJInkingStroke *aStroke in [self selectedStrokes]) {
 		if ([aStroke passesThroughRect:cursorRect]) {
 			result = YES;
 			break;
@@ -269,7 +269,7 @@ static NSCursor *eraserCursor;
 	 undoableEraseStrokesAtIndexes:indexesToAdd
 	 withActionName:actionName];
 	[undoer setActionName:actionName];
-	for (tabletInkStroke *aStroke in strokesToAdd) {
+	for (MWJInkingStroke *aStroke in strokesToAdd) {
 		[self setNeedsDisplayInRect:[aStroke bounds]];
 	}
 }
@@ -287,13 +287,13 @@ static NSCursor *eraserCursor;
 		 atIndexes:indexesToErase
 		 withActionName:actionName];
 		[undoer setActionName:actionName];
-		for (tabletInkStroke *aStroke in strokesBeingErased) {
+		for (MWJInkingStroke *aStroke in strokesBeingErased) {
 			[self setNeedsDisplayInRect:[aStroke bounds]];
 		}
 	}
 }
 
-- (void)addStroke:(tabletInkStroke *)strokeToAdd {
+- (void)addStroke:(MWJInkingStroke *)strokeToAdd {
 	[self undoableAddStrokes:[NSArray arrayWithObject:strokeToAdd]
 				   atIndexes:[NSIndexSet indexSetWithIndex:[strokes count]]
 			  withActionName:NSLocalizedString(@"Inking",@"")];
@@ -318,7 +318,7 @@ static NSCursor *eraserCursor;
 	[inverseTransform release];
 	[undoer setActionName:actionName];
 	NSRect needsDisplayRect = [[strokes objectAtIndex:[indexesToTransform firstIndex]] highlightBounds];
-	for (tabletInkStroke *aStroke in [strokes objectsAtIndexes:indexesToTransform]) {
+	for (MWJInkingStroke *aStroke in [strokes objectsAtIndexes:indexesToTransform]) {
 		needsDisplayRect = NSUnionRect(needsDisplayRect, [aStroke highlightBounds]);
 		[aStroke transformUsingAffineTransform:theTransform];
 		needsDisplayRect = NSUnionRect(needsDisplayRect, [aStroke highlightBounds]);
@@ -364,7 +364,7 @@ static NSCursor *eraserCursor;
 		strokes = [[NSMutableArray alloc] init];
 	}
 	if (!currentPenNib) {
-		currentPenNib = [[tabletPenNib tabletPenNibWithMinimumWidth:MIN_STROKE_WIDTH
+		currentPenNib = [[MWJInkingPenNib inkingPenNibithMinimumWidth:MIN_STROKE_WIDTH
 													   maximumWidth:MAX_STROKE_WIDTH
 												   isAngleDependent:YES
 												   angleForMaxWidth:(-pi/4.0)
@@ -374,7 +374,7 @@ static NSCursor *eraserCursor;
 	if (workingStroke) {
 		[self continueStroke:theEvent];
 	} else {
-		workingStroke = [[tabletInkStroke alloc]
+		workingStroke = [[MWJInkingStroke alloc]
 						 initWithPoint:[self convertPoint:[theEvent locationInWindow]
 												 fromView:nil]];
 		[workingStroke setColor:[currentPenNib inkColor]];
@@ -503,7 +503,7 @@ static NSCursor *eraserCursor;
 - (NSRect)pathBounds {
 	if ([strokes count] > 0) {
 		NSRect result = [[strokes objectAtIndex:0] bounds];
-		for (tabletInkStroke *aStroke in strokes) {
+		for (MWJInkingStroke *aStroke in strokes) {
 			result = NSUnionRect(result, [aStroke bounds]);
 		}
 		return result;
@@ -543,7 +543,7 @@ static NSCursor *eraserCursor;
 
 - (NSData *)selectedPDFData {
 	NSArray *selectedStrokes = [self selectedStrokes];
-	tabletView *temporaryView = [[tabletView alloc] initWithFrame:[self frame]];
+	MWJPaperView *temporaryView = [[MWJPaperView alloc] initWithFrame:[self frame]];
 	[temporaryView undoableAddStrokes:selectedStrokes
 							atIndexes:[NSIndexSet indexSetWithIndexesInRange:
 									   NSMakeRange(0, [selectedStrokes count])]
@@ -566,13 +566,13 @@ static NSCursor *eraserCursor;
 - (IBAction)copy:(id)sender {
 	NSPasteboard *pb = [NSPasteboard generalPasteboard];
 	[pb declareTypes:[NSArray arrayWithObjects:
-					  kTabletViewInkStrokesPboardType,
+					  kMWJPaperViewInkStrokesPboardType,
 					  NSPDFPboardType, NSTIFFPboardType,
 					  nil] owner:nil];
 	
-	// add internal format (kTabletViewInkStrokesPboardType)
+	// add internal format (kMWJPaperViewInkStrokesPboardType)
 	[pb setData:[NSKeyedArchiver archivedDataWithRootObject:[self selectedStrokes]]
-		forType:kTabletViewInkStrokesPboardType];
+		forType:kMWJPaperViewInkStrokesPboardType];
 	
 	// add PDF
 	NSData *PDFData = [self selectedPDFData];
@@ -592,9 +592,9 @@ static NSCursor *eraserCursor;
 
 - (IBAction)paste:(id)sender {
 	NSPasteboard *pb = [NSPasteboard generalPasteboard];
-	if ([[pb types] containsObject:kTabletViewInkStrokesPboardType]) {
+	if ([[pb types] containsObject:kMWJPaperViewInkStrokesPboardType]) {
 		NSArray *pastedStrokes = [NSKeyedUnarchiver unarchiveObjectWithData:
-								  [pb dataForType:kTabletViewInkStrokesPboardType]];
+								  [pb dataForType:kMWJPaperViewInkStrokesPboardType]];
 		NSIndexSet *pastedIndexes = [NSIndexSet indexSetWithIndexesInRange:
 									 NSMakeRange([strokes count], [pastedStrokes count])];
 		[self undoableAddStrokes:pastedStrokes
@@ -646,11 +646,11 @@ static NSCursor *eraserCursor;
 		
 		if ([theEvent subtype] == NSTabletPointEventSubtype) {
 			if (pointingDeviceType == NSPenPointingDevice) {
-				if ([self toolType] == kTabletViewPenToolType) {
+				if ([self toolType] == kMWJPaperViewPenToolType) {
 					[self startStroke:theEvent];
-				} else if ([self toolType] == kTabletViewRectangularMarqueeToolType) {
+				} else if ([self toolType] == kMWJPaperViewRectangularMarqueeToolType) {
 					[self startRectangularSelection:theEvent];
-				} else if ([self toolType] == kTabletViewLassoToolType) {
+				} else if ([self toolType] == kMWJPaperViewLassoToolType) {
 					[self startLasso:theEvent];
 				}
 			}
@@ -670,13 +670,13 @@ static NSCursor *eraserCursor;
 		[self continueMovingSelection:theEvent];
 	} else if ([theEvent subtype] == NSTabletPointEventSubtype) {
 		if (pointingDeviceType == NSPenPointingDevice) {
-			if ([self toolType] == kTabletViewPenToolType) {
+			if ([self toolType] == kMWJPaperViewPenToolType) {
 				[self continueStroke:theEvent];
-			} else if ([self toolType] == kTabletViewEraserToolType) {
+			} else if ([self toolType] == kMWJPaperViewEraserToolType) {
 				[self eraseEvent:theEvent];
-			} else if ([self toolType] == kTabletViewRectangularMarqueeToolType) {
+			} else if ([self toolType] == kMWJPaperViewRectangularMarqueeToolType) {
 				[self continueRectangularSelection:theEvent];
-			} else if ([self toolType] == kTabletViewLassoToolType) {
+			} else if ([self toolType] == kMWJPaperViewLassoToolType) {
 				[self continueLasso:theEvent];
 			}
 		} else if (pointingDeviceType == NSEraserPointingDevice) {
@@ -697,11 +697,11 @@ static NSCursor *eraserCursor;
 		[self endMovingSelection:theEvent];
 	} else if ([theEvent subtype] == NSTabletPointEventSubtype) {
 		if (pointingDeviceType == NSPenPointingDevice) {
-			if ([self toolType] == kTabletViewPenToolType) {
+			if ([self toolType] == kMWJPaperViewPenToolType) {
 				[self endStroke:theEvent];
-			} else if ([self toolType] == kTabletViewRectangularMarqueeToolType) {
+			} else if ([self toolType] == kMWJPaperViewRectangularMarqueeToolType) {
 				[self endRectangularSelection:theEvent];
-			} else if ([self toolType] == kTabletViewLassoToolType) {
+			} else if ([self toolType] == kMWJPaperViewLassoToolType) {
 				[self endLasso:theEvent];
 			}
 		}
@@ -717,8 +717,8 @@ static NSCursor *eraserCursor;
 
 - (void)mouseMoved:(NSEvent *)theEvent {
 	BOOL isTabletPossibleMovingCursor = (([theEvent subtype] == NSTabletPointEventSubtype)
-										 && (([self toolType] == kTabletViewRectangularMarqueeToolType)
-											 || ([self toolType] == kTabletViewLassoToolType)));
+										 && (([self toolType] == kMWJPaperViewRectangularMarqueeToolType)
+											 || ([self toolType] == kMWJPaperViewLassoToolType)));
 	BOOL isMousePossibleMovingCursor = ([theEvent subtype] == NSMouseEventSubtype);
 	if ((isTabletPossibleMovingCursor || isMousePossibleMovingCursor)
 		&& [self isOverSelectedStroke:theEvent]) {

@@ -26,15 +26,15 @@
  *********************************************************************************/
 
 //
-//  penEditingController.m
+//  MWJInkingPenNibEditingController.m
 //  MacWJ
 //
 
-#import "penEditingController.h"
-#import "tabletPenNib.h"
+#import "MWJInkingPenNibEditingController.h"
+#import "MWJInkingPenNib.h"
 
 
-@implementation penEditingController
+@implementation MWJInkingPenNibEditingController
 
 @synthesize penName;
 @synthesize minimumStrokeWidth, maximumStrokeWidth, isAngleDependent, widestAngle, inkColor;
@@ -173,7 +173,7 @@ const NSInteger kRemoveSelectedPenSegmentNumber = 1;
 		[penNibListSegmentedControl setEnabled:YES forSegment:kRemoveSelectedPenSegmentNumber];
 		isLoadingPen = YES;
 		[self setPenName:selectedPen];
-		tabletPenNib *theNib = [nibs objectForKey:selectedPen];
+		MWJInkingPenNib *theNib = [nibs objectForKey:selectedPen];
 		[self setMaximumStrokeWidth:[theNib maximumStrokeWidth]];
 		[self setMinimumStrokeWidth:[theNib minimumStrokeWidth]];
 		[self setIsAngleDependent:[theNib isAngleDependent]];
@@ -202,8 +202,8 @@ const NSInteger kRemoveSelectedPenSegmentNumber = 1;
 			untitledNumber++;
 		}
 		NSString *newNibName = [NSString stringWithFormat:@"Untitled Pen %d", untitledNumber];
-		[nibs setObject:[tabletPenNib defaultTabletPenNib] forKey:newNibName];
-		[tabletPenNib savePenNibs:nibs];
+		[nibs setObject:[MWJInkingPenNib defaultTabletPenNib] forKey:newNibName];
+		[MWJInkingPenNib savePenNibs:nibs];
 		[self reloadTableData];
 		[penNibListTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[nibNames indexOfObject:newNibName]]
 						 byExtendingSelection:NO];
@@ -212,7 +212,7 @@ const NSInteger kRemoveSelectedPenSegmentNumber = 1;
 		NSInteger selection = [penNibListTableView selectedRow];
 		if (selection >= 0) {
 			[nibs removeObjectForKey:[nibNames objectAtIndex:selection]];
-			[tabletPenNib savePenNibs:nibs];
+			[MWJInkingPenNib savePenNibs:nibs];
 			[self reloadTableData];
 			[penNibListTableView deselectAll:nil];
 			[self penNibListAction:nil];
@@ -229,7 +229,7 @@ const NSInteger kRemoveSelectedPenSegmentNumber = 1;
                        context:(void *)context
 {
 	if (!isLoadingPen && selectedPen) {
-		tabletPenNib *theNib = [nibs objectForKey:selectedPen];
+		MWJInkingPenNib *theNib = [nibs objectForKey:selectedPen];
 		if ([keyPath isEqualToString:@"maximumStrokeWidth"]) {
 			[theNib setMaximumStrokeWidth:[self maximumStrokeWidth]];
 		} else if ([keyPath isEqualToString:@"minimumStrokeWidth"]) {
@@ -249,7 +249,7 @@ const NSInteger kRemoveSelectedPenSegmentNumber = 1;
 			[self reloadTableData];
 		} else {
 		}
-		[tabletPenNib savePenNibs:nibs];
+		[MWJInkingPenNib savePenNibs:nibs];
 		[inkStrokePreview setImage:[theNib sampleStrokeImage]];
 	}
 }
@@ -259,7 +259,7 @@ const NSInteger kRemoveSelectedPenSegmentNumber = 1;
 
 - (void)windowDidBecomeKey:(NSNotification *)notification {
 	[nibs release];
-	nibs = [[NSMutableDictionary dictionaryWithDictionary:[tabletPenNib penNibs]] retain];
+	nibs = [[NSMutableDictionary dictionaryWithDictionary:[MWJInkingPenNib penNibs]] retain];
 	
 	[self reloadTableData];
 	
