@@ -639,74 +639,103 @@ static NSCursor *eraserCursor;
 
 - (IBAction)bringToFront:(id)sender {
 	NSIndexSet *selectedIndexes = [self selectedObjectIndexes];
-	[self undoableMoveObjectsAtIndexes:selectedIndexes
-							 toIndexes:[NSIndexSet indexSetWithIndexesInRange:
-										NSMakeRange([objectsOnPaper count] - [selectedIndexes count],
-													[selectedIndexes count])]
-						withActionName:@"Bring to Front"];
+	NSIndexSet *destinationIndexes = [NSIndexSet indexSetWithIndexesInRange:
+									  NSMakeRange([objectsOnPaper count] - [selectedIndexes count],
+												  [selectedIndexes count])];
+	if (![selectedIndexes isEqualToIndexSet:destinationIndexes]) {
+		[self undoableMoveObjectsAtIndexes:selectedIndexes
+								 toIndexes:destinationIndexes
+							withActionName:@"Bring to Front"];
+		[self setSelectedObjectIndexes:destinationIndexes];
+	}
 }
 
 - (IBAction)bringForward:(id)sender {
 	NSMutableIndexSet *indexesToMove = [[NSMutableIndexSet alloc]
 										initWithIndexSet:[self selectedObjectIndexes]];
+	NSMutableIndexSet *unchangedIndexes = [[NSMutableIndexSet alloc] init];
+
 	// remove the indexes of objects that are already at the front
 	for (NSUInteger objectIndex = [objectsOnPaper count] - 1; objectIndex >= 0; objectIndex--) {
-		if ([indexesToMove containsIndex:objectIndex]) {
+		if (([indexesToMove count] > 0)
+			&& ([indexesToMove containsIndex:objectIndex])) {
 			[indexesToMove removeIndex:objectIndex];
+			[unchangedIndexes addIndex:objectIndex];
 		} else {
 			break;
 		}
 	}
 	
-	// the destination indexes corresponding to those indexesToMove that weren't already at the front
-	// are all <= objectIndex and need to be decremented by 1
-	NSMutableIndexSet *destinationIndexes = [indexesToMove mutableCopy];
-	[destinationIndexes shiftIndexesStartingAtIndex:0
-												 by:1];
-	
-	// do the rearrangement
-	[self undoableMoveObjectsAtIndexes:indexesToMove
-							 toIndexes:destinationIndexes
-						withActionName:@"Send Backward"];
-	
+	if ([indexesToMove count] > 0) {
+		// the destination indexes corresponding to those indexesToMove that weren't already at the front
+		// are all <= objectIndex and need to be decremented by 1
+		NSMutableIndexSet *destinationIndexes = [indexesToMove mutableCopy];
+		[destinationIndexes shiftIndexesStartingAtIndex:0
+													 by:1];
+		
+		// do the rearrangement
+		[self undoableMoveObjectsAtIndexes:indexesToMove
+								 toIndexes:destinationIndexes
+							withActionName:@"Bring Forward"];
+		
+		// reset the selection
+		[destinationIndexes addIndexes:unchangedIndexes];
+		[self setSelectedObjectIndexes:destinationIndexes];
+		
+		[destinationIndexes release];
+	}
 	[indexesToMove release];
-	[destinationIndexes release];
+	[unchangedIndexes release];
 }
 
 - (IBAction)sendBackward:(id)sender {
 	NSMutableIndexSet *indexesToMove = [[NSMutableIndexSet alloc]
 										initWithIndexSet:[self selectedObjectIndexes]];
+	NSMutableIndexSet *unchangedIndexes = [[NSMutableIndexSet alloc] init];
+
 	// remove the indexes of objects that are already at the back
 	NSUInteger objectIndex;
 	for (objectIndex = 0; objectIndex < [objectsOnPaper count]; objectIndex++) {
-		if ([indexesToMove containsIndex:objectIndex]) {
+		if (([indexesToMove count] > 0)
+			&& ([indexesToMove containsIndex:objectIndex])) {
 			[indexesToMove removeIndex:objectIndex];
+			[unchangedIndexes addIndex:objectIndex];
 		} else {
 			break;
 		}
 	}
 	
-	// the destination indexes corresponding to those indexesToMove that weren't already at the back
-	// are all >= objectIndex and need to be decremented by 1
-	NSMutableIndexSet *destinationIndexes = [indexesToMove mutableCopy];
-	[destinationIndexes shiftIndexesStartingAtIndex:objectIndex
-												 by:-1];
-	
-	// do the rearrangement
-	[self undoableMoveObjectsAtIndexes:indexesToMove
-							 toIndexes:destinationIndexes
-						withActionName:@"Send Backward"];
-	
+	if ([indexesToMove count] > 0) {
+		// the destination indexes corresponding to those indexesToMove that weren't already at the back
+		// are all >= objectIndex and need to be decremented by 1
+		NSMutableIndexSet *destinationIndexes = [indexesToMove mutableCopy];
+		[destinationIndexes shiftIndexesStartingAtIndex:objectIndex
+													 by:-1];
+		
+		// do the rearrangement
+		[self undoableMoveObjectsAtIndexes:indexesToMove
+								 toIndexes:destinationIndexes
+							withActionName:@"Send Backward"];
+		
+		// reset the selection
+		[destinationIndexes addIndexes:unchangedIndexes];
+		[self setSelectedObjectIndexes:destinationIndexes];
+		[destinationIndexes release];
+	}
 	[indexesToMove release];
-	[destinationIndexes release];
+	[unchangedIndexes release];
 }
 
 - (IBAction)sendToBack:(id)sender {
 	NSIndexSet *selectedIndexes = [self selectedObjectIndexes];
-	[self undoableMoveObjectsAtIndexes:selectedIndexes
-							 toIndexes:[NSIndexSet indexSetWithIndexesInRange:
-										NSMakeRange(0,[selectedIndexes count])]
-						withActionName:@"Send to Back"];
+	NSIndexSet *destinationIndexes = [NSIndexSet indexSetWithIndexesInRange:
+									  NSMakeRange(0,[selectedIndexes count])];
+	if (![selectedIndexes isEqualToIndexSet:destinationIndexes]) {
+		[self undoableMoveObjectsAtIndexes:selectedIndexes
+								 toIndexes:destinationIndexes
+							withActionName:@"Send to Back"];
+		[self setSelectedObjectIndexes:destinationIndexes];
+	}
 }
 
 
