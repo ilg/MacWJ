@@ -56,12 +56,15 @@ NSString * const kTabletViewInkStrokesPboardType = @"kTabletViewInkStrokesPboard
 
 - (NSUndoManager *)undoManager;
 - (void)undoableAddStrokes:(NSArray *)strokesToAdd
-				 atIndexes:(NSIndexSet *)indexesToAdd;
-- (void)undoableEraseStrokesAtIndexes:(NSIndexSet *)indexesToErase;
+				 atIndexes:(NSIndexSet *)indexesToAdd
+			withActionName:(NSString *)actionName;
+- (void)undoableEraseStrokesAtIndexes:(NSIndexSet *)indexesToErase
+					   withActionName:(NSString *)actionName;
 - (void)addStroke:(tabletInkStroke *)strokeToAdd;
 - (void)eraseStrokesWithIndexes:(NSIndexSet *)indexesToErase;
 - (void)undoableApplyTransform:(NSAffineTransform *)theTransform
-		  toStrokesWithIndexes:(NSIndexSet *)indexesToTransform;
+		  toStrokesWithIndexes:(NSIndexSet *)indexesToTransform
+				withActionName:(NSString *)actionName;
 
 @end
 
@@ -240,7 +243,8 @@ static NSCursor *eraserCursor;
 					   yBy:(newPoint.y - previousPoint.y)];
 	previousPoint = newPoint;
 	[self undoableApplyTransform:movement
-			toStrokesWithIndexes:selectedStrokeIndexes];
+			toStrokesWithIndexes:selectedStrokeIndexes
+				  withActionName:NSLocalizedString(@"Move",@"")];
 }
 
 - (void)endMovingSelection:(NSEvent *)theEvent {
@@ -257,19 +261,22 @@ static NSCursor *eraserCursor;
 
 - (void)undoableAddStrokes:(NSArray *)strokesToAdd
 				 atIndexes:(NSIndexSet *)indexesToAdd
+			withActionName:(NSString *)actionName
 {
 	[self selectNone];
 	[strokes insertObjects:strokesToAdd atIndexes:indexesToAdd];
 	NSUndoManager *undoer = [self undoManager];
 	[[undoer prepareWithInvocationTarget:self]
-	 undoableEraseStrokesAtIndexes:indexesToAdd];
-	[undoer setActionName:NSLocalizedString([undoer isUndoing] ? @"Erasing" : @"Inking",@"")];
+	 undoableEraseStrokesAtIndexes:indexesToAdd
+	 withActionName:actionName];
+	[undoer setActionName:actionName];
 	for (tabletInkStroke *aStroke in strokesToAdd) {
 		[self setNeedsDisplayInRect:[aStroke bounds]];
 	}
 }
 
 - (void)undoableEraseStrokesAtIndexes:(NSIndexSet *)indexesToErase 
+					   withActionName:(NSString *)actionName
 {
 	[self selectNone];
 	if ([indexesToErase count] > 0) {
@@ -278,8 +285,9 @@ static NSCursor *eraserCursor;
 		NSUndoManager *undoer = [self undoManager];
 		[[undoer prepareWithInvocationTarget:self]
 		 undoableAddStrokes:strokesBeingErased
-		 atIndexes:indexesToErase];
-		[undoer setActionName:NSLocalizedString([undoer isUndoing] ? @"Inking" : @"Erasing",@"")];
+		 atIndexes:indexesToErase
+		 withActionName:actionName];
+		[undoer setActionName:actionName];
 		for (tabletInkStroke *aStroke in strokesBeingErased) {
 			[self setNeedsDisplayInRect:[aStroke bounds]];
 		}
@@ -288,24 +296,28 @@ static NSCursor *eraserCursor;
 
 - (void)addStroke:(tabletInkStroke *)strokeToAdd {
 	[self undoableAddStrokes:[NSArray arrayWithObject:strokeToAdd]
-				   atIndexes:[NSIndexSet indexSetWithIndex:[strokes count]]];
+				   atIndexes:[NSIndexSet indexSetWithIndex:[strokes count]]
+			  withActionName:NSLocalizedString(@"Inking",@"")];
 }
 
 - (void)eraseStrokesWithIndexes:(NSIndexSet *)indexesToErase {
-	[self undoableEraseStrokesAtIndexes:indexesToErase];
+	[self undoableEraseStrokesAtIndexes:indexesToErase
+						 withActionName:NSLocalizedString(@"Erasing",@"")];
 }
 
 - (void)undoableApplyTransform:(NSAffineTransform *)theTransform
 		  toStrokesWithIndexes:(NSIndexSet *)indexesToTransform
+				withActionName:(NSString *)actionName
 {
 	NSUndoManager *undoer = [self undoManager];
 	NSAffineTransform *inverseTransform = [theTransform copy];
 	[inverseTransform invert];
 	[[undoer prepareWithInvocationTarget:self]
 	 undoableApplyTransform:inverseTransform
-	 toStrokesWithIndexes:indexesToTransform];
+	 toStrokesWithIndexes:indexesToTransform
+	 withActionName:actionName];
 	[inverseTransform release];
-	[undoer setActionName:NSLocalizedString(@"Move",@"")];
+	[undoer setActionName:actionName];
 	NSRect needsDisplayRect = [[strokes objectAtIndex:[indexesToTransform firstIndex]] highlightBounds];
 	for (tabletInkStroke *aStroke in [strokes objectsAtIndexes:indexesToTransform]) {
 		needsDisplayRect = NSUnionRect(needsDisplayRect, [aStroke highlightBounds]);
@@ -390,7 +402,8 @@ static NSCursor *eraserCursor;
 }
 
 - (IBAction)delete:(id)sender {
-	[self undoableEraseStrokesAtIndexes:[self selectedStrokeIndexes]];
+	[self undoableEraseStrokesAtIndexes:[self selectedStrokeIndexes]
+						 withActionName:NSLocalizedString(@"Delete",@"")];
 }
 
 #pragma mark -
@@ -534,7 +547,8 @@ static NSCursor *eraserCursor;
 	tabletView *temporaryView = [[tabletView alloc] initWithFrame:[self frame]];
 	[temporaryView undoableAddStrokes:selectedStrokes
 							atIndexes:[NSIndexSet indexSetWithIndexesInRange:
-									   NSMakeRange(0, [selectedStrokes count])]];
+									   NSMakeRange(0, [selectedStrokes count])]
+					   withActionName:@""];
 	NSData *thePDFData = [temporaryView dataWithPDFInsideRect:[temporaryView pathBounds]];
 	[temporaryView release];
 	return thePDFData;
@@ -545,11 +559,17 @@ static NSCursor *eraserCursor;
 #pragma mark cut/copy/paste
 
 - (IBAction)cut:(id)sender {
+	[self copy:sender];
+	[self undoableEraseStrokesAtIndexes:[self selectedStrokeIndexes]
+						 withActionName:NSLocalizedString(@"Cut",@"")];
 }
 
 - (IBAction)copy:(id)sender {
 	NSPasteboard *pb = [NSPasteboard generalPasteboard];
-	[pb declareTypes:[NSArray arrayWithObjects:kTabletViewInkStrokesPboardType, NSPDFPboardType, NSTIFFPboardType, nil] owner:nil];
+	[pb declareTypes:[NSArray arrayWithObjects:
+					  kTabletViewInkStrokesPboardType,
+					  NSPDFPboardType, NSTIFFPboardType,
+					  nil] owner:nil];
 	
 	// add internal format (kTabletViewInkStrokesPboardType)
 	[pb setData:[NSKeyedArchiver archivedDataWithRootObject:[self selectedStrokes]]
@@ -576,9 +596,12 @@ static NSCursor *eraserCursor;
 	if ([[pb types] containsObject:kTabletViewInkStrokesPboardType]) {
 		NSArray *pastedStrokes = [NSKeyedUnarchiver unarchiveObjectWithData:
 								  [pb dataForType:kTabletViewInkStrokesPboardType]];
-		[self setSelectedStrokeIndexes:[NSIndexSet indexSetWithIndexesInRange:
-										NSMakeRange([strokes count], [pastedStrokes count])]];
-		[strokes addObjectsFromArray:pastedStrokes];
+		NSIndexSet *pastedIndexes = [NSIndexSet indexSetWithIndexesInRange:
+									 NSMakeRange([strokes count], [pastedStrokes count])];
+		[self undoableAddStrokes:pastedStrokes
+					   atIndexes:pastedIndexes
+				  withActionName:NSLocalizedString(@"Paste",@"")];
+		[self setSelectedStrokeIndexes:pastedIndexes];
 		[self setNeedsDisplay:YES];
 	}
 }
