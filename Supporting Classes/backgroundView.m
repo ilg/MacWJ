@@ -58,12 +58,13 @@
 	NSRectFill([self bounds]);
 
 	// Change the pattern phase.
-	[[NSGraphicsContext currentContext] setPatternPhase:
-	 NSMakePoint(0,[self frame].size.height + [self visibleRect].origin.y)];
+	[[NSGraphicsContext currentContext]
+	 setPatternPhase:[self convertPoint:NSZeroPoint
+								 toView:[[self window] contentView]]];
 	
 	// Stick the image in a color and fill the view with that color.
 	[[NSColor colorWithPatternImage:backgroundImage] set];
-	NSRectFill([self bounds]);
+	NSRectFill([self visibleRect]);
 	
 	// Restore the original graphics state.
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
