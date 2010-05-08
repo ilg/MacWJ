@@ -47,18 +47,7 @@
 - (id)initWithPoint:(NSPoint)startingPoint;
 - (void)lineToPoint:(NSPoint)endPoint
 	  withThickness:(CGFloat)lineWidth;
-- (NSRect)bounds;
-- (NSRect)highlightBounds;
 - (NSRect)lastSegmentBounds;
-- (void)drawInRect:(NSRect)dirtyRect
-		   withRects:(const NSRect *)dirtyRects
-			   count:(NSInteger)dirtyRectsCount;
-- (void)drawWithHighlightInRect:(NSRect)dirtyRect
-						withRects:(const NSRect *)dirtyRects
-							count:(NSInteger)dirtyRectsCount;
-- (BOOL)passesThroughRect:(NSRect)rect;
-- (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path;
-- (void)transformUsingAffineTransform:(NSAffineTransform *)aTransform;
 
 - (NSImage *)imageFromStroke;
 
