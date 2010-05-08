@@ -428,7 +428,9 @@ static NSCursor *eraserCursor;
 	for (NSUInteger objectIndex = 0; objectIndex < [objectsOnPaper count]; objectIndex++) {
 		if ([[objectsOnPaper objectAtIndex:objectIndex] passesThroughRect:selectionRect]) {
 			[indexesToSelect addIndex:objectIndex];
-			needsDisplayRect = NSUnionRect(needsDisplayRect, [[objectsOnPaper objectAtIndex:objectIndex] bounds]);
+			needsDisplayRect = NSUnionRect(needsDisplayRect,
+										   [[objectsOnPaper objectAtIndex:objectIndex]
+											highlightBounds]);
 		}
 	}
 	[self setSelectedObjectIndexes:[[[NSIndexSet alloc] initWithIndexSet:indexesToSelect] autorelease]];
@@ -466,7 +468,9 @@ static NSCursor *eraserCursor;
 	for (NSUInteger objectIndex = 0; objectIndex < [objectsOnPaper count]; objectIndex++) {
 		if ([[objectsOnPaper objectAtIndex:objectIndex] passesThroughRegionEnclosedByPath:[self selectionPath]]) {
 			[indexesToSelect addIndex:objectIndex];
-			needsDisplayRect = NSUnionRect(needsDisplayRect, [[objectsOnPaper objectAtIndex:objectIndex] bounds]);
+			needsDisplayRect = NSUnionRect(needsDisplayRect,
+										   [[objectsOnPaper objectAtIndex:objectIndex]
+											highlightBounds]);
 		}
 	}
 	[self setSelectedObjectIndexes:[[[NSIndexSet alloc] initWithIndexSet:indexesToSelect] autorelease]];
