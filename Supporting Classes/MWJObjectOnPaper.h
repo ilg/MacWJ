@@ -26,51 +26,25 @@
  *********************************************************************************/
 
 //
-//  MWJPaperView.h
+//  MWJObjectOnPaper.h
 //  MacWJ
 //
 
 #import <Cocoa/Cocoa.h>
 
-@class MWJInkingStroke;
-@class MWJInkingPenNib;
 
-// MARK: tool type constants
-extern NSUInteger const kMWJPaperViewPenToolType;
-extern NSUInteger const kMWJPaperViewEraserToolType;
-extern NSUInteger const kMWJPaperViewRectangularMarqueeToolType;
-extern NSUInteger const kMWJPaperViewLassoToolType;
+@protocol MWJObjectOnPaper <NSCoding>
 
-@interface MWJPaperView : NSView {
-	MWJInkingPenNib *currentPenNib;
-	NSUInteger toolType;
-	
-	@private
-	NSMutableArray *objectsOnPaper;
-	MWJInkingStroke *workingStroke;
-	CGFloat initialPressure;
-	NSPointingDeviceType pointingDeviceType;
-	NSIndexSet *selectedObjectIndexes;
-	NSPoint rectangularSelectionOrigin;
-	NSBezierPath *selectionPath;
-	NSPoint previousPoint;
-	NSTimeInterval timeOfLastTabletEvent;
-}
-
-@property (retain) MWJInkingPenNib *currentPenNib;
-@property NSUInteger toolType;
-
-@property (retain) NSIndexSet *selectedObjectIndexes;
-@property (retain) NSBezierPath *selectionPath;
-
-- (IBAction)cut:(id)sender;
-- (IBAction)copy:(id)sender;
-- (IBAction)paste:(id)sender;
-
-- (NSData *)data;
-- (void)loadFromData:(NSData *)data;
-
-- (NSData *)PNGData;
-- (NSData *)PDFData;
+- (NSRect)bounds;
+- (NSRect)highlightBounds;
+- (void)drawInRect:(NSRect)dirtyRect
+		 withRects:(const NSRect *)dirtyRects
+			 count:(NSInteger)dirtyRectsCount;
+- (void)drawWithHighlightInRect:(NSRect)dirtyRect
+					  withRects:(const NSRect *)dirtyRects
+						  count:(NSInteger)dirtyRectsCount;
+- (BOOL)passesThroughRect:(NSRect)rect;
+- (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path;
+- (void)transformUsingAffineTransform:(NSAffineTransform *)aTransform;
 
 @end

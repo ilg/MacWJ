@@ -82,6 +82,7 @@
 		719438E711956F510028E980 /* MWJInkingPenNibEditingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJInkingPenNibEditingController.h; sourceTree = "<group>"; };
 		719438E811956F510028E980 /* MWJInkingPenNibEditingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJInkingPenNibEditingController.m; sourceTree = "<group>"; };
 		7194393D119572B80028E980 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MWJDocument.xib; sourceTree = "<group>"; };
+		719439761195792E0028E980 /* MWJObjectOnPaper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJObjectOnPaper.h; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* MacWJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacWJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -201,6 +202,7 @@
 				719438DE11956F400028E980 /* MWJPaperBackgroundView.m */,
 				719438DF11956F400028E980 /* MWJPaperView.h */,
 				719438E011956F400028E980 /* MWJPaperView.m */,
+				719439761195792E0028E980 /* MWJObjectOnPaper.h */,
 			);
 			path = "Supporting Classes";
 			sourceTree = "<group>";

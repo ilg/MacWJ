@@ -47,9 +47,9 @@
 @implementation MWJDocument
 
 // MARK: keys for document file dictionary
-NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
+NSString * const kMacWJDocumentRawObjectDataKey = @"rawObjectData";
 NSString * const kMacWJDocumentWindowFrameDataKey = @"windowFrame";
-NSString * const kMacWJDocumentBackgroundViewSizeDataKey = @"MWJPaperBackgroundViewSize";
+NSString * const kMacWJDocumentBackgroundViewSizeDataKey = @"paperBackgroundViewSize";
 
 // MARK: keys for undo/redo segmented control
 NSInteger const kUndoRedoSegmentedUndoSegmentNumber = 0;
@@ -198,7 +198,7 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 	if ([typeName isEqualToString:@"MacWJ Document"]) {
 		NSDictionary *theSavedDictionary
 		= [NSDictionary dictionaryWithObjectsAndKeys:
-		   [thePaperView data], kMacWJDocumentRawInkDataKey,
+		   [thePaperView data], kMacWJDocumentRawObjectDataKey,
 		   NSStringFromRect([[thePaperView window] frame]), kMacWJDocumentWindowFrameDataKey,
 		   NSStringFromSize([theBackgroundView frame].size), kMacWJDocumentBackgroundViewSizeDataKey,
 		   nil];
@@ -254,7 +254,7 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 	if (paperBackgroundViewSizeString) [theBackgroundView
 										setFrameSize:NSSizeFromString(paperBackgroundViewSizeString)];
 	
-	[thePaperView loadFromData:[theSavedDictionary objectForKey:kMacWJDocumentRawInkDataKey]];
+	[thePaperView loadFromData:[theSavedDictionary objectForKey:kMacWJDocumentRawObjectDataKey]];
 	[thePaperView setNeedsDisplay:YES];
 }
 

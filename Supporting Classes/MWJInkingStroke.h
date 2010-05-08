@@ -31,10 +31,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "MWJObjectOnPaper.h"
 
-@class MWJInkingPenNib;
-
-@interface MWJInkingStroke : NSObject {
+@interface MWJInkingStroke : NSObject < MWJObjectOnPaper > {
 	NSColor *color;
 	
 	@private
@@ -51,10 +50,10 @@
 - (NSRect)bounds;
 - (NSRect)highlightBounds;
 - (NSRect)lastSegmentBounds;
-- (void)strokeInRect:(NSRect)dirtyRect
+- (void)drawInRect:(NSRect)dirtyRect
 		   withRects:(const NSRect *)dirtyRects
 			   count:(NSInteger)dirtyRectsCount;
-- (void)strokeWithHighlightInRect:(NSRect)dirtyRect
+- (void)drawWithHighlightInRect:(NSRect)dirtyRect
 						withRects:(const NSRect *)dirtyRects
 							count:(NSInteger)dirtyRectsCount;
 - (BOOL)passesThroughRect:(NSRect)rect;

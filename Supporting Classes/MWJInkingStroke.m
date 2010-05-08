@@ -113,7 +113,7 @@ NSString * const kMWJInkingStrokeCurrentPointKey = @"MWJInkingStrokeCurrentPoint
 	return resultingImage;
 }
 
-- (void)strokeInRect:(NSRect)dirtyRect
+- (void)drawInRect:(NSRect)dirtyRect
 		   withRects:(const NSRect *)dirtyRects
 			   count:(NSInteger)dirtyRectsCount
 {
@@ -133,7 +133,7 @@ NSString * const kMWJInkingStrokeCurrentPointKey = @"MWJInkingStrokeCurrentPoint
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
 }
 
-- (void)strokeWithHighlightInRect:(NSRect)dirtyRect
+- (void)drawWithHighlightInRect:(NSRect)dirtyRect
 						withRects:(const NSRect *)dirtyRects
 							count:(NSInteger)dirtyRectsCount
 {
@@ -150,7 +150,7 @@ NSString * const kMWJInkingStrokeCurrentPointKey = @"MWJInkingStrokeCurrentPoint
         }
     }
 	// draw the stroke on top of the highlight
-	[self strokeInRect:dirtyRect
+	[self drawInRect:dirtyRect
 			 withRects:dirtyRects
 				 count:dirtyRectsCount];
 	
