@@ -35,6 +35,8 @@
 #import "tabletPenNib.h"
 #import "backgroundView.h"
 
+#define EXTEND_PAGE_AMOUNT 100.0
+
 @interface MyDocument (private)
 
 - (void)reloadNibs;
@@ -123,6 +125,11 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 
 #pragma mark -
 #pragma mark IBActions
+
+- (IBAction)extendPage:(id)sender {
+	NSRect frame = [theBackgroundView frame];
+	[theBackgroundView setFrameSize:NSMakeSize(frame.size.width, frame.size.height + EXTEND_PAGE_AMOUNT)];
+}
 
 - (IBAction)penNibSelected:(id)sender {
 	if ([sender respondsToSelector:@selector(menu)]) {

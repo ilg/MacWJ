@@ -45,6 +45,8 @@
 	IBOutlet NSPopUpButton *penNibSelectionPopUpButton;
 }
 
+- (IBAction)extendPage:(id)sender;
+
 - (IBAction)penNibSelected:(id)sender;
 - (IBAction)undoRedoAction:(id)sender;
 - (IBAction)toolSelectionAction:(id)sender;

@@ -184,8 +184,7 @@ static NSCursor *eraserCursor;
 	return YES;
 }
 
-- (BOOL)acceptsFirstResponder
-{
+- (BOOL)acceptsFirstResponder {
 	return YES;
 }
 
