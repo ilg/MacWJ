@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="100029"/>
+			<integer value="5"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -81,6 +81,7 @@
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{0, 14}, {71, 25}}</string>
 									<reference key="NSSuperview"/>
+									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSSegmentedCell" key="NSCell" id="193437830">
 										<int key="NSCellFlags">-2080244224</int>
@@ -130,20 +131,21 @@
 								<bool key="NSToolbarIsUserRemovable">YES</bool>
 								<int key="NSToolbarItemVisibilityPriority">0</int>
 							</object>
-							<object class="NSToolbarItem" id="34445262">
+							<object class="NSToolbarItem" id="162067497">
 								<object class="NSMutableString" key="NSToolbarItemIdentifier">
 									<characters key="NS.bytes">19C84100-FEFB-400E-8CDC-48D01C794B21</characters>
 								</object>
 								<string key="NSToolbarItemLabel">Extend Page</string>
 								<string key="NSToolbarItemPaletteLabel">Extend Page</string>
 								<nil key="NSToolbarItemToolTip"/>
-								<object class="NSButton" key="NSToolbarItemView" id="418413942">
+								<object class="NSButton" key="NSToolbarItemView" id="263799885">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{21, 14}, {32, 25}}</string>
 									<reference key="NSSuperview"/>
+									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
-									<object class="NSButtonCell" key="NSCell" id="505666611">
+									<object class="NSButtonCell" key="NSCell" id="255575283">
 										<int key="NSCellFlags">-2080244224</int>
 										<int key="NSCellFlags2">134217728</int>
 										<string key="NSContents"/>
@@ -152,10 +154,10 @@
 											<double key="NSSize">13</double>
 											<int key="NSfFlags">1044</int>
 										</object>
-										<reference key="NSControlView" ref="418413942"/>
+										<reference key="NSControlView" ref="263799885"/>
 										<int key="NSButtonFlags">-2033434369</int>
 										<int key="NSButtonFlags2">163</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="1069483401">
+										<object class="NSCustomResource" key="NSNormalImage" id="514420232">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">NSAddTemplate</string>
 										</object>
@@ -165,7 +167,7 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="1069483401"/>
+								<reference key="NSToolbarItemImage" ref="514420232"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{32, 25}</string>
@@ -188,6 +190,7 @@
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{6, 14}, {50, 25}}</string>
 									<reference key="NSSuperview"/>
+									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="786188501">
 										<int key="NSCellFlags">67239424</int>
@@ -230,6 +233,7 @@
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{0, 14}, {150, 25}}</string>
 									<reference key="NSSuperview"/>
+									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSPopUpButtonCell" key="NSCell" id="220714219">
 										<int key="NSCellFlags">-2076049856</int>
@@ -238,7 +242,7 @@
 										<reference key="NSControlView" ref="226423984"/>
 										<int key="NSButtonFlags">-2038415105</int>
 										<int key="NSButtonFlags2">163</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="1001187734">
+										<object class="NSCustomResource" key="NSNormalImage" id="1033377670">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">pen</string>
 										</object>
@@ -253,7 +257,7 @@
 											<int key="NSKeyEquivModMask">1048576</int>
 											<int key="NSMnemonicLoc">2147483647</int>
 											<int key="NSState">1</int>
-											<reference key="NSImage" ref="1001187734"/>
+											<reference key="NSImage" ref="1033377670"/>
 											<object class="NSCustomResource" key="NSOnImage" id="957002923">
 												<string key="NSClassName">NSImage</string>
 												<string key="NSResourceName">NSMenuCheckmark</string>
@@ -281,7 +285,7 @@
 										<int key="NSArrowPosition">2</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="1001187734"/>
+								<reference key="NSToolbarItemImage" ref="1033377670"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{150, 25}</string>
@@ -304,6 +308,7 @@
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{0, 14}, {170, 25}}</string>
 									<reference key="NSSuperview"/>
+									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSSegmentedCell" key="NSCell" id="817253051">
 										<int key="NSCellFlags">67239424</int>
@@ -314,7 +319,7 @@
 											<bool key="EncodedWithXMLCoder">YES</bool>
 											<object class="NSSegmentItem">
 												<double key="NSSegmentItemWidth">32</double>
-												<reference key="NSSegmentItemImage" ref="1001187734"/>
+												<reference key="NSSegmentItemImage" ref="1033377670"/>
 												<string key="NSSegmentItemLabel"/>
 												<string key="NSSegmentItemTooltip">Pen</string>
 												<bool key="NSSegmentItemSelected">YES</bool>
@@ -488,14 +493,14 @@
 						<reference ref="416936075"/>
 						<reference ref="726442841"/>
 						<reference ref="565080349"/>
-						<reference ref="34445262"/>
+						<reference ref="162067497"/>
 					</object>
 					<object class="NSMutableArray" key="NSToolbarIBDefaultItems">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<reference ref="246431623"/>
 						<reference ref="770643306"/>
 						<reference ref="293845203"/>
-						<reference ref="34445262"/>
+						<reference ref="162067497"/>
 						<reference ref="293845203"/>
 						<reference ref="614924973"/>
 						<reference ref="293845203"/>
@@ -555,7 +560,7 @@
 											<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
 										</object>
 									</object>
-									<int key="NScvFlags">4</int>
+									<int key="NScvFlags">6</int>
 								</object>
 								<object class="NSScroller" id="224706043">
 									<reference key="NSNextResponder" ref="510894227"/>
@@ -705,7 +710,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">extendPage:</string>
 						<reference key="source" ref="613418571"/>
-						<reference key="destination" ref="418413942"/>
+						<reference key="destination" ref="263799885"/>
 					</object>
 					<int key="connectionID">100074</int>
 				</object>
@@ -805,7 +810,7 @@
 							<reference ref="416936075"/>
 							<reference ref="726442841"/>
 							<reference ref="770643306"/>
-							<reference ref="34445262"/>
+							<reference ref="162067497"/>
 						</object>
 						<reference key="parent" ref="275939982"/>
 					</object>
@@ -946,26 +951,26 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">100073</int>
-						<reference key="object" ref="34445262"/>
+						<reference key="object" ref="162067497"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="418413942"/>
+							<reference ref="263799885"/>
 						</object>
 						<reference key="parent" ref="880172484"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">100071</int>
-						<reference key="object" ref="418413942"/>
+						<reference key="object" ref="263799885"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="505666611"/>
+							<reference ref="255575283"/>
 						</object>
-						<reference key="parent" ref="34445262"/>
+						<reference key="parent" ref="162067497"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">100072</int>
-						<reference key="object" ref="505666611"/>
-						<reference key="parent" ref="418413942"/>
+						<reference key="object" ref="255575283"/>
+						<reference key="parent" ref="263799885"/>
 					</object>
 				</object>
 			</object>
@@ -1020,7 +1025,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{50, 388}, {617, 227}}</string>
+					<string>{{50, 615}, {617, 0}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1082,12 +1087,14 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>extendPage:</string>
 							<string>penNibSelected:</string>
 							<string>toolSelectionAction:</string>
 							<string>undoRedoAction:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -1134,12 +1141,10 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>copy:</string>
 							<string>cut:</string>
-							<string>extendPage:</string>
 							<string>paste:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

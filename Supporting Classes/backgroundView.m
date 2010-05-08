@@ -59,7 +59,7 @@
 
 	// Change the pattern phase.
 	[[NSGraphicsContext currentContext] setPatternPhase:
-	 NSMakePoint(0,[self frame].size.height)];
+	 NSMakePoint(0,[self frame].size.height + [self visibleRect].origin.y)];
 	
 	// Stick the image in a color and fill the view with that color.
 	[[NSColor colorWithPatternImage:backgroundImage] set];
@@ -67,6 +67,10 @@
 	
 	// Restore the original graphics state.
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
+}
+
+- (BOOL)isFlipped {
+	return YES;
 }
 
 @end
