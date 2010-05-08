@@ -59,7 +59,8 @@ NSString * const kMWJPaperViewObjectsOnPaperPboardType = @"kMWJPaperViewObjectsO
 			withActionName:(NSString *)actionName;
 - (void)undoableEraseObjectsAtIndexes:(NSIndexSet *)indexesToErase
 					   withActionName:(NSString *)actionName;
-- (void)addObjectOnPaper:(id<MWJObjectOnPaper>)objectToAdd;
+- (void)undoableAddObjectOnPaper:(id<MWJObjectOnPaper>)objectToAdd
+				  withActionName:(NSString *)actionName;
 - (void)eraseObjectsWithIndexes:(NSIndexSet *)indexesToErase;
 - (void)undoableApplyTransform:(NSAffineTransform *)theTransform
 		  toObjectsWithIndexes:(NSIndexSet *)indexesToTransform
@@ -295,10 +296,12 @@ static NSCursor *eraserCursor;
 	}
 }
 
-- (void)addObjectOnPaper:(id<MWJObjectOnPaper>)objectToAdd {
+- (void)undoableAddObjectOnPaper:(id<MWJObjectOnPaper>)objectToAdd
+				  withActionName:(NSString *)actionName
+{
 	[self undoableAddObjects:[NSArray arrayWithObject:objectToAdd]
 				   atIndexes:[NSIndexSet indexSetWithIndex:[objectsOnPaper count]]
-			  withActionName:NSLocalizedString(@"Inking",@"")];
+			  withActionName:actionName];
 }
 
 - (void)eraseObjectsWithIndexes:(NSIndexSet *)indexesToErase {
@@ -329,7 +332,7 @@ static NSCursor *eraserCursor;
 }
 
 #pragma mark -
-#pragma mark for creating ink objectsOnPaper
+#pragma mark for creating ink strokes
 
 - (CGFloat)lineWidthForPressure:(CGFloat)pressure
 						  start:(NSPoint)start
@@ -372,7 +375,8 @@ static NSCursor *eraserCursor;
 						 initWithPoint:[self convertPoint:[theEvent locationInWindow]
 												 fromView:nil]];
 		[workingStroke setColor:[currentPenNib inkColor]];
-		[self addObjectOnPaper:workingStroke];
+		[self undoableAddObjectOnPaper:workingStroke
+						withActionName:NSLocalizedString(@"Inking",@"")];
 	}
 	initialPressure = [theEvent pressure];
 }
