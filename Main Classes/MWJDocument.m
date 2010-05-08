@@ -46,11 +46,6 @@
 
 @implementation MWJDocument
 
-// MARK: keys for document file dictionary
-NSString * const kMacWJDocumentRawObjectDataKey = @"rawObjectData";
-NSString * const kMacWJDocumentWindowFrameDataKey = @"windowFrame";
-NSString * const kMacWJDocumentBackgroundViewSizeDataKey = @"paperBackgroundViewSize";
-
 // MARK: keys for undo/redo segmented control
 NSInteger const kUndoRedoSegmentedUndoSegmentNumber = 0;
 NSInteger const kUndoRedoSegmentedRedoSegmentNumber = 1;
@@ -185,6 +180,17 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 }
 
+
+// MARK: keys for document file dictionary
+NSString * const kMacWJDocumentRawObjectDataKey = @"rawObjectData";
+NSString * const kMacWJDocumentWindowFrameDataKey = @"windowFrame";
+NSString * const kMacWJDocumentBackgroundViewSizeDataKey = @"paperBackgroundViewSize";
+// legacy keys:
+NSString * const kMacWJDocumentRawObjectDataLegacyKey = @"rawInkData";
+NSString * const kMacWJDocumentWindowFrameDataLegacyKey = @"windowFrame";
+NSString * const kMacWJDocumentBackgroundViewSizeDataLegacyKey = @"backgroundViewSize";
+
+
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
     // Insert code here to write your document to data of the specified type. If the given outError != NULL, ensure that you set *outError when returning nil.
@@ -246,15 +252,19 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 // helper method since thePaperView isn't set up at the moment readFromData:ofType:error: is called
 - (void)delayedSavedDictionaryLoad:(NSDictionary *)theSavedDictionary {
 	NSString *windowFrameString = [theSavedDictionary objectForKey:kMacWJDocumentWindowFrameDataKey];
+	if (!windowFrameString) windowFrameString = [theSavedDictionary objectForKey:kMacWJDocumentWindowFrameDataLegacyKey];
 	if (windowFrameString) [[thePaperView window]
 							setFrame:NSRectFromString(windowFrameString)
 							display:YES];
 	
 	NSString *paperBackgroundViewSizeString = [theSavedDictionary objectForKey:kMacWJDocumentBackgroundViewSizeDataKey];
+	if (!paperBackgroundViewSizeString) paperBackgroundViewSizeString = [theSavedDictionary objectForKey:kMacWJDocumentBackgroundViewSizeDataLegacyKey];
 	if (paperBackgroundViewSizeString) [theBackgroundView
 										setFrameSize:NSSizeFromString(paperBackgroundViewSizeString)];
 	
-	[thePaperView loadFromData:[theSavedDictionary objectForKey:kMacWJDocumentRawObjectDataKey]];
+	NSData *rawObjectData = [theSavedDictionary objectForKey:kMacWJDocumentRawObjectDataKey];
+	if (!rawObjectData) rawObjectData = [theSavedDictionary objectForKey:kMacWJDocumentRawObjectDataLegacyKey];
+	[thePaperView loadFromData:rawObjectData];
 	[thePaperView setNeedsDisplay:YES];
 }
 

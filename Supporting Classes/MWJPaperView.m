@@ -508,8 +508,10 @@ static NSCursor *eraserCursor;
 
 - (void)loadFromData:(NSData *)data {
 	[objectsOnPaper release];
-	NSArray *loadedArray = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-	objectsOnPaper = [[NSMutableArray alloc] initWithArray:loadedArray];
+	[NSKeyedUnarchiver setClass:[MWJInkingStroke class] forClassName:@"tabletInkStroke"];
+	objectsOnPaper = [[NSMutableArray alloc]
+					  initWithArray:[NSKeyedUnarchiver
+									 unarchiveObjectWithData:data]];
 }
 
 - (NSData *)PNGData {

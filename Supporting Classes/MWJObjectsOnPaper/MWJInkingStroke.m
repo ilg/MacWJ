@@ -41,11 +41,6 @@
 
 @synthesize color, currentPoint;
 
-// MARK: string keys for NSCoding
-NSString * const kMWJInkingStrokeColorKey = @"MWJInkingStrokeColorKey";
-NSString * const kMWJInkingStrokePathsKey = @"MWJInkingStrokePathsKey";
-NSString * const kMWJInkingStrokeCurrentPointKey = @"MWJInkingStrokeCurrentPointKey";
-
 #pragma mark -
 
 - (id)initWithPoint:(NSPoint)startingPoint {
@@ -207,6 +202,15 @@ NSString * const kMWJInkingStrokeCurrentPointKey = @"MWJInkingStrokeCurrentPoint
 #pragma mark -
 #pragma mark for archiving/unarchiving (for saving/loading documents)
 
+// MARK: string keys for NSCoding
+NSString * const kMWJInkingStrokeColorKey = @"MWJInkingStrokeColorKey";
+NSString * const kMWJInkingStrokePathsKey = @"MWJInkingStrokePathsKey";
+NSString * const kMWJInkingStrokeCurrentPointKey = @"MWJInkingStrokeCurrentPointKey";
+// legacy keys:
+NSString * const kMWJInkingStrokeColorLegacyKey = @"tabletInkStrokeColorKey";
+NSString * const kMWJInkingStrokePathsLegacyKey = @"tabletInkStrokePathsKey";
+NSString * const kMWJInkingStrokeCurrentPointLegacyKey = @"tabletInkStrokeCurrentPointKey";
+
 - (void)encodeWithCoder:(NSCoder *)coder {
 	// NSObject does not conform to NSCoding
 //    [super encodeWithCoder:coder];
@@ -221,8 +225,18 @@ NSString * const kMWJInkingStrokeCurrentPointKey = @"MWJInkingStrokeCurrentPoint
 	self = [super init];
 	if (self) {
 		[self setColor:[coder decodeObjectForKey:kMWJInkingStrokeColorKey]];
+		if (![self color]) [self setColor:[coder decodeObjectForKey:kMWJInkingStrokeColorLegacyKey]];
+		
 		paths = [[coder decodeObjectForKey:kMWJInkingStrokePathsKey] retain];
-		currentPoint = [coder decodePointForKey:kMWJInkingStrokeCurrentPointKey];
+		if (!paths) paths = [[coder decodeObjectForKey:kMWJInkingStrokePathsLegacyKey] retain];
+		
+		if ([coder containsValueForKey:kMWJInkingStrokeCurrentPointKey]) {
+			currentPoint = [coder decodePointForKey:kMWJInkingStrokeCurrentPointKey];
+		} else if ([coder containsValueForKey:kMWJInkingStrokeCurrentPointLegacyKey]) {
+			currentPoint = [coder decodePointForKey:kMWJInkingStrokeCurrentPointLegacyKey];
+		} else {
+			currentPoint = NSZeroPoint;
+		}
 	}
     return self;
 }
