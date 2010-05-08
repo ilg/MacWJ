@@ -67,6 +67,11 @@ extern NSUInteger const kMWJPaperViewLassoToolType;
 - (IBAction)copy:(id)sender;
 - (IBAction)paste:(id)sender;
 
+- (IBAction)bringToFront:(id)sender;
+- (IBAction)bringForward:(id)sender;
+- (IBAction)sendBackward:(id)sender;
+- (IBAction)sendToBack:(id)sender;
+
 - (NSData *)data;
 - (void)loadFromData:(NSData *)data;
 

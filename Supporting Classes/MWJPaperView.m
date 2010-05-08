@@ -66,6 +66,9 @@ NSString * const kMWJPaperViewObjectsOnPaperPboardType = @"kMWJPaperViewObjectsO
 - (void)undoableApplyTransform:(NSAffineTransform *)theTransform
 		  toObjectsWithIndexes:(NSIndexSet *)indexesToTransform
 				withActionName:(NSString *)actionName;
+- (void)undoableMoveObjectsAtIndexes:(NSIndexSet *)indexesToMove
+						   toIndexes:(NSIndexSet *)destinationIndexes
+					  withActionName:(NSString *)actionName;
 
 @end
 
@@ -344,6 +347,26 @@ static NSCursor *eraserCursor;
 	[self setNeedsDisplayInRect:needsDisplayRect];
 }
 
+- (void)undoableMoveObjectsAtIndexes:(NSIndexSet *)indexesToMove
+						   toIndexes:(NSIndexSet *)destinationIndexes
+					  withActionName:(NSString *)actionName
+{
+	NSArray *objectsToMove = [objectsOnPaper objectsAtIndexes:indexesToMove];
+	[objectsOnPaper removeObjectsAtIndexes:indexesToMove];
+	[objectsOnPaper insertObjects:objectsToMove
+						atIndexes:destinationIndexes];
+	NSUndoManager *undoer = [self undoManager];
+	[[undoer prepareWithInvocationTarget:self]
+	 undoableMoveObjectsAtIndexes:destinationIndexes
+	 toIndexes:indexesToMove
+	 withActionName:actionName];
+	[undoer setActionName:actionName];
+	for (id<MWJObjectOnPaper> anObjectOnPaper in objectsToMove) {
+		[self setNeedsDisplayInRect:[anObjectOnPaper bounds]];
+	}
+}
+
+
 #pragma mark -
 #pragma mark for creating ink strokes
 
@@ -608,6 +631,82 @@ static NSCursor *eraserCursor;
 			[self setNeedsDisplay:YES];
 		}
 	}
+}
+
+
+#pragma mark -
+#pragma mark object arrangement (move forward/backward)
+
+- (IBAction)bringToFront:(id)sender {
+	NSIndexSet *selectedIndexes = [self selectedObjectIndexes];
+	[self undoableMoveObjectsAtIndexes:selectedIndexes
+							 toIndexes:[NSIndexSet indexSetWithIndexesInRange:
+										NSMakeRange([objectsOnPaper count] - [selectedIndexes count],
+													[selectedIndexes count])]
+						withActionName:@"Bring to Front"];
+}
+
+- (IBAction)bringForward:(id)sender {
+	NSMutableIndexSet *indexesToMove = [[NSMutableIndexSet alloc]
+										initWithIndexSet:[self selectedObjectIndexes]];
+	// remove the indexes of objects that are already at the front
+	for (NSUInteger objectIndex = [objectsOnPaper count] - 1; objectIndex >= 0; objectIndex--) {
+		if ([indexesToMove containsIndex:objectIndex]) {
+			[indexesToMove removeIndex:objectIndex];
+		} else {
+			break;
+		}
+	}
+	
+	// the destination indexes corresponding to those indexesToMove that weren't already at the front
+	// are all <= objectIndex and need to be decremented by 1
+	NSMutableIndexSet *destinationIndexes = [indexesToMove mutableCopy];
+	[destinationIndexes shiftIndexesStartingAtIndex:0
+												 by:1];
+	
+	// do the rearrangement
+	[self undoableMoveObjectsAtIndexes:indexesToMove
+							 toIndexes:destinationIndexes
+						withActionName:@"Send Backward"];
+	
+	[indexesToMove release];
+	[destinationIndexes release];
+}
+
+- (IBAction)sendBackward:(id)sender {
+	NSMutableIndexSet *indexesToMove = [[NSMutableIndexSet alloc]
+										initWithIndexSet:[self selectedObjectIndexes]];
+	// remove the indexes of objects that are already at the back
+	NSUInteger objectIndex;
+	for (objectIndex = 0; objectIndex < [objectsOnPaper count]; objectIndex++) {
+		if ([indexesToMove containsIndex:objectIndex]) {
+			[indexesToMove removeIndex:objectIndex];
+		} else {
+			break;
+		}
+	}
+	
+	// the destination indexes corresponding to those indexesToMove that weren't already at the back
+	// are all >= objectIndex and need to be decremented by 1
+	NSMutableIndexSet *destinationIndexes = [indexesToMove mutableCopy];
+	[destinationIndexes shiftIndexesStartingAtIndex:objectIndex
+												 by:-1];
+	
+	// do the rearrangement
+	[self undoableMoveObjectsAtIndexes:indexesToMove
+							 toIndexes:destinationIndexes
+						withActionName:@"Send Backward"];
+	
+	[indexesToMove release];
+	[destinationIndexes release];
+}
+
+- (IBAction)sendToBack:(id)sender {
+	NSIndexSet *selectedIndexes = [self selectedObjectIndexes];
+	[self undoableMoveObjectsAtIndexes:selectedIndexes
+							 toIndexes:[NSIndexSet indexSetWithIndexesInRange:
+										NSMakeRange(0,[selectedIndexes count])]
+						withActionName:@"Send to Back"];
 }
 
 
