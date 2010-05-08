@@ -27,12 +27,12 @@
 		719438D711956F340028E980 /* NSBezierPath+highlightedStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 719438D311956F340028E980 /* NSBezierPath+highlightedStroke.m */; };
 		719438D811956F340028E980 /* NSBezierPath+isInRect_withRects_count_.m in Sources */ = {isa = PBXBuildFile; fileRef = 719438D511956F340028E980 /* NSBezierPath+isInRect_withRects_count_.m */; };
 		719438E111956F400028E980 /* MWJInkingPenNib.m in Sources */ = {isa = PBXBuildFile; fileRef = 719438DA11956F400028E980 /* MWJInkingPenNib.m */; };
-		719438E211956F400028E980 /* MWJInkingStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 719438DC11956F400028E980 /* MWJInkingStroke.m */; };
 		719438E311956F400028E980 /* MWJPaperBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 719438DE11956F400028E980 /* MWJPaperBackgroundView.m */; };
 		719438E411956F400028E980 /* MWJPaperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 719438E011956F400028E980 /* MWJPaperView.m */; };
 		719438E911956F510028E980 /* MWJDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 719438E611956F510028E980 /* MWJDocument.m */; };
 		719438EA11956F510028E980 /* MWJInkingPenNibEditingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 719438E811956F510028E980 /* MWJInkingPenNibEditingController.m */; };
 		7194393E119572B80028E980 /* MWJDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7194393C119572B80028E980 /* MWJDocument.xib */; };
+		71943A031195824F0028E980 /* MWJInkingStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 71943A011195824F0028E980 /* MWJInkingStroke.m */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -71,8 +71,6 @@
 		719438D511956F340028E980 /* NSBezierPath+isInRect_withRects_count_.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+isInRect_withRects_count_.m"; sourceTree = "<group>"; };
 		719438D911956F400028E980 /* MWJInkingPenNib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJInkingPenNib.h; sourceTree = "<group>"; };
 		719438DA11956F400028E980 /* MWJInkingPenNib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJInkingPenNib.m; sourceTree = "<group>"; };
-		719438DB11956F400028E980 /* MWJInkingStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJInkingStroke.h; sourceTree = "<group>"; };
-		719438DC11956F400028E980 /* MWJInkingStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJInkingStroke.m; sourceTree = "<group>"; };
 		719438DD11956F400028E980 /* MWJPaperBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJPaperBackgroundView.h; sourceTree = "<group>"; };
 		719438DE11956F400028E980 /* MWJPaperBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJPaperBackgroundView.m; sourceTree = "<group>"; };
 		719438DF11956F400028E980 /* MWJPaperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJPaperView.h; sourceTree = "<group>"; };
@@ -82,7 +80,9 @@
 		719438E711956F510028E980 /* MWJInkingPenNibEditingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJInkingPenNibEditingController.h; sourceTree = "<group>"; };
 		719438E811956F510028E980 /* MWJInkingPenNibEditingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJInkingPenNibEditingController.m; sourceTree = "<group>"; };
 		7194393D119572B80028E980 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MWJDocument.xib; sourceTree = "<group>"; };
-		719439761195792E0028E980 /* MWJObjectOnPaper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJObjectOnPaper.h; sourceTree = "<group>"; };
+		71943A001195824F0028E980 /* MWJInkingStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJInkingStroke.h; sourceTree = "<group>"; };
+		71943A011195824F0028E980 /* MWJInkingStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJInkingStroke.m; sourceTree = "<group>"; };
+		71943A021195824F0028E980 /* MWJObjectOnPaper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJObjectOnPaper.h; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* MacWJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacWJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -193,16 +193,14 @@
 		7112B6E9118AE8D70010FF45 /* Supporting Classes */ = {
 			isa = PBXGroup;
 			children = (
+				719439FF1195824F0028E980 /* MWJObjectsOnPaper */,
 				719438CF11956F340028E980 /* NSBezierPath+ */,
 				719438D911956F400028E980 /* MWJInkingPenNib.h */,
 				719438DA11956F400028E980 /* MWJInkingPenNib.m */,
-				719438DB11956F400028E980 /* MWJInkingStroke.h */,
-				719438DC11956F400028E980 /* MWJInkingStroke.m */,
 				719438DD11956F400028E980 /* MWJPaperBackgroundView.h */,
 				719438DE11956F400028E980 /* MWJPaperBackgroundView.m */,
 				719438DF11956F400028E980 /* MWJPaperView.h */,
 				719438E011956F400028E980 /* MWJPaperView.m */,
-				719439761195792E0028E980 /* MWJObjectOnPaper.h */,
 			);
 			path = "Supporting Classes";
 			sourceTree = "<group>";
@@ -238,6 +236,16 @@
 				719438D511956F340028E980 /* NSBezierPath+isInRect_withRects_count_.m */,
 			);
 			path = "NSBezierPath+";
+			sourceTree = "<group>";
+		};
+		719439FF1195824F0028E980 /* MWJObjectsOnPaper */ = {
+			isa = PBXGroup;
+			children = (
+				71943A021195824F0028E980 /* MWJObjectOnPaper.h */,
+				71943A001195824F0028E980 /* MWJInkingStroke.h */,
+				71943A011195824F0028E980 /* MWJInkingStroke.m */,
+			);
+			path = MWJObjectsOnPaper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,11 +324,11 @@
 				719438D711956F340028E980 /* NSBezierPath+highlightedStroke.m in Sources */,
 				719438D811956F340028E980 /* NSBezierPath+isInRect_withRects_count_.m in Sources */,
 				719438E111956F400028E980 /* MWJInkingPenNib.m in Sources */,
-				719438E211956F400028E980 /* MWJInkingStroke.m in Sources */,
 				719438E311956F400028E980 /* MWJPaperBackgroundView.m in Sources */,
 				719438E411956F400028E980 /* MWJPaperView.m in Sources */,
 				719438E911956F510028E980 /* MWJDocument.m in Sources */,
 				719438EA11956F510028E980 /* MWJInkingPenNibEditingController.m in Sources */,
+				71943A031195824F0028E980 /* MWJInkingStroke.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
