@@ -200,6 +200,29 @@ static NSCursor *eraserCursor;
 	[self setNeedsDisplay:YES];
 }
 
+- (void)setSelectionByTestingWithSelector:(SEL)testingSelector
+					  withObjectParameter:(id)testingArgument
+{
+	NSRect needsDisplayRect = [[self selectionPath] boundsWithLines];
+	
+	NSMutableIndexSet *indexesToSelect = [[NSMutableIndexSet alloc] init];
+	NSUInteger objectIndex = 0;
+	for (id<MWJObjectOnPaper> anObjectOnPaper in objectsOnPaper) {
+		if ([anObjectOnPaper performSelector:testingSelector
+								  withObject:testingArgument]) {
+			[indexesToSelect addIndex:objectIndex];
+			needsDisplayRect = NSUnionRect(needsDisplayRect,
+										   [anObjectOnPaper highlightBounds]);
+		}
+		objectIndex++;
+	}
+	[self setSelectedObjectIndexes:[[[NSIndexSet alloc] initWithIndexSet:indexesToSelect] autorelease]];
+	[indexesToSelect release];
+	
+	[self setNeedsDisplayInRect:needsDisplayRect];
+	[self setSelectionPath:nil];
+}
+
 - (BOOL)isOverSelectedObject:(NSEvent *)theEvent {
 	NSPoint currentPoint = [self convertPoint:[theEvent locationInWindow]
 									 fromView:nil];
@@ -421,23 +444,9 @@ static NSCursor *eraserCursor;
 								 fromView:nil];
 	NSRect selectionRect = [self rectFromPoint:rectangularSelectionOrigin
 									   toPoint:endPoint];
-	NSRect needsDisplayRect = NSUnionRect(selectionRect, [[self selectionPath] boundsWithLines]);
 	[self setSelectionPath:[NSBezierPath bezierPathWithRect:selectionRect]];
-	
-	NSMutableIndexSet *indexesToSelect = [[NSMutableIndexSet alloc] init];
-	for (NSUInteger objectIndex = 0; objectIndex < [objectsOnPaper count]; objectIndex++) {
-		if ([[objectsOnPaper objectAtIndex:objectIndex] passesThroughRect:selectionRect]) {
-			[indexesToSelect addIndex:objectIndex];
-			needsDisplayRect = NSUnionRect(needsDisplayRect,
-										   [[objectsOnPaper objectAtIndex:objectIndex]
-											highlightBounds]);
-		}
-	}
-	[self setSelectedObjectIndexes:[[[NSIndexSet alloc] initWithIndexSet:indexesToSelect] autorelease]];
-	[indexesToSelect release];
-	
-	[self setNeedsDisplayInRect:needsDisplayRect];
-	[self setSelectionPath:nil];
+	[self setSelectionByTestingWithSelector:@selector(passesThroughRectValue:)
+						withObjectParameter:[NSValue valueWithRect:selectionRect]];
 }
 
 - (void)startRectangularSelection:(NSEvent *)theEvent {
@@ -462,22 +471,8 @@ static NSCursor *eraserCursor;
 	[[self selectionPath] lineToPoint:[self convertPoint:[theEvent locationInWindow]
 												fromView:nil]];
 	[[self selectionPath] closePath];
-	
-	NSRect needsDisplayRect = [[self selectionPath] boundsWithLines];
-	NSMutableIndexSet *indexesToSelect = [[NSMutableIndexSet alloc] init];
-	for (NSUInteger objectIndex = 0; objectIndex < [objectsOnPaper count]; objectIndex++) {
-		if ([[objectsOnPaper objectAtIndex:objectIndex] passesThroughRegionEnclosedByPath:[self selectionPath]]) {
-			[indexesToSelect addIndex:objectIndex];
-			needsDisplayRect = NSUnionRect(needsDisplayRect,
-										   [[objectsOnPaper objectAtIndex:objectIndex]
-											highlightBounds]);
-		}
-	}
-	[self setSelectedObjectIndexes:[[[NSIndexSet alloc] initWithIndexSet:indexesToSelect] autorelease]];
-	[indexesToSelect release];
-	
-	[self setNeedsDisplayInRect:needsDisplayRect];
-	[self setSelectionPath:nil];
+	[self setSelectionByTestingWithSelector:@selector(passesThroughRegionEnclosedByPath:)
+						withObjectParameter:[self selectionPath]];
 }
 
 - (void)startLasso:(NSEvent *)theEvent {

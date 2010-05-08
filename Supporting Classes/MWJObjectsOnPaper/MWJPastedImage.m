@@ -66,6 +66,10 @@
 	return CGRectIntersectsRect(NSRectToCGRect(rect), NSRectToCGRect(imageFrame));
 }
 
+- (BOOL)passesThroughRectValue:(NSValue *)rectValue {
+	return [self passesThroughRect:[rectValue rectValue]];
+}
+
 - (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path {
 	// test the four corners of the imageFrame
 	// TODO: this isn't good at all for an image, but I don't have anything better just yet

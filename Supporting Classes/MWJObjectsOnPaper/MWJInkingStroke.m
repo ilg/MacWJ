@@ -171,6 +171,10 @@ NSString * const kMWJInkingStrokeCurrentPointKey = @"MWJInkingStrokeCurrentPoint
 	return passesThrough;
 }
 
+- (BOOL)passesThroughRectValue:(NSValue *)rectValue {
+	return [self passesThroughRect:[rectValue rectValue]];
+}
+
 - (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path {
 	BOOL passesThrough = NO;
 	for (NSBezierPath *aPath in paths) {

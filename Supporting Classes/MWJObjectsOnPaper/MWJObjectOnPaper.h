@@ -33,7 +33,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@protocol MWJObjectOnPaper <NSCoding>
+@protocol MWJObjectOnPaper < NSObject, NSCoding >
 
 - (NSRect)bounds;
 - (NSRect)highlightBounds;
@@ -44,6 +44,7 @@
 					  withRects:(const NSRect *)dirtyRects
 						  count:(NSInteger)dirtyRectsCount;
 - (BOOL)passesThroughRect:(NSRect)rect;
+- (BOOL)passesThroughRectValue:(NSValue *)rectValue;
 - (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path;
 - (void)transformUsingAffineTransform:(NSAffineTransform *)aTransform;
 
