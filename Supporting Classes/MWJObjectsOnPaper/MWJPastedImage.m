@@ -20,15 +20,30 @@
 	if (self) {
 		theImage = [[NSImage alloc] initWithData:theData];
 		[theImage setFlipped:YES];
-		if (NSEqualRects(theFrame, NSZeroRect)) {
+		imageFrame.origin = theFrame.origin;
+		if (NSEqualSizes(theFrame.size, NSZeroSize)) {
 			imageFrame.size = [theImage size];
-			imageFrame.origin = NSZeroPoint;
 		} else {
-			imageFrame = theFrame;
+			imageFrame.size = theFrame.size;
 		}
 	}
 	return self;
 }
+
+- (id)initWithData:(NSData *)theData
+		centeredOn:(NSPoint)centerPoint
+{
+	self = [super init];
+	if (self) {
+		theImage = [[NSImage alloc] initWithData:theData];
+		[theImage setFlipped:YES];
+		imageFrame.size = [theImage size];
+		imageFrame.origin.x = centerPoint.x - imageFrame.size.width / 2.0;
+		imageFrame.origin.y = centerPoint.y - imageFrame.size.height / 2.0;
+	}
+	return self;
+}
+
 
 #pragma mark -
 #pragma mark MWJObjectOnPaper protocol implementation

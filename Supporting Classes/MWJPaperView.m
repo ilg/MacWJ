@@ -618,9 +618,12 @@ static NSCursor *eraserCursor;
 														  NSPICTPboardType,
 														  nil]];
 		if (imageType) {
+			NSPoint centerPoint;
+			centerPoint.x = [self bounds].size.width / 2.0;
+			centerPoint.y = [self bounds].size.height / 2.0;
 			MWJPastedImage *pastedImage = [[MWJPastedImage alloc]
 										   initWithData:[pb dataForType:imageType]
-										   inFrame:NSZeroRect];
+										   centeredOn:centerPoint];
 			[self undoableAddObjectOnPaper:pastedImage
 							withActionName:NSLocalizedString(@"Paste",@"")];
 			[self setSelectedObjectIndexes:[NSIndexSet indexSetWithIndex:([objectsOnPaper count] - 1)]];

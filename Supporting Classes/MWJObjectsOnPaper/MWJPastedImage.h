@@ -18,5 +18,7 @@
 
 - (id)initWithData:(NSData *)theData
 		   inFrame:(NSRect)theFrame;
+- (id)initWithData:(NSData *)theData
+		centeredOn:(NSPoint)centerPoint;
 
 @end
