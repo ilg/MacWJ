@@ -48,6 +48,8 @@
 
 // MARK: keys for document file dictionary
 NSString * const kMacWJDocumentRawInkDataKey = @"rawInkData";
+NSString * const kMacWJDocumentWindowFrameDataKey = @"windowFrame";
+NSString * const kMacWJDocumentBackgroundViewSizeDataKey = @"backgroundViewSize";
 
 // MARK: keys for undo/redo segmented control
 NSInteger const kUndoRedoSegmentedUndoSegmentNumber = 0;
@@ -96,6 +98,7 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 											   object:[self undoManager]];
 	[self toggleUndoRedoEnabled:nil];
 	[[theTabletView window] setAcceptsMouseMovedEvents:YES];
+	[theBackgroundView setFrame:[[theBackgroundView superview] bounds]];
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)notification {
@@ -193,9 +196,12 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 	NSString *strError = nil;
 	NSData *theData = nil;
 	if ([typeName isEqualToString:@"MacWJ Document"]) {
-		NSDictionary *theSavedDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-											[theTabletView data], kMacWJDocumentRawInkDataKey,
-											nil];
+		NSDictionary *theSavedDictionary
+		= [NSDictionary dictionaryWithObjectsAndKeys:
+		   [theTabletView data], kMacWJDocumentRawInkDataKey,
+		   NSStringFromRect([[theTabletView window] frame]), kMacWJDocumentWindowFrameDataKey,
+		   NSStringFromSize([theBackgroundView frame].size), kMacWJDocumentBackgroundViewSizeDataKey,
+		   nil];
 		theData = [NSPropertyListSerialization dataFromPropertyList:theSavedDictionary
 															 format:NSPropertyListXMLFormat_v1_0
 												   errorDescription:&strError];
@@ -228,8 +234,8 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 																				  format:NULL
 																		errorDescription:&strError];
 	if (theSavedDictionary && !strError) {
-		[self performSelector:@selector(delayedDataLoad:)
-				   withObject:[theSavedDictionary objectForKey:kMacWJDocumentRawInkDataKey]
+		[self performSelector:@selector(delayedSavedDictionaryLoad:)
+				   withObject:theSavedDictionary
 				   afterDelay:0];
 	} else if (outError != NULL) {
 		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
@@ -238,8 +244,17 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 }
 
 // helper method since theTabletView isn't set up at the moment readFromData:ofType:error: is called
-- (void)delayedDataLoad:(NSData *)rawInkData {
-	[theTabletView loadFromData:rawInkData];
+- (void)delayedSavedDictionaryLoad:(NSDictionary *)theSavedDictionary {
+	NSString *windowFrameString = [theSavedDictionary objectForKey:kMacWJDocumentWindowFrameDataKey];
+	if (windowFrameString) [[theTabletView window]
+							setFrame:NSRectFromString(windowFrameString)
+							display:YES];
+	
+	NSString *backgroundViewSizeString = [theSavedDictionary objectForKey:kMacWJDocumentBackgroundViewSizeDataKey];
+	if (backgroundViewSizeString) [theBackgroundView
+								   setFrameSize:NSSizeFromString(backgroundViewSizeString)];
+	
+	[theTabletView loadFromData:[theSavedDictionary objectForKey:kMacWJDocumentRawInkDataKey]];
 	[theTabletView setNeedsDisplay:YES];
 }
 
