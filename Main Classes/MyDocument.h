@@ -40,6 +40,7 @@
 	@private
 	IBOutlet tabletView *theTabletView;
 	IBOutlet backgroundView *theBackgroundView;
+	IBOutlet NSScrollView *theScrollView;
 	IBOutlet NSSegmentedControl *toolSelectionSegmentedControl;
 	IBOutlet NSSegmentedControl *undoRedoSegmentedControl;
 	IBOutlet NSPopUpButton *penNibSelectionPopUpButton;

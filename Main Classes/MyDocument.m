@@ -126,12 +126,34 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 	[self penNibSelected:penNibSelectionPopUpButton];
 }
 
+- (void)windowWillClose:(NSNotification *)notification {
+	// if the vertical scroller is showing, resize the window
+	// smaller by that much to avoid window size creep
+	if (![[theScrollView verticalScroller] isHidden]) {
+		NSRect windowFrame = [[notification object] frame];
+		windowFrame.size.width -= [[theScrollView verticalScroller] frame].size.width;
+		[[notification object] setFrame:windowFrame display:NO];
+	}
+}
+
 #pragma mark -
 #pragma mark IBActions
 
 - (IBAction)extendPage:(id)sender {
+	BOOL wasHiddenHorizontalScroller = [[theScrollView horizontalScroller] isHidden];
 	NSRect frame = [theBackgroundView frame];
 	[theBackgroundView setFrameSize:NSMakeSize(frame.size.width, frame.size.height + EXTEND_PAGE_AMOUNT)];
+	if (wasHiddenHorizontalScroller
+		&& ![[theScrollView horizontalScroller] isHidden]) {
+		// we didn't used to have a horizontal scroller, but now we do--
+		// the vertical scroller must have been added, throwing off the width;
+		// widen the window to make it go away.
+		NSRect windowFrame = [[theTabletView window] frame];
+		windowFrame.size.width += [[theScrollView verticalScroller] frame].size.width;
+		[[theTabletView window] setFrame:windowFrame
+								 display:YES
+								 animate:YES];
+	}
 }
 
 - (IBAction)penNibSelected:(id)sender {

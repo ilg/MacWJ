@@ -237,10 +237,6 @@
 										<reference key="NSControlView" ref="226423984"/>
 										<int key="NSButtonFlags">-2038415105</int>
 										<int key="NSButtonFlags2">163</int>
-										<object class="NSCustomResource" key="NSNormalImage" id="799583845">
-											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">pen</string>
-										</object>
 										<string key="NSAlternateContents"/>
 										<string key="NSKeyEquivalent"/>
 										<int key="NSPeriodicDelay">400</int>
@@ -252,7 +248,10 @@
 											<int key="NSKeyEquivModMask">1048576</int>
 											<int key="NSMnemonicLoc">2147483647</int>
 											<int key="NSState">1</int>
-											<reference key="NSImage" ref="799583845"/>
+											<object class="NSCustomResource" key="NSImage" id="479919997">
+												<string key="NSClassName">NSImage</string>
+												<string key="NSResourceName">pen</string>
+											</object>
 											<object class="NSCustomResource" key="NSOnImage" id="957002923">
 												<string key="NSClassName">NSImage</string>
 												<string key="NSResourceName">NSMenuCheckmark</string>
@@ -280,7 +279,7 @@
 										<int key="NSArrowPosition">2</int>
 									</object>
 								</object>
-								<reference key="NSToolbarItemImage" ref="799583845"/>
+								<reference key="NSToolbarItemImage" ref="479919997"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{150, 25}</string>
@@ -313,7 +312,7 @@
 											<bool key="EncodedWithXMLCoder">YES</bool>
 											<object class="NSSegmentItem">
 												<double key="NSSegmentItemWidth">32</double>
-												<reference key="NSSegmentItemImage" ref="799583845"/>
+												<reference key="NSSegmentItemImage" ref="479919997"/>
 												<string key="NSSegmentItemLabel"/>
 												<string key="NSSegmentItemTooltip">Pen</string>
 												<bool key="NSSegmentItemSelected">YES</bool>
@@ -687,6 +686,14 @@
 					</object>
 					<int key="connectionID">100074</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">theScrollView</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="510894227"/>
+					</object>
+					<int key="connectionID">100075</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -973,6 +980,7 @@
 					<string>100067.IBPluginDependency</string>
 					<string>100071.IBPluginDependency</string>
 					<string>100072.IBPluginDependency</string>
+					<string>100073.IBPluginDependency</string>
 					<string>5.IBEditorWindowLastContentRect</string>
 					<string>5.IBPluginDependency</string>
 					<string>5.IBWindowTemplateEditedContentRect</string>
@@ -1013,6 +1021,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{52, 522}, {507, 413}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{52, 522}, {507, 413}}</string>
@@ -1040,7 +1049,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">100074</int>
+			<int key="maxID">100075</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1071,6 +1080,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>penNibSelectionPopUpButton</string>
 							<string>theBackgroundView</string>
+							<string>theScrollView</string>
 							<string>theTabletView</string>
 							<string>toolSelectionSegmentedControl</string>
 							<string>undoRedoSegmentedControl</string>
@@ -1079,6 +1089,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSPopUpButton</string>
 							<string>backgroundView</string>
+							<string>NSScrollView</string>
 							<string>tabletView</string>
 							<string>NSSegmentedControl</string>
 							<string>NSSegmentedControl</string>
