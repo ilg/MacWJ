@@ -48,6 +48,9 @@ NSUInteger const kTabletViewEraserToolType = 1;
 NSUInteger const kTabletViewRectangularMarqueeToolType = 2;
 NSUInteger const kTabletViewLassoToolType = 3;
 
+// MARK: pasteboard type constant
+NSString * const kTabletViewInkStrokesPboardType = @"kTabletViewInkStrokesPboardType";
+
 
 @interface tabletView (UndoAndRedo)
 
@@ -81,6 +84,13 @@ NSUInteger const kTabletViewLassoToolType = 3;
 - (void)endMovingSelection:(NSEvent *)theEvent;
 
 @end
+
+@interface tabletView (selectionHandling)
+
+- (NSArray *)selectedStrokes;
+
+@end
+
 
 #pragma mark -
 
@@ -119,7 +129,7 @@ static NSCursor *eraserCursor;
     NSInteger dirtyRectsCount, i;
     [self getRectsBeingDrawn:&dirtyRects count:&dirtyRectsCount];
 	
-	NSArray *selectedStrokes = [strokes objectsAtIndexes:[self selectedStrokeIndexes]];
+	NSArray *selectedStrokes = [self selectedStrokes];
 	
 	// draw any selected (highlighted) strokes first
 	for (tabletInkStroke *aStroke in selectedStrokes) {
@@ -179,6 +189,10 @@ static NSCursor *eraserCursor;
 #pragma mark -
 #pragma mark selection handling
 
+- (NSArray *)selectedStrokes {
+	return [strokes objectsAtIndexes:[self selectedStrokeIndexes]];
+}
+
 - (void)selectNone {
 	if ([[self selectedStrokeIndexes] count] > 0) {
 		[self setNeedsDisplay:YES];
@@ -202,7 +216,7 @@ static NSCursor *eraserCursor;
 								   2.0 * ATOP_SELECTION_RADIUS,
 								   2.0 * ATOP_SELECTION_RADIUS);
 	BOOL result = NO;
-	for (tabletInkStroke *aStroke in [strokes objectsAtIndexes:[self selectedStrokeIndexes]]) {
+	for (tabletInkStroke *aStroke in [self selectedStrokes]) {
 		if ([aStroke passesThroughRect:cursorRect]) {
 			result = YES;
 			break;
@@ -514,28 +528,58 @@ static NSCursor *eraserCursor;
 	return [self dataWithPDFInsideRect:[self pathBounds]];
 }
 
-
-#pragma mark -
-#pragma mark copying to externalize
-
-- (IBAction)copy:(id)sender
-{
-	NSPasteboard *pb = [NSPasteboard generalPasteboard];
-	[pb declareTypes:[NSArray arrayWithObjects:NSPDFPboardType, nil] owner:nil];
-	[pb setData:[self PDFData] forType:NSPDFPboardType];
+- (NSData *)selectedPDFData {
+	NSArray *selectedStrokes = [self selectedStrokes];
+	tabletView *temporaryView = [[tabletView alloc] initWithFrame:[self frame]];
+	[temporaryView undoableAddStrokes:selectedStrokes
+							atIndexes:[NSIndexSet indexSetWithIndexesInRange:
+									   NSMakeRange(0, [selectedStrokes count])]];
+	NSData *thePDFData = [temporaryView dataWithPDFInsideRect:[temporaryView pathBounds]];
+	[temporaryView release];
+	return thePDFData;
 }
 
-- (IBAction)copyAsImage:(id)sender
-{
+
+#pragma mark -
+#pragma mark cut/copy/paste
+
+- (IBAction)cut:(id)sender {
+}
+
+- (IBAction)copy:(id)sender {
 	NSPasteboard *pb = [NSPasteboard generalPasteboard];
-	[pb declareTypes:[NSArray arrayWithObjects:NSTIFFPboardType, nil] owner:nil];
-	NSImage *image = [[NSImage alloc] initWithData:[self dataWithPDFInsideRect:[self pathBounds]]];
+	[pb declareTypes:[NSArray arrayWithObjects:kTabletViewInkStrokesPboardType, NSPDFPboardType, NSTIFFPboardType, nil] owner:nil];
+	
+	// add internal format (kTabletViewInkStrokesPboardType)
+	[pb setData:[NSKeyedArchiver archivedDataWithRootObject:[self selectedStrokes]]
+		forType:kTabletViewInkStrokesPboardType];
+	
+	// add PDF
+	NSData *PDFData = [self selectedPDFData];
+	[pb setData:PDFData
+		forType:NSPDFPboardType];
+	
+	// add TIFF
+	NSImage *image = [[NSImage alloc] initWithData:PDFData];
 	NSSize imageSize = [image size];
 	imageSize.width = imageSize.width * COPY_AS_IMAGE_SCALE_FACTOR;
 	imageSize.height = imageSize.height * COPY_AS_IMAGE_SCALE_FACTOR;
 	[image setSize:imageSize];
-	[pb setData:[image TIFFRepresentation] forType:NSTIFFPboardType];
+	[pb setData:[image TIFFRepresentation]
+		forType:NSTIFFPboardType];
 	[image release];
+}
+
+- (IBAction)paste:(id)sender {
+	NSPasteboard *pb = [NSPasteboard generalPasteboard];
+	if ([[pb types] containsObject:kTabletViewInkStrokesPboardType]) {
+		NSArray *pastedStrokes = [NSKeyedUnarchiver unarchiveObjectWithData:
+								  [pb dataForType:kTabletViewInkStrokesPboardType]];
+		[self setSelectedStrokeIndexes:[NSIndexSet indexSetWithIndexesInRange:
+										NSMakeRange([strokes count], [pastedStrokes count])]];
+		[strokes addObjectsFromArray:pastedStrokes];
+		[self setNeedsDisplay:YES];
+	}
 }
 
 

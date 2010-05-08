@@ -63,7 +63,9 @@ extern NSUInteger const kTabletViewLassoToolType;
 @property (retain) NSIndexSet *selectedStrokeIndexes;
 @property (retain) NSBezierPath *selectionPath;
 
+- (IBAction)cut:(id)sender;
 - (IBAction)copy:(id)sender;
+- (IBAction)paste:(id)sender;
 
 - (NSData *)data;
 - (void)loadFromData:(NSData *)data;
