@@ -65,6 +65,7 @@
 }
 
 + (NSDictionary *)penNibs {
+	[NSKeyedUnarchiver setClass:[MWJInkingPenNib class] forClassName:@"tabletPenNib"];
 	return [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults]
 													   objectForKey:@"penNibs"]];
 }
@@ -112,11 +113,19 @@
 #pragma mark -
 #pragma mark for archiving/unarchiving (for saving/loading documents)
 
+// MARK: string keys for NSCoding
 NSString * const kTabletPenNibMinWidthKey = @"MWJInkingPenNibMinWidthKey";
 NSString * const kTabletPenNibMaxWidthKey = @"MWJInkingPenNibMaxWidthKey";
 NSString * const kTabletPenNibAngleDependenceKey = @"MWJInkingPenNibAngleDependenceKey";
 NSString * const kTabletPenNibMaxAngleKey = @"MWJInkingPenNibMaxAngleKey";
 NSString * const kTabletPenNibColorKey = @"MWJInkingPenNibColorKey";
+// legacy keys
+NSString * const kTabletPenNibMinWidthLegacyKey = @"tabletPenNibMinWidthKey";
+NSString * const kTabletPenNibMaxWidthLegacyKey = @"tabletPenNibMaxWidthKey";
+NSString * const kTabletPenNibAngleDependenceLegacyKey = @"tabletPenNibAngleDependenceKey";
+NSString * const kTabletPenNibMaxAngleLegacyKey = @"tabletPenNibMaxAngleKey";
+NSString * const kTabletPenNibColorLegacyKey = @"tabletPenNibColorKey";
+
 
 - (void)encodeWithCoder:(NSCoder *)coder {
 	// NSObject does not conform to NSCoding
@@ -133,13 +142,30 @@ NSString * const kTabletPenNibColorKey = @"MWJInkingPenNibColorKey";
 	//    self = [super initWithCoder:coder];
 	self = [super init];
 	if (self) {
-		[self setMinimumStrokeWidth:[coder decodeFloatForKey:kTabletPenNibMinWidthKey]];
-		[self setMaximumStrokeWidth:[coder decodeFloatForKey:kTabletPenNibMaxWidthKey]];
-		[self setIsAngleDependent:[coder decodeBoolForKey:kTabletPenNibAngleDependenceKey]];
+		if ([coder containsValueForKey:kTabletPenNibMinWidthKey]) {
+			[self setMinimumStrokeWidth:[coder decodeFloatForKey:kTabletPenNibMinWidthKey]];
+		} else if ([coder containsValueForKey:kTabletPenNibMinWidthLegacyKey]) {
+			[self setMinimumStrokeWidth:[coder decodeFloatForKey:kTabletPenNibMinWidthLegacyKey]];
+		}
+		if ([coder containsValueForKey:kTabletPenNibMaxWidthKey]) {
+			[self setMaximumStrokeWidth:[coder decodeFloatForKey:kTabletPenNibMaxWidthKey]];
+		} else if ([coder containsValueForKey:kTabletPenNibMaxWidthLegacyKey]) {
+			[self setMaximumStrokeWidth:[coder decodeFloatForKey:kTabletPenNibMaxWidthLegacyKey]];
+		}
+		if ([coder containsValueForKey:kTabletPenNibAngleDependenceKey]) {
+			[self setIsAngleDependent:[coder decodeBoolForKey:kTabletPenNibAngleDependenceKey]];
+		} else if ([coder containsValueForKey:kTabletPenNibAngleDependenceLegacyKey]) {
+			[self setIsAngleDependent:[coder decodeBoolForKey:kTabletPenNibAngleDependenceLegacyKey]];
+		}
 		if ([self isAngleDependent]) {
-			[self setWidestAngle:[coder decodeFloatForKey:kTabletPenNibMaxAngleKey]];
+			if ([coder containsValueForKey:kTabletPenNibMaxAngleKey]) {
+				[self setWidestAngle:[coder decodeFloatForKey:kTabletPenNibMaxAngleKey]];
+			} else if ([coder containsValueForKey:kTabletPenNibMaxAngleLegacyKey]) {
+				[self setWidestAngle:[coder decodeFloatForKey:kTabletPenNibMaxAngleLegacyKey]];
+			}
 		}
 		[self setInkColor:[coder decodeObjectForKey:kTabletPenNibColorKey]];
+		if (![self inkColor]) [self setInkColor:[coder decodeObjectForKey:kTabletPenNibColorLegacyKey]];
 	}
     return self;
 }
