@@ -36,6 +36,7 @@
 #import "MWJInkingStroke.h"
 #import "MWJInkingPenNib.h"
 #import "MWJPastedImage.h"
+#import "MWJPastedText.h"
 
 #define ERASER_RADIUS [[NSUserDefaults standardUserDefaults] floatForKey:@"eraserRadius"]
 #define ATOP_SELECTION_RADIUS 1.0
@@ -601,6 +602,7 @@ static NSCursor *eraserCursor;
 - (IBAction)paste:(id)sender {
 	NSPasteboard *pb = [NSPasteboard generalPasteboard];
 	if ([[pb types] containsObject:kMWJPaperViewObjectsOnPaperPboardType]) {
+		// handle our own internal pasteboard format first
 		NSArray *pastedObjects = [NSKeyedUnarchiver unarchiveObjectWithData:
 								  [pb dataForType:kMWJPaperViewObjectsOnPaperPboardType]];
 		NSIndexSet *pastedIndexes = [NSIndexSet indexSetWithIndexesInRange:
@@ -611,6 +613,10 @@ static NSCursor *eraserCursor;
 		[self setSelectedObjectIndexes:pastedIndexes];
 		[self setNeedsDisplay:YES];
 	} else {
+		NSPoint centerPoint;
+		centerPoint.x = [self bounds].size.width / 2.0;
+		centerPoint.y = [self bounds].size.height / 2.0;
+		// not our own, so maybe an image we can paste in?
 		NSString *imageType = [pb availableTypeFromArray:[NSArray arrayWithObjects:
 														  NSPDFPboardType,
 														  NSPostScriptPboardType,
@@ -618,9 +624,6 @@ static NSCursor *eraserCursor;
 														  NSPICTPboardType,
 														  nil]];
 		if (imageType) {
-			NSPoint centerPoint;
-			centerPoint.x = [self bounds].size.width / 2.0;
-			centerPoint.y = [self bounds].size.height / 2.0;
 			MWJPastedImage *pastedImage = [[MWJPastedImage alloc]
 										   initWithData:[pb dataForType:imageType]
 										   centeredOn:centerPoint];
@@ -628,6 +631,25 @@ static NSCursor *eraserCursor;
 							withActionName:NSLocalizedString(@"Paste",@"")];
 			[self setSelectedObjectIndexes:[NSIndexSet indexSetWithIndex:([objectsOnPaper count] - 1)]];
 			[self setNeedsDisplay:YES];
+		} else {
+			// not an image either, so maybe text we can paste in?
+			NSString *textType = [pb availableTypeFromArray:[NSArray arrayWithObjects:
+															 NSRTFPboardType,
+															 NSRTFDPboardType,
+															 NSHTMLPboardType,
+															 NSStringPboardType,
+															  nil]];
+			if (textType) {
+				MWJPastedText *pastedText = [[MWJPastedText alloc]
+											 initWithData:[pb dataForType:textType]
+											 centeredOn:centerPoint];
+				if (pastedText) {
+					[self undoableAddObjectOnPaper:pastedText
+									withActionName:NSLocalizedString(@"Paste",@"")];
+					[self setSelectedObjectIndexes:[NSIndexSet indexSetWithIndex:([objectsOnPaper count] - 1)]];
+					[self setNeedsDisplay:YES];
+				}
+			}
 		}
 	}
 }

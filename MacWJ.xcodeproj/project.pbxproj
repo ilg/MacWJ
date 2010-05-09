@@ -35,6 +35,7 @@
 		71943A031195824F0028E980 /* MWJInkingStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 71943A011195824F0028E980 /* MWJInkingStroke.m */; };
 		71943A09119582A80028E980 /* MWJPastedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 71943A08119582A80028E980 /* MWJPastedImage.m */; };
 		71943CE8119697E20028E980 /* NSBezierPath+overlapsRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 71943CE7119697E20028E980 /* NSBezierPath+overlapsRect.m */; };
+		71943D081196A22B0028E980 /* MWJPastedText.m in Sources */ = {isa = PBXBuildFile; fileRef = 71943D071196A22B0028E980 /* MWJPastedText.m */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -89,6 +90,8 @@
 		71943A08119582A80028E980 /* MWJPastedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJPastedImage.m; sourceTree = "<group>"; };
 		71943CE6119697E20028E980 /* NSBezierPath+overlapsRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+overlapsRect.h"; sourceTree = "<group>"; };
 		71943CE7119697E20028E980 /* NSBezierPath+overlapsRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+overlapsRect.m"; sourceTree = "<group>"; };
+		71943D061196A22B0028E980 /* MWJPastedText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJPastedText.h; sourceTree = "<group>"; };
+		71943D071196A22B0028E980 /* MWJPastedText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJPastedText.m; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* MacWJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacWJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -254,6 +257,8 @@
 				71943A011195824F0028E980 /* MWJInkingStroke.m */,
 				71943A07119582A80028E980 /* MWJPastedImage.h */,
 				71943A08119582A80028E980 /* MWJPastedImage.m */,
+				71943D061196A22B0028E980 /* MWJPastedText.h */,
+				71943D071196A22B0028E980 /* MWJPastedText.m */,
 			);
 			path = MWJObjectsOnPaper;
 			sourceTree = "<group>";
@@ -341,6 +346,7 @@
 				71943A031195824F0028E980 /* MWJInkingStroke.m in Sources */,
 				71943A09119582A80028E980 /* MWJPastedImage.m in Sources */,
 				71943CE8119697E20028E980 /* NSBezierPath+overlapsRect.m in Sources */,
+				71943D081196A22B0028E980 /* MWJPastedText.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
