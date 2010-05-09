@@ -102,6 +102,11 @@ NSString * const kMWJPaperViewObjectsOnPaperPboardType = @"kMWJPaperViewObjectsO
 
 #pragma mark -
 
+#define INTERNAL_PBOARD_TYPE_ARRAY [NSArray arrayWithObject:kMWJPaperViewObjectsOnPaperPboardType]
+#define IMAGE_PBOARD_TYPE_ARRAY [NSArray arrayWithObjects:NSPDFPboardType,NSPostScriptPboardType,NSTIFFPboardType,NSPICTPboardType,nil]
+#define TEXT_PBOARD_TYPE_ARRAY [NSArray arrayWithObjects:NSRTFPboardType,NSRTFDPboardType,NSHTMLPboardType,NSStringPboardType,nil]
+#define NONFILE_PBOARD_TYPE_ARRAY [INTERNAL_PBOARD_TYPE_ARRAY arrayByAddingObjectsFromArray:[IMAGE_PBOARD_TYPE_ARRAY arrayByAddingObjectsFromArray:TEXT_PBOARD_TYPE_ARRAY]]
+
 @implementation MWJPaperView
 
 static NSCursor *penCursor;
@@ -127,7 +132,8 @@ static NSCursor *eraserCursor;
 		
 		[self setSelectedObjectIndexes:[NSIndexSet indexSet]];
 		[self setSelectionPath:nil];
-    }
+		[self registerForDraggedTypes:[NONFILE_PBOARD_TYPE_ARRAY arrayByAddingObject:NSFilenamesPboardType]];
+	}
     return self;
 }
 
@@ -599,8 +605,7 @@ static NSCursor *eraserCursor;
 	[image release];
 }
 
-- (IBAction)paste:(id)sender {
-	NSPasteboard *pb = [NSPasteboard generalPasteboard];
+- (void)pasteFromPasteboard:(NSPasteboard *)pb {
 	if ([[pb types] containsObject:kMWJPaperViewObjectsOnPaperPboardType]) {
 		// handle our own internal pasteboard format first
 		NSArray *pastedObjects = [NSKeyedUnarchiver unarchiveObjectWithData:
@@ -617,12 +622,7 @@ static NSCursor *eraserCursor;
 		centerPoint.x = [self bounds].size.width / 2.0;
 		centerPoint.y = [self bounds].size.height / 2.0;
 		// not our own, so maybe an image we can paste in?
-		NSString *imageType = [pb availableTypeFromArray:[NSArray arrayWithObjects:
-														  NSPDFPboardType,
-														  NSPostScriptPboardType,
-														  NSTIFFPboardType,
-														  NSPICTPboardType,
-														  nil]];
+		NSString *imageType = [pb availableTypeFromArray:IMAGE_PBOARD_TYPE_ARRAY];
 		if (imageType) {
 			MWJPastedImage *pastedImage = [[MWJPastedImage alloc]
 										   initWithData:[pb dataForType:imageType]
@@ -633,12 +633,7 @@ static NSCursor *eraserCursor;
 			[self setNeedsDisplay:YES];
 		} else {
 			// not an image either, so maybe text we can paste in?
-			NSString *textType = [pb availableTypeFromArray:[NSArray arrayWithObjects:
-															 NSRTFPboardType,
-															 NSRTFDPboardType,
-															 NSHTMLPboardType,
-															 NSStringPboardType,
-															  nil]];
+			NSString *textType = [pb availableTypeFromArray:TEXT_PBOARD_TYPE_ARRAY];
 			if (textType) {
 				MWJPastedText *pastedText = [[MWJPastedText alloc]
 											 initWithData:[pb dataForType:textType]
@@ -654,6 +649,85 @@ static NSCursor *eraserCursor;
 	}
 }
 
+- (IBAction)paste:(id)sender {
+	[self pasteFromPasteboard:[NSPasteboard generalPasteboard]];
+}
+
+#pragma mark -
+#pragma mark stuff for receiving drag and drop
+
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
+	NSPasteboard *pb = [sender draggingPasteboard];
+	if ([pb availableTypeFromArray:NONFILE_PBOARD_TYPE_ARRAY]) {
+		return NSDragOperationCopy;
+	} else if ([[pb types] containsObject:NSFilenamesPboardType]) {
+		return NSDragOperationGeneric;
+	} else {
+		return NSDragOperationNone;
+	}
+}
+
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
+	NSPasteboard *pb = [sender draggingPasteboard];
+	if ([pb availableTypeFromArray:NONFILE_PBOARD_TYPE_ARRAY]) {
+		[self pasteFromPasteboard:pb];
+		return YES;
+	} else if ([[pb types] containsObject:NSFilenamesPboardType]) {
+		NSMutableDictionary *filesToInsert = [[NSMutableDictionary alloc] init];
+		for (NSString *aFile in [pb propertyListForType:NSFilenamesPboardType]) {
+			NSString *fileType = [[NSWorkspace sharedWorkspace] typeOfFile:aFile
+																	 error:NULL];
+			if ([[NSImage imageTypes] containsObject:fileType]) {
+				[filesToInsert setObject:NSStringFromClass([NSImage class])
+								  forKey:aFile];
+			} else if ([[NSAttributedString textTypes] containsObject:fileType]) {
+				[filesToInsert setObject:NSStringFromClass([NSAttributedString class])
+								  forKey:aFile];
+			}
+		}
+		if ([filesToInsert count] > 0) {
+			NSUInteger previousObjectCount = [objectsOnPaper count];
+			
+			// take measurements to cascade the inserted objects
+			NSRect spaceRect = [self visibleRect];
+			CGFloat xStep = spaceRect.size.width / ([filesToInsert count] + 2);
+			CGFloat yStep = spaceRect.size.height / ([filesToInsert count] + 2);
+			
+			NSUInteger fileIndex = 0;
+			for (NSString *aFile in filesToInsert) {
+				NSPoint targetPoint = NSMakePoint(spaceRect.origin.x + (fileIndex + 2) * xStep,
+												  spaceRect.origin.y + (fileIndex + 2) * yStep);
+				id<MWJObjectOnPaper> insertedObject = nil;
+				if ([[filesToInsert objectForKey:aFile]
+					 isEqualToString:NSStringFromClass([NSImage class])]) {
+					insertedObject = [[MWJPastedImage alloc]
+									  initWithData:[NSData dataWithContentsOfFile:aFile]
+									  centeredOn:targetPoint];
+				} else if ([[filesToInsert objectForKey:aFile]
+							isEqualToString:NSStringFromClass([NSAttributedString class])]) {
+					insertedObject = [[MWJPastedText alloc]
+									  initWithData:[NSData dataWithContentsOfFile:aFile]
+									  centeredOn:targetPoint];
+				}
+				
+				if (insertedObject) [self undoableAddObjectOnPaper:insertedObject
+													withActionName:NSLocalizedString(@"Insert",@"")];
+				fileIndex++;
+			}
+			[self setSelectedObjectIndexes:[NSIndexSet indexSetWithIndexesInRange:
+											NSMakeRange(previousObjectCount,
+														[objectsOnPaper count] - previousObjectCount)]];
+			[self setNeedsDisplay:YES];
+			[filesToInsert release];
+			return YES;
+		} else {
+			[filesToInsert release];
+			return NO;
+		}
+	} else {
+		return NO;
+	}
+}
 
 #pragma mark -
 #pragma mark object arrangement (move forward/backward)
