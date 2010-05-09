@@ -31,29 +31,10 @@
 //
 
 #import "MWJPastedImage.h"
-#import "NSBezierPath+highlightedStroke.h"
-#import "NSBezierPath+overlapsRect.h"
 
 
 @implementation MWJPastedImage
 
-
-- (id)initWithData:(NSData *)theData
-		   inFrame:(NSRect)theFrame
-{
-	self = [super init];
-	if (self) {
-		theImage = [[NSImage alloc] initWithData:theData];
-		[theImage setFlipped:YES];
-		imageFrame.origin = theFrame.origin;
-		if (NSEqualSizes(theFrame.size, NSZeroSize)) {
-			imageFrame.size = [theImage size];
-		} else {
-			imageFrame.size = theFrame.size;
-		}
-	}
-	return self;
-}
 
 - (id)initWithData:(NSData *)theData
 		centeredOn:(NSPoint)centerPoint
@@ -62,9 +43,11 @@
 	if (self) {
 		theImage = [[NSImage alloc] initWithData:theData];
 		[theImage setFlipped:YES];
-		imageFrame.size = [theImage size];
-		imageFrame.origin.x = centerPoint.x - imageFrame.size.width / 2.0;
-		imageFrame.origin.y = centerPoint.y - imageFrame.size.height / 2.0;
+		NSRect ourFrame;
+		ourFrame.size = [theImage size];
+		ourFrame.origin.x = centerPoint.x - ourFrame.size.width / 2.0;
+		ourFrame.origin.y = centerPoint.y - ourFrame.size.height / 2.0;
+		[self setFrame:ourFrame];
 	}
 	return self;
 }
@@ -72,51 +55,16 @@
 
 #pragma mark -
 #pragma mark MWJObjectOnPaper protocol implementation
-
-- (NSRect)bounds {
-	return imageFrame;
-}
-
-- (NSRect)highlightBounds {
-	return [[NSBezierPath bezierPathWithRect:imageFrame] highlightedStrokeBounds];
-}
+// the rest of the protocol is implemented in MWJObjectOnPaperParentClass
 
 - (void)drawInRect:(NSRect)dirtyRect
 		 withRects:(const NSRect *)dirtyRects
 			 count:(NSInteger)dirtyRectsCount
 {
-	[theImage drawInRect:imageFrame
+	[theImage drawInRect:[self frame]
 				fromRect:NSZeroRect
 			   operation:NSCompositeSourceOver
 				fraction:1.0];
-}
-
-- (void)drawWithHighlightInRect:(NSRect)dirtyRect
-					  withRects:(const NSRect *)dirtyRects
-						  count:(NSInteger)dirtyRectsCount
-{
-	[[NSBezierPath bezierPathWithRect:imageFrame] highlightedStroke];
-	[self drawInRect:dirtyRect
-		   withRects:dirtyRects
-			   count:dirtyRectsCount];
-}
-
-- (BOOL)passesThroughRect:(NSRect)rect {
-	// NOTE: CGRectIntersectsRect behaves better than NSIntersectsRect when width or height is zero
-	return CGRectIntersectsRect(NSRectToCGRect(rect), NSRectToCGRect(imageFrame));
-}
-
-- (BOOL)passesThroughRectValue:(NSValue *)rectValue {
-	return [self passesThroughRect:[rectValue rectValue]];
-}
-
-- (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path {
-	return [path overlapsRect:imageFrame];
-}
-
-- (void)transformUsingAffineTransform:(NSAffineTransform *)aTransform {
-	imageFrame.origin = [aTransform transformPoint:imageFrame.origin];
-	imageFrame.size = [aTransform transformSize:imageFrame.size];
 }
 
 #pragma mark -
@@ -130,7 +78,7 @@ NSString * const kMWJPastedImageFrameKey = @"MWJPastedImageFrameKey";
 	// NSObject does not conform to NSCoding
 	//    [super encodeWithCoder:coder];
     [coder encodeObject:theImage forKey:kMWJPastedImageImageKey];
-	[coder encodeRect:imageFrame forKey:kMWJPastedImageFrameKey];
+	[coder encodeRect:[self frame] forKey:kMWJPastedImageFrameKey];
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
@@ -139,7 +87,7 @@ NSString * const kMWJPastedImageFrameKey = @"MWJPastedImageFrameKey";
 	self = [super init];
 	if (self) {
 		theImage = [[coder decodeObjectForKey:kMWJPastedImageImageKey] retain];
-		imageFrame = [coder decodeRectForKey:kMWJPastedImageFrameKey];
+		[self setFrame:[coder decodeRectForKey:kMWJPastedImageFrameKey]];
 	}
     return self;
 }

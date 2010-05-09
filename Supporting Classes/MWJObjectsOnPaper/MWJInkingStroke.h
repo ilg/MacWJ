@@ -32,8 +32,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MWJObjectOnPaper.h"
+#import "MWJObjectOnPaperParentClass.h"
 
-@interface MWJInkingStroke : NSObject < MWJObjectOnPaper > {
+@interface MWJInkingStroke : MWJObjectOnPaperParentClass < MWJObjectOnPaper > {
 	NSColor *color;
 	
 	@private

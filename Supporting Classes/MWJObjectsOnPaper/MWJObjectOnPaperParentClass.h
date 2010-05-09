@@ -26,21 +26,28 @@
  *********************************************************************************/
 
 //
-//  MWJPastedText.h
+//  MWJObjectOnPaperParentClass.h
 //  MacWJ
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MWJObjectOnPaper.h"
-#import "MWJObjectOnPaperParentClass.h"
 
 
-@interface MWJPastedText : MWJObjectOnPaperParentClass < MWJObjectOnPaper > {
-	@private
-	NSTextField *theTextField;
+@interface MWJObjectOnPaperParentClass : NSObject {
+	NSRect frame;
 }
 
-- (id)initWithData:(NSData *)theData
-		centeredOn:(NSPoint)centerPoint;
+@property NSRect frame;
+
+- (NSRect)bounds;
+- (NSRect)highlightBounds;
+- (void)drawWithHighlightInRect:(NSRect)dirtyRect
+					  withRects:(const NSRect *)dirtyRects
+						  count:(NSInteger)dirtyRectsCount;
+- (BOOL)passesThroughRect:(NSRect)rect;
+- (BOOL)passesThroughRectValue:(NSValue *)rectValue;
+- (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path;
+- (void)transformUsingAffineTransform:(NSAffineTransform *)aTransform;
+
 
 @end

@@ -65,6 +65,29 @@
 	[paths addObject:newPath];
 }
 
+- (NSRect)lastSegmentBounds {
+	if ([paths count] > 0) {
+		return [[paths lastObject] boundsWithLines];
+	} else {
+		return NSMakeRect(0.0, 0.0, 0.0, 0.0);
+	}
+}
+
+- (NSImage *)imageFromStroke {
+	NSImage *resultingImage = [[[NSImage alloc] initWithSize:[self bounds].size] autorelease];
+	[resultingImage lockFocus];
+	[[self color] setStroke];
+	for (NSBezierPath *aPath in paths) {
+		[aPath stroke];
+    }
+	[resultingImage unlockFocus];
+	return resultingImage;
+}
+
+#pragma mark -
+#pragma mark MWJObjectOnPaper protocol implementation
+// the rest of the protocol is implemented in MWJObjectOnPaperParentClass
+
 - (NSRect)bounds {
 	if ([paths count] > 0) {
 		NSRect result = [[paths objectAtIndex:0] boundsWithLines];
@@ -87,25 +110,6 @@
 	} else {
 		return NSMakeRect(0.0, 0.0, 0.0, 0.0);
 	}
-}
-
-- (NSRect)lastSegmentBounds {
-	if ([paths count] > 0) {
-		return [[paths lastObject] boundsWithLines];
-	} else {
-		return NSMakeRect(0.0, 0.0, 0.0, 0.0);
-	}
-}
-
-- (NSImage *)imageFromStroke {
-	NSImage *resultingImage = [[[NSImage alloc] initWithSize:[self bounds].size] autorelease];
-	[resultingImage lockFocus];
-	[[self color] setStroke];
-	for (NSBezierPath *aPath in paths) {
-		[aPath stroke];
-    }
-	[resultingImage unlockFocus];
-	return resultingImage;
 }
 
 - (void)drawInRect:(NSRect)dirtyRect
@@ -164,10 +168,6 @@
         }
     }
 	return passesThrough;
-}
-
-- (BOOL)passesThroughRectValue:(NSValue *)rectValue {
-	return [self passesThroughRect:[rectValue rectValue]];
 }
 
 - (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path {

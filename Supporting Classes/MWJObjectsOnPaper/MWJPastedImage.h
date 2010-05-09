@@ -32,16 +32,14 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MWJObjectOnPaper.h"
+#import "MWJObjectOnPaperParentClass.h"
 
 
-@interface MWJPastedImage : NSObject < MWJObjectOnPaper > {
+@interface MWJPastedImage : MWJObjectOnPaperParentClass < MWJObjectOnPaper > {
 	@private
 	NSImage *theImage;
-	NSRect imageFrame;
 }
 
-- (id)initWithData:(NSData *)theData
-		   inFrame:(NSRect)theFrame;
 - (id)initWithData:(NSData *)theData
 		centeredOn:(NSPoint)centerPoint;
 

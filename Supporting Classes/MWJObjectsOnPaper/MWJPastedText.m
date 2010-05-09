@@ -1,14 +1,36 @@
+/*********************************************************************************
+ 
+ © Copyright 2010, Isaac Greenspan
+ 
+ Permission is hereby granted, free of charge, to any person
+ obtaining a copy of this software and associated documentation
+ files (the "Software"), to deal in the Software without
+ restriction, including without limitation the rights to use,
+ copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the
+ Software is furnished to do so, subject to the following
+ conditions:
+ 
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ OTHER DEALINGS IN THE SOFTWARE.
+ 
+ *********************************************************************************/
+
 //
 //  MWJPastedText.m
 //  MacWJ
 //
-//  Created by Isaac Greenspan on 5/9/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
 
 #import "MWJPastedText.h"
-#import "NSBezierPath+highlightedStroke.h"
-#import "NSBezierPath+overlapsRect.h"
 
 
 @implementation MWJPastedText
@@ -62,9 +84,11 @@
 				[theTextField setAttributedStringValue:attributedString];
 			}
 			
-			textFrame.size = [theTextField bounds].size;
-			textFrame.origin.x = centerPoint.x - textFrame.size.width / 2.0;
-			textFrame.origin.y = centerPoint.y - textFrame.size.height / 2.0;
+			NSRect ourFrame;
+			ourFrame.size = [theTextField bounds].size;
+			ourFrame.origin.x = centerPoint.x - ourFrame.size.width / 2.0;
+			ourFrame.origin.y = centerPoint.y - ourFrame.size.height / 2.0;
+			[self setFrame:ourFrame];
 		} else {
 			[super dealloc];
 			self = nil;
@@ -75,59 +99,24 @@
 
 #pragma mark -
 #pragma mark MWJObjectOnPaper protocol implementation
-
-- (NSRect)bounds {
-	return textFrame;
-}
-
-- (NSRect)highlightBounds {
-	return [[NSBezierPath bezierPathWithRect:textFrame] highlightedStrokeBounds];
-}
+// the rest of the protocol is implemented in MWJObjectOnPaperParentClass
 
 - (void)drawInRect:(NSRect)dirtyRect
 		 withRects:(const NSRect *)dirtyRects
 			 count:(NSInteger)dirtyRectsCount
 {
 	NSRect textFieldFrame = [theTextField frame];
-	textFieldFrame.size = textFrame.size;
+	textFieldFrame.size = [self frame].size;
 	[theTextField setFrame:textFieldFrame];
 	NSImage *imageOfTextField = [[NSImage alloc]
 								 initWithData:[theTextField
 											   dataWithPDFInsideRect:[theTextField frame]]];
 	[imageOfTextField setFlipped:YES];
-	[imageOfTextField drawInRect:textFrame
+	[imageOfTextField drawInRect:[self frame]
 						fromRect:NSZeroRect
 					   operation:NSCompositeSourceOver
 						fraction:1.0];
 	[imageOfTextField release];
-}
-
-- (void)drawWithHighlightInRect:(NSRect)dirtyRect
-					  withRects:(const NSRect *)dirtyRects
-						  count:(NSInteger)dirtyRectsCount
-{
-	[[NSBezierPath bezierPathWithRect:textFrame] highlightedStroke];
-	[self drawInRect:dirtyRect
-		   withRects:dirtyRects
-			   count:dirtyRectsCount];
-}
-
-- (BOOL)passesThroughRect:(NSRect)rect {
-	// NOTE: CGRectIntersectsRect behaves better than NSIntersectsRect when width or height is zero
-	return CGRectIntersectsRect(NSRectToCGRect(rect), NSRectToCGRect(textFrame));
-}
-
-- (BOOL)passesThroughRectValue:(NSValue *)rectValue {
-	return [self passesThroughRect:[rectValue rectValue]];
-}
-
-- (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path {
-	return [path overlapsRect:textFrame];
-}
-
-- (void)transformUsingAffineTransform:(NSAffineTransform *)aTransform {
-	textFrame.origin = [aTransform transformPoint:textFrame.origin];
-	textFrame.size = [aTransform transformSize:textFrame.size];
 }
 
 #pragma mark -
@@ -141,7 +130,7 @@ NSString * const kMWJPastedTextFrameKey = @"MWJPastedTextFrameKey";
 	// NSObject does not conform to NSCoding
 	//    [super encodeWithCoder:coder];
     [coder encodeObject:theTextField forKey:kMWJPastedTextFieldKey];
-	[coder encodeRect:textFrame forKey:kMWJPastedTextFrameKey];
+	[coder encodeRect:[self frame] forKey:kMWJPastedTextFrameKey];
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
@@ -150,7 +139,7 @@ NSString * const kMWJPastedTextFrameKey = @"MWJPastedTextFrameKey";
 	self = [super init];
 	if (self) {
 		theTextField = [[coder decodeObjectForKey:kMWJPastedTextFieldKey] retain];
-		textFrame = [coder decodeRectForKey:kMWJPastedTextFrameKey];
+		[self setFrame:[coder decodeRectForKey:kMWJPastedTextFrameKey]];
 	}
     return self;
 }
