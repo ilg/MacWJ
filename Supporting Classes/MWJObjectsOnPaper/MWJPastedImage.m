@@ -8,6 +8,7 @@
 
 #import "MWJPastedImage.h"
 #import "NSBezierPath+highlightedStroke.h"
+#import "NSBezierPath+overlapsRect.h"
 
 
 @implementation MWJPastedImage
@@ -86,16 +87,7 @@
 }
 
 - (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path {
-	// test the four corners of the imageFrame
-	// TODO: this isn't good at all for an image, but I don't have anything better just yet
-	return ([path containsPoint:imageFrame.origin]
-			|| [path containsPoint:NSMakePoint(imageFrame.origin.x,
-											   imageFrame.origin.y + imageFrame.size.height)]
-			|| [path containsPoint:NSMakePoint(imageFrame.origin.x + imageFrame.size.width,
-											   imageFrame.origin.y)]
-			|| [path containsPoint:NSMakePoint(imageFrame.origin.x + imageFrame.size.width,
-											   imageFrame.origin.y + imageFrame.size.height)]
-			);
+	return [path overlapsRect:imageFrame];
 }
 
 - (void)transformUsingAffineTransform:(NSAffineTransform *)aTransform {
