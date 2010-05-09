@@ -18,14 +18,27 @@
 {
 	self = [super init];
 	if (self) {
-		NSAttributedString *attributedString = nil;
-		attributedString = [[NSAttributedString alloc] initWithData:theData
-															options:nil
-												 documentAttributes:NULL
-															  error:NULL];
+		NSMutableAttributedString *attributedString = nil;
+		attributedString = [[NSMutableAttributedString alloc] initWithData:theData
+																   options:nil
+														documentAttributes:NULL
+																	 error:NULL];
 		[attributedString autorelease];
 		
 		if (attributedString) {
+			// trim whitespace from the tail end of the string
+			NSMutableString *mutableStringContents = [attributedString mutableString];
+			NSUInteger firstCharToDelete = [mutableStringContents
+											rangeOfCharacterFromSet:[[NSCharacterSet
+																	  whitespaceAndNewlineCharacterSet]
+																	 invertedSet]
+											options:NSBackwardsSearch
+											].location + 1;
+			[mutableStringContents
+			 deleteCharactersInRange:NSMakeRange(firstCharToDelete,
+												 [mutableStringContents length] - firstCharToDelete)];
+			
+			// set up the text field
 			theTextField = [[NSTextField alloc] init];
 			[theTextField setAttributedStringValue:attributedString];
 			[theTextField setBezeled:NO];
@@ -41,9 +54,14 @@
 											  * ceilf(textFieldFrame.size.width / maxWidth)
 											  );
 				textFieldFrame.size.width = maxWidth;
+				textFieldFrame.size = [attributedString
+									   boundingRectWithSize:textFieldFrame.size
+									   options:NSStringDrawingUsesLineFragmentOrigin
+									   ].size;
 				[theTextField setFrame:textFieldFrame];
 				[theTextField setAttributedStringValue:attributedString];
 			}
+			
 			textFrame.size = [theTextField bounds].size;
 			textFrame.origin.x = centerPoint.x - textFrame.size.width / 2.0;
 			textFrame.origin.y = centerPoint.y - textFrame.size.height / 2.0;
