@@ -28,9 +28,22 @@
 		if (attributedString) {
 			theTextField = [[NSTextField alloc] init];
 			[theTextField setAttributedStringValue:attributedString];
-			[theTextField sizeToFit];
 			[theTextField setBezeled:NO];
 			[theTextField setBordered:NO];
+			[theTextField setDrawsBackground:NO];
+			[[theTextField cell] setWraps:YES];
+			[theTextField sizeToFit];
+			NSRect textFieldFrame = [theTextField frame];
+			CGFloat maxWidth = centerPoint.x;
+			if (textFieldFrame.size.width > maxWidth) {
+				// probably too wide
+				textFieldFrame.size.height = (textFieldFrame.size.height
+											  * ceilf(textFieldFrame.size.width / maxWidth)
+											  );
+				textFieldFrame.size.width = maxWidth;
+				[theTextField setFrame:textFieldFrame];
+				[theTextField setAttributedStringValue:attributedString];
+			}
 			textFrame.size = [theTextField bounds].size;
 			textFrame.origin.x = centerPoint.x - textFrame.size.width / 2.0;
 			textFrame.origin.y = centerPoint.y - textFrame.size.height / 2.0;
@@ -57,9 +70,12 @@
 		 withRects:(const NSRect *)dirtyRects
 			 count:(NSInteger)dirtyRectsCount
 {
+	NSRect textFieldFrame = [theTextField frame];
+	textFieldFrame.size = textFrame.size;
+	[theTextField setFrame:textFieldFrame];
 	NSImage *imageOfTextField = [[NSImage alloc]
 								 initWithData:[theTextField
-											   dataWithPDFInsideRect:[theTextField bounds]]];
+											   dataWithPDFInsideRect:[theTextField frame]]];
 	[imageOfTextField setFlipped:YES];
 	[imageOfTextField drawInRect:textFrame
 						fromRect:NSZeroRect
