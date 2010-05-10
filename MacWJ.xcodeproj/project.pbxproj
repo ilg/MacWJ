@@ -13,7 +13,6 @@
 		7112B6FC118AE8EB0010FF45 /* single-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 7112B6FA118AE8EB0010FF45 /* single-dot.png */; };
 		7112B7E3118B0F580010FF45 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 7112B7E2118B0F580010FF45 /* Credits.html */; };
 		7112B8A5118D56470010FF45 /* pen.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7112B8A3118D56470010FF45 /* pen.pdf */; };
-		7112B8A6118D56470010FF45 /* pencil.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7112B8A4118D56470010FF45 /* pencil.pdf */; };
 		7112B8A9118D59CF0010FF45 /* eraser.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7112B8A8118D59CF0010FF45 /* eraser.pdf */; };
 		71943256118E53750028E980 /* pen options.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 71943255118E53750028E980 /* pen options.pdf */; };
 		71943290118ED0EE0028E980 /* MacWJ Document Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7194328E118ED0EE0028E980 /* MacWJ Document Icon.icns */; };
@@ -57,7 +56,6 @@
 		7112B6FA118AE8EB0010FF45 /* single-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "single-dot.png"; sourceTree = "<group>"; };
 		7112B7E0118B0F4C0010FF45 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/Credits.html; sourceTree = "<group>"; };
 		7112B8A3118D56470010FF45 /* pen.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pen.pdf; sourceTree = "<group>"; };
-		7112B8A4118D56470010FF45 /* pencil.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pencil.pdf; sourceTree = "<group>"; };
 		7112B8A8118D59CF0010FF45 /* eraser.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = eraser.pdf; sourceTree = "<group>"; };
 		71943255118E53750028E980 /* pen options.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "pen options.pdf"; sourceTree = "<group>"; };
 		7194328E118ED0EE0028E980 /* MacWJ Document Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "MacWJ Document Icon.icns"; sourceTree = "<group>"; };
@@ -220,19 +218,18 @@
 		7112B6F8118AE8EB0010FF45 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				719438A611955FE40028E980 /* extend page.pdf */,
 				7194328E118ED0EE0028E980 /* MacWJ Document Icon.icns */,
 				7194328F118ED0EE0028E980 /* MacWJ Icon.icns */,
 				7112B6F9118AE8EB0010FF45 /* lined paper background.png */,
 				7112B6FA118AE8EB0010FF45 /* single-dot.png */,
-				71943255118E53750028E980 /* pen options.pdf */,
-				7112B8A3118D56470010FF45 /* pen.pdf */,
-				7112B8A4118D56470010FF45 /* pencil.pdf */,
-				7112B8A8118D59CF0010FF45 /* eraser.pdf */,
-				71943360118FB8600028E980 /* redo.pdf */,
 				71943361118FB8600028E980 /* undo.pdf */,
-				719435D51193CF8C0028E980 /* lasso.pdf */,
+				71943360118FB8600028E980 /* redo.pdf */,
+				7112B8A3118D56470010FF45 /* pen.pdf */,
+				7112B8A8118D59CF0010FF45 /* eraser.pdf */,
 				7194339E118FC7020028E980 /* rectangular marquee.pdf */,
+				719435D51193CF8C0028E980 /* lasso.pdf */,
+				71943255118E53750028E980 /* pen options.pdf */,
+				719438A611955FE40028E980 /* extend page.pdf */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -318,7 +315,6 @@
 				7112B6FC118AE8EB0010FF45 /* single-dot.png in Resources */,
 				7112B7E3118B0F580010FF45 /* Credits.html in Resources */,
 				7112B8A5118D56470010FF45 /* pen.pdf in Resources */,
-				7112B8A6118D56470010FF45 /* pencil.pdf in Resources */,
 				7112B8A9118D59CF0010FF45 /* eraser.pdf in Resources */,
 				71943256118E53750028E980 /* pen options.pdf in Resources */,
 				71943290118ED0EE0028E980 /* MacWJ Document Icon.icns in Resources */,

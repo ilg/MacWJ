@@ -52,10 +52,9 @@ NSInteger const kUndoRedoSegmentedRedoSegmentNumber = 1;
 
 // MARK: keys for tool selection segmented control
 NSInteger const kToolSelectionSegmentedPenSegmentNumber = 0;
-NSInteger const kToolSelectionSegmentedPencilSegmentNumber = 1;
-NSInteger const kToolSelectionSegmentedEraserSegmentNumber = 2;
-NSInteger const kToolSelectionSegmentedRectangularMarqueeSegmentNumber = 3;
-NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
+NSInteger const kToolSelectionSegmentedEraserSegmentNumber = 1;
+NSInteger const kToolSelectionSegmentedRectangularMarqueeSegmentNumber = 2;
+NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 3;
 
 #pragma mark -
 
@@ -171,8 +170,6 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 4;
 
 - (IBAction)toolSelectionAction:(id)sender {
 	if ([toolSelectionSegmentedControl selectedSegment] == kToolSelectionSegmentedPenSegmentNumber) {
-		[thePaperView setToolType:kMWJPaperViewPenToolType];
-	} else if ([toolSelectionSegmentedControl selectedSegment] == kToolSelectionSegmentedPencilSegmentNumber) {
 		[thePaperView setToolType:kMWJPaperViewPenToolType];
 	} else if ([toolSelectionSegmentedControl selectedSegment] == kToolSelectionSegmentedEraserSegmentNumber) {
 		[thePaperView setToolType:kMWJPaperViewEraserToolType];
