@@ -64,6 +64,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// Insert code here to initialize your application
+	[[NSDocumentController sharedDocumentController] setAutosavingDelay:3.0]; // autosave delay is 3 seconds
 }
 
 @end
