@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="100029"/>
+			<integer value="100039"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -328,7 +328,6 @@
 												<string key="NSSegmentItemLabel"/>
 												<string key="NSSegmentItemTooltip">Eraser</string>
 												<int key="NSSegmentItemTag">1</int>
-												<bool key="NSSegmentItemDisabled">YES</bool>
 												<int key="NSSegmentItemImageScaling">2</int>
 											</object>
 											<object class="NSSegmentItem">
@@ -995,7 +994,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<integer value="0"/>
+					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
