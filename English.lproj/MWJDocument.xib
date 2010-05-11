@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="5"/>
+			<integer value="100078"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -81,7 +81,6 @@
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{2, 14}, {71, 25}}</string>
 									<reference key="NSSuperview"/>
-									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSSegmentedCell" key="NSCell" id="64554751">
 										<int key="NSCellFlags">67239424</int>
@@ -143,7 +142,6 @@
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{0, 14}, {71, 25}}</string>
 									<reference key="NSSuperview"/>
-									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSSegmentedCell" key="NSCell" id="193437830">
 										<int key="NSCellFlags">-2080244224</int>
@@ -201,7 +199,6 @@
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{21, 14}, {32, 25}}</string>
 									<reference key="NSSuperview"/>
-									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="247031426">
 										<int key="NSCellFlags">-2080244224</int>
@@ -248,7 +245,6 @@
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{6, 14}, {50, 25}}</string>
 									<reference key="NSSuperview"/>
-									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="786188501">
 										<int key="NSCellFlags">67239424</int>
@@ -291,7 +287,6 @@
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{0, 14}, {150, 25}}</string>
 									<reference key="NSSuperview"/>
-									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSPopUpButtonCell" key="NSCell" id="220714219">
 										<int key="NSCellFlags">-2076049856</int>
@@ -366,7 +361,6 @@
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{0, 14}, {170, 25}}</string>
 									<reference key="NSSuperview"/>
-									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSSegmentedCell" key="NSCell" id="817253051">
 										<int key="NSCellFlags">67239424</int>
@@ -757,12 +751,20 @@
 					<int key="connectionID">100077</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">toolSelectionAction:</string>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">mouseToolSelectionSegmentedControl</string>
 						<reference key="source" ref="512844837"/>
 						<reference key="destination" ref="384799308"/>
 					</object>
-					<int key="connectionID">100081</int>
+					<int key="connectionID">100082</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">mouseToolSelectionAction:</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="384799308"/>
+					</object>
+					<int key="connectionID">100083</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1097,7 +1099,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{-3, 935}, {617, 0}}</string>
+					<string>{{-3, 708}, {617, 227}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1151,7 +1153,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">100081</int>
+			<int key="maxID">100083</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1164,6 +1166,7 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>extendPage:</string>
+							<string>mouseToolSelectionAction:</string>
 							<string>penNibSelected:</string>
 							<string>toolSelectionAction:</string>
 							<string>undoRedoAction:</string>
@@ -1174,12 +1177,14 @@
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
+							<string>id</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>mouseToolSelectionSegmentedControl</string>
 							<string>penNibSelectionPopUpButton</string>
 							<string>theBackgroundView</string>
 							<string>thePaperView</string>
@@ -1189,6 +1194,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSSegmentedControl</string>
 							<string>NSPopUpButton</string>
 							<string>MWJPaperBackgroundView</string>
 							<string>MWJPaperView</string>
