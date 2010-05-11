@@ -1070,10 +1070,10 @@ static NSCursor *eraserCursor;
 														selectorPrefix,selectorGroup])
 					   withObject:theEvent];
 		}
-		
-		// catch all tablet-point events
-		if (eventSubtype == NSTabletPointEventSubtype) [self tabletPoint:theEvent];
 	}
+	
+	// catch all tablet-point events
+	if (eventSubtype == NSTabletPointEventSubtype) [self tabletPoint:theEvent];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
@@ -1081,7 +1081,17 @@ static NSCursor *eraserCursor;
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
-	[self mouseEvent:theEvent];
+	if (([theEvent subtype] == NSTabletPointEventSubtype)
+		&& (pointingDeviceType == NSPenPointingDevice)
+		&& ([self toolType] == kMWJPaperViewPenToolType)
+		) {
+		// short-circuit path to continue an ink stroke
+		// in the hope of making inking smoother
+		[self continueStroke:theEvent];
+		[self tabletPoint:theEvent];
+	} else {
+		[self mouseEvent:theEvent];
+	}
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
