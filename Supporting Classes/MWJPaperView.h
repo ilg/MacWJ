@@ -40,6 +40,7 @@ extern NSUInteger const kMWJPaperViewPenToolType;
 extern NSUInteger const kMWJPaperViewEraserToolType;
 extern NSUInteger const kMWJPaperViewRectangularMarqueeToolType;
 extern NSUInteger const kMWJPaperViewLassoToolType;
+extern NSUInteger const kMWJPaperViewAddRemoveSpaceToolType;
 
 @interface MWJPaperView : NSView {
 	MWJInkingPenNib *currentPenNib;

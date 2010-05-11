@@ -42,6 +42,7 @@
 	IBOutlet MWJPaperBackgroundView *theBackgroundView;
 	IBOutlet NSScrollView *theScrollView;
 	IBOutlet NSSegmentedControl *toolSelectionSegmentedControl;
+	IBOutlet NSSegmentedControl *mouseToolSelectionSegmentedControl;
 	IBOutlet NSSegmentedControl *undoRedoSegmentedControl;
 	IBOutlet NSPopUpButton *penNibSelectionPopUpButton;
 }
@@ -51,5 +52,6 @@
 - (IBAction)penNibSelected:(id)sender;
 - (IBAction)undoRedoAction:(id)sender;
 - (IBAction)toolSelectionAction:(id)sender;
+- (IBAction)mouseToolSelectionAction:(id)sender;
 
 @end

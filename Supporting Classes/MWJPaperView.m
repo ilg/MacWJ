@@ -48,6 +48,7 @@ NSUInteger const kMWJPaperViewPenToolType = 0;
 NSUInteger const kMWJPaperViewEraserToolType = 1;
 NSUInteger const kMWJPaperViewRectangularMarqueeToolType = 2;
 NSUInteger const kMWJPaperViewLassoToolType = 3;
+NSUInteger const kMWJPaperViewAddRemoveSpaceToolType = 4;
 
 // MARK: pasteboard type constant
 NSString * const kMWJPaperViewObjectsOnPaperPboardType = @"kMWJPaperViewObjectsOnPaperPboardType";

@@ -36,6 +36,7 @@
 		71943CE8119697E20028E980 /* NSBezierPath+overlapsRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 71943CE7119697E20028E980 /* NSBezierPath+overlapsRect.m */; };
 		71943D081196A22B0028E980 /* MWJPastedText.m in Sources */ = {isa = PBXBuildFile; fileRef = 71943D071196A22B0028E980 /* MWJPastedText.m */; };
 		71943DF81196C03E0028E980 /* MWJObjectOnPaperParentClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 71943DF71196C03E0028E980 /* MWJObjectOnPaperParentClass.m */; };
+		71943F821198F5CE0028E980 /* add-remove space.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 71943F811198F5CE0028E980 /* add-remove space.pdf */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -93,6 +94,7 @@
 		71943D071196A22B0028E980 /* MWJPastedText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJPastedText.m; sourceTree = "<group>"; };
 		71943DF61196C03E0028E980 /* MWJObjectOnPaperParentClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWJObjectOnPaperParentClass.h; sourceTree = "<group>"; };
 		71943DF71196C03E0028E980 /* MWJObjectOnPaperParentClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWJObjectOnPaperParentClass.m; sourceTree = "<group>"; };
+		71943F811198F5CE0028E980 /* add-remove space.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "add-remove space.pdf"; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* MacWJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacWJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -218,6 +220,7 @@
 		7112B6F8118AE8EB0010FF45 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				71943F811198F5CE0028E980 /* add-remove space.pdf */,
 				7194328E118ED0EE0028E980 /* MacWJ Document Icon.icns */,
 				7194328F118ED0EE0028E980 /* MacWJ Icon.icns */,
 				7112B6F9118AE8EB0010FF45 /* lined paper background.png */,
@@ -325,6 +328,7 @@
 				719435D61193CF8C0028E980 /* lasso.pdf in Resources */,
 				719438A711955FE40028E980 /* extend page.pdf in Resources */,
 				7194393E119572B80028E980 /* MWJDocument.xib in Resources */,
+				71943F821198F5CE0028E980 /* add-remove space.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

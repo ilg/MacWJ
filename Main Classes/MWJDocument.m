@@ -55,6 +55,11 @@ NSInteger const kToolSelectionSegmentedPenSegmentNumber = 0;
 NSInteger const kToolSelectionSegmentedEraserSegmentNumber = 1;
 NSInteger const kToolSelectionSegmentedRectangularMarqueeSegmentNumber = 2;
 NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 3;
+NSInteger const kToolSelectionSegmentedAddRemoveSpaceSegmentNumber = 4;
+
+// MARK: keys for mouse tool selection segmented control
+NSInteger const kMouseToolSelectionSegmentedRectangularMarqueeSegmentNumber = 0;
+NSInteger const kMouseToolSelectionSegmentedAddRemoveSpaceSegmentNumber = 1;
 
 #pragma mark -
 
@@ -177,8 +182,20 @@ NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 3;
 		[thePaperView setToolType:kMWJPaperViewRectangularMarqueeToolType];
 	} else if ([toolSelectionSegmentedControl selectedSegment] == kToolSelectionSegmentedLassoSegmentNumber) {
 		[thePaperView setToolType:kMWJPaperViewLassoToolType];
+	} else if ([toolSelectionSegmentedControl selectedSegment] == kToolSelectionSegmentedAddRemoveSpaceSegmentNumber) {
+		[thePaperView setToolType:kMWJPaperViewAddRemoveSpaceToolType];
 	} else {
 		[thePaperView setToolType:kMWJPaperViewPenToolType];
+	}
+}
+
+- (IBAction)mouseToolSelectionAction:(id)sender {
+	if ([mouseToolSelectionSegmentedControl selectedSegment] == kMouseToolSelectionSegmentedRectangularMarqueeSegmentNumber) {
+		[thePaperView setMouseToolType:kMWJPaperViewRectangularMarqueeToolType];
+	} else if ([mouseToolSelectionSegmentedControl selectedSegment] == kMouseToolSelectionSegmentedAddRemoveSpaceSegmentNumber) {
+		[thePaperView setMouseToolType:kMWJPaperViewAddRemoveSpaceToolType];
+	} else {
+		[thePaperView setMouseToolType:kMWJPaperViewRectangularMarqueeToolType];
 	}
 }
 
