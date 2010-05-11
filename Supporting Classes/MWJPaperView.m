@@ -511,6 +511,19 @@ static NSCursor *eraserCursor;
 }
 
 #pragma mark -
+#pragma mark for add/remove space tool
+
+- (void)continueAddRemoveSpace:(NSEvent *)theEvent {
+}
+
+- (void)endAddRemoveSpace:(NSEvent *)theEvent {
+}
+
+- (void)startAddRemoveSpace:(NSEvent *)theEvent {
+}
+
+
+#pragma mark -
 
 - (NSRect)pathBounds {
 	if ([objectsOnPaper count] > 0) {
@@ -884,9 +897,12 @@ static NSCursor *eraserCursor;
 			[self tabletPoint:theEvent];
 		} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
 			[self tabletProximity:theEvent];
-		} else if ([theEvent subtype] == NSMouseEventSubtype) {
-			if ([theEvent timestamp] - timeOfLastTabletEvent > TABLET_MOUSE_TIME_MARGIN) {
+		} else if (([theEvent subtype] == NSMouseEventSubtype)
+				   && ([theEvent timestamp] - timeOfLastTabletEvent > TABLET_MOUSE_TIME_MARGIN)) {
+			if ([self mouseToolType] == kMWJPaperViewRectangularMarqueeToolType) {
 				[self startRectangularSelection:theEvent];
+			} else if ([self mouseToolType] == kMWJPaperViewAddRemoveSpaceToolType) {
+				[self startAddRemoveSpace:theEvent];
 			}
 		}
 	}
@@ -912,9 +928,12 @@ static NSCursor *eraserCursor;
 		[self tabletPoint:theEvent];
 	} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
 		[self tabletProximity:theEvent];
-	} else if ([theEvent subtype] == NSMouseEventSubtype) {
-		if ([theEvent timestamp] - timeOfLastTabletEvent > TABLET_MOUSE_TIME_MARGIN) {
+	} else if (([theEvent subtype] == NSMouseEventSubtype)
+			   && ([theEvent timestamp] - timeOfLastTabletEvent > TABLET_MOUSE_TIME_MARGIN)) {
+		if ([self mouseToolType] == kMWJPaperViewRectangularMarqueeToolType) {
 			[self continueRectangularSelection:theEvent];
+		} else if ([self mouseToolType] == kMWJPaperViewAddRemoveSpaceToolType) {
+			[self continueAddRemoveSpace:theEvent];
 		}
 	}
 }
@@ -935,9 +954,12 @@ static NSCursor *eraserCursor;
 		[self tabletPoint:theEvent];
 	} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
 		[self tabletProximity:theEvent];
-	} else if ([theEvent subtype] == NSMouseEventSubtype) {
-		if ([theEvent timestamp] - timeOfLastTabletEvent > TABLET_MOUSE_TIME_MARGIN) {
+	} else if (([theEvent subtype] == NSMouseEventSubtype)
+			   && ([theEvent timestamp] - timeOfLastTabletEvent > TABLET_MOUSE_TIME_MARGIN)) {
+		if ([self mouseToolType] == kMWJPaperViewRectangularMarqueeToolType) {
 			[self endRectangularSelection:theEvent];
+		} else if ([self mouseToolType] == kMWJPaperViewAddRemoveSpaceToolType) {
+			[self endAddRemoveSpace:theEvent];
 		}
 	}
 }
