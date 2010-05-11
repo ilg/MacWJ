@@ -123,6 +123,7 @@ static NSCursor *eraserCursor;
         // Initialization code here.
 		objectsOnPaper = [[NSMutableArray alloc] init];
 		[self setToolType:kMWJPaperViewPenToolType];
+		[self setMouseToolType:kMWJPaperViewRectangularMarqueeToolType];
 		
 		[self setSelectedObjectIndexes:[NSIndexSet indexSet]];
 		[self setSelectionPath:nil];
@@ -875,93 +876,99 @@ static NSCursor *eraserCursor;
 	timeOfLastTabletEvent = [theEvent timestamp];
 }
 
-- (void)mouseDown:(NSEvent *)theEvent {
-	if ([NSCursor currentCursor] == [NSCursor openHandCursor]) {
+- (void)mouseEvent:(NSEvent *)theEvent {
+	NSEventType eventType = [theEvent type];
+	short eventSubtype = [theEvent subtype];
+	
+	if (([NSCursor currentCursor] == [NSCursor openHandCursor])
+		&& (eventType == NSLeftMouseDown)) {
+		// if the cursor is an open hand, then a mousedown is the start of a drag-move
 		[self startMovingSelection:theEvent];
+		
+	} else if ([NSCursor currentCursor] == [NSCursor closedHandCursor]) {
+		// if the cursor is a closed hand, then we are in a drag-move
+		if (eventType == NSLeftMouseDragged) {
+			// dragging continues
+			[self continueMovingSelection:theEvent];
+		} else if (eventType == NSLeftMouseUp) {
+			// mouseUp ends the drag
+			[self endMovingSelection:theEvent];
+		}
+		
+	} else if (eventSubtype == NSTabletProximityEventSubtype) {
+		// catch all tablet-proximity events
+		[self tabletProximity:theEvent];
+		
+	} else if ((eventType == NSLeftMouseDragged)
+			   && (eventSubtype == NSTabletPointEventSubtype)
+			   && ((pointingDeviceType == NSEraserPointingDevice)
+				   || ((pointingDeviceType == NSPenPointingDevice)
+					   && ([self toolType] == kMWJPaperViewEraserToolType)
+					   )
+				   )
+			   ) {
+		// a drag event with the tablet device
+		// and either the eraser end of it or the pen end with the eraser tool
+		// is an erase event
+		[self eraseEvent:theEvent];
+		
 	} else {
-		if ([[self selectedObjectIndexes] count] > 0) {
-			// if there's a selection, wipe it out and redraw everything
+		// now that we aren't in one of the above special cases...
+		if ((eventType == NSLeftMouseDown)
+			&& ([[self selectedObjectIndexes] count] > 0)) {
+			// if there's a selection, mouseDown wipes it out and redraws everything
 			[self selectNone];
 		}
 		
-		if ([theEvent subtype] == NSTabletPointEventSubtype) {
-			if (pointingDeviceType == NSPenPointingDevice) {
-				if ([self toolType] == kMWJPaperViewPenToolType) {
-					[self startStroke:theEvent];
-				} else if ([self toolType] == kMWJPaperViewRectangularMarqueeToolType) {
-					[self startRectangularSelection:theEvent];
-				} else if ([self toolType] == kMWJPaperViewLassoToolType) {
-					[self startLasso:theEvent];
-				}
-			}
-			[self tabletPoint:theEvent];
-		} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
-			[self tabletProximity:theEvent];
-		} else if (([theEvent subtype] == NSMouseEventSubtype)
-				   && ([theEvent timestamp] - timeOfLastTabletEvent > TABLET_MOUSE_TIME_MARGIN)) {
-			if ([self mouseToolType] == kMWJPaperViewRectangularMarqueeToolType) {
-				[self startRectangularSelection:theEvent];
-			} else if ([self mouseToolType] == kMWJPaperViewAddRemoveSpaceToolType) {
-				[self startAddRemoveSpace:theEvent];
+		// figure out whether we're start/continue/end and which group of methods
+		NSString *selectorPrefix = nil;
+		NSString *selectorGroup = nil;
+		
+		switch (eventType) {
+			case NSLeftMouseDown: selectorPrefix = @"start"; break;
+			case NSLeftMouseDragged: selectorPrefix = @"continue"; break;
+			case NSLeftMouseUp: selectorPrefix = @"end"; break;
+		}
+		
+		if ((eventSubtype == NSMouseEventSubtype)
+			|| (pointingDeviceType == NSPenPointingDevice)) {
+			switch ((eventSubtype == NSTabletPointEventSubtype)
+					? [self toolType]
+					: [self mouseToolType]
+					) {
+				case kMWJPaperViewPenToolType:
+					selectorGroup = @"Stroke"; break;
+				case kMWJPaperViewRectangularMarqueeToolType:
+					selectorGroup = @"RectangularSelection"; break;
+				case kMWJPaperViewLassoToolType:
+					selectorGroup = @"Lasso"; break;
+				case kMWJPaperViewAddRemoveSpaceToolType:
+					selectorGroup = @"AddRemoveSpace"; break;
 			}
 		}
+		
+		// if we've set a prefix and a group, then call the proper method
+		if (selectorPrefix && selectorGroup) {
+			[self performSelector:NSSelectorFromString([NSString stringWithFormat:@"%@%@:",
+														selectorPrefix,selectorGroup])
+					   withObject:theEvent];
+		}
+		
+		// catch all tablet-point events
+		if (eventSubtype == NSTabletPointEventSubtype) [self tabletPoint:theEvent];
 	}
+}
+
+- (void)mouseDown:(NSEvent *)theEvent {
+	[self mouseEvent:theEvent];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
-	if ([NSCursor currentCursor] == [NSCursor closedHandCursor]) {
-		[self continueMovingSelection:theEvent];
-	} else if ([theEvent subtype] == NSTabletPointEventSubtype) {
-		if (pointingDeviceType == NSPenPointingDevice) {
-			if ([self toolType] == kMWJPaperViewPenToolType) {
-				[self continueStroke:theEvent];
-			} else if ([self toolType] == kMWJPaperViewEraserToolType) {
-				[self eraseEvent:theEvent];
-			} else if ([self toolType] == kMWJPaperViewRectangularMarqueeToolType) {
-				[self continueRectangularSelection:theEvent];
-			} else if ([self toolType] == kMWJPaperViewLassoToolType) {
-				[self continueLasso:theEvent];
-			}
-		} else if (pointingDeviceType == NSEraserPointingDevice) {
-			[self eraseEvent:theEvent];
-		}
-		[self tabletPoint:theEvent];
-	} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
-		[self tabletProximity:theEvent];
-	} else if (([theEvent subtype] == NSMouseEventSubtype)
-			   && ([theEvent timestamp] - timeOfLastTabletEvent > TABLET_MOUSE_TIME_MARGIN)) {
-		if ([self mouseToolType] == kMWJPaperViewRectangularMarqueeToolType) {
-			[self continueRectangularSelection:theEvent];
-		} else if ([self mouseToolType] == kMWJPaperViewAddRemoveSpaceToolType) {
-			[self continueAddRemoveSpace:theEvent];
-		}
-	}
+	[self mouseEvent:theEvent];
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
-	if ([NSCursor currentCursor] == [NSCursor closedHandCursor]) {
-		[self endMovingSelection:theEvent];
-	} else if ([theEvent subtype] == NSTabletPointEventSubtype) {
-		if (pointingDeviceType == NSPenPointingDevice) {
-			if ([self toolType] == kMWJPaperViewPenToolType) {
-				[self endStroke:theEvent];
-			} else if ([self toolType] == kMWJPaperViewRectangularMarqueeToolType) {
-				[self endRectangularSelection:theEvent];
-			} else if ([self toolType] == kMWJPaperViewLassoToolType) {
-				[self endLasso:theEvent];
-			}
-		}
-		[self tabletPoint:theEvent];
-	} else if ([theEvent subtype] == NSTabletProximityEventSubtype) {
-		[self tabletProximity:theEvent];
-	} else if (([theEvent subtype] == NSMouseEventSubtype)
-			   && ([theEvent timestamp] - timeOfLastTabletEvent > TABLET_MOUSE_TIME_MARGIN)) {
-		if ([self mouseToolType] == kMWJPaperViewRectangularMarqueeToolType) {
-			[self endRectangularSelection:theEvent];
-		} else if ([self mouseToolType] == kMWJPaperViewAddRemoveSpaceToolType) {
-			[self endAddRemoveSpace:theEvent];
-		}
-	}
+	[self mouseEvent:theEvent];
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent {
