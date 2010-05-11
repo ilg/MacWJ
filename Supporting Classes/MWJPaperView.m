@@ -639,7 +639,7 @@ static NSCursor *eraserCursor;
 
 #pragma mark -
 
-- (NSRect)pathBounds {
+- (NSRect)boundsOfObjects {
 	if ([objectsOnPaper count] > 0) {
 		NSRect result = [[objectsOnPaper objectAtIndex:0] bounds];
 		for (id<MWJObjectOnPaper> anObjectOnPaper in objectsOnPaper) {
@@ -667,7 +667,7 @@ static NSCursor *eraserCursor;
 }
 
 - (NSData *)PNGData {
-	NSImage *image = [[NSImage alloc] initWithData:[self dataWithPDFInsideRect:[self pathBounds]]];
+	NSImage *image = [[NSImage alloc] initWithData:[self dataWithPDFInsideRect:[self boundsOfObjects]]];
 	NSSize imageSize = [image size];
 	imageSize.width = imageSize.width * COPY_AS_IMAGE_SCALE_FACTOR;
 	imageSize.height = imageSize.height * COPY_AS_IMAGE_SCALE_FACTOR;
@@ -679,7 +679,7 @@ static NSCursor *eraserCursor;
 }
 
 - (NSData *)PDFData {
-	return [self dataWithPDFInsideRect:[self pathBounds]];
+	return [self dataWithPDFInsideRect:[self boundsOfObjects]];
 }
 
 - (NSData *)selectedPDFData {
@@ -689,7 +689,7 @@ static NSCursor *eraserCursor;
 							atIndexes:[NSIndexSet indexSetWithIndexesInRange:
 									   NSMakeRange(0, [selectedObjects count])]
 					   withActionName:@""];
-	NSData *thePDFData = [temporaryView dataWithPDFInsideRect:[temporaryView pathBounds]];
+	NSData *thePDFData = [temporaryView dataWithPDFInsideRect:[temporaryView boundsOfObjects]];
 	[temporaryView release];
 	return thePDFData;
 }

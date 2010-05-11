@@ -37,12 +37,6 @@
 
 #define EXTEND_PAGE_AMOUNT 100.0
 
-@interface MWJDocument (private)
-
-- (void)reloadNibs;
-
-@end
-
 
 @implementation MWJDocument
 
@@ -95,21 +89,6 @@ enum {
 							  forSegment:kUndoRedoSegmentedRedoSegmentNumber];
 }
 
-- (void)awakeFromNib {
-	[self reloadNibs];
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(toggleUndoRedoEnabled:)
-												 name:NSUndoManagerCheckpointNotification
-											   object:[self undoManager]];
-	[self toggleUndoRedoEnabled:nil];
-	[[thePaperView window] setAcceptsMouseMovedEvents:YES];
-	[theBackgroundView setFrame:[[theBackgroundView superview] bounds]];
-}
-
-- (void)windowDidBecomeKey:(NSNotification *)notification {
-	[self reloadNibs];
-}
-
 - (void)reloadNibs {
 	NSString *currentTitle = [penNibSelectionPopUpButton titleOfSelectedItem];
 	[penNibSelectionPopUpButton removeAllItems];
@@ -131,6 +110,24 @@ enum {
 	[self penNibSelected:penNibSelectionPopUpButton];
 }
 
+- (void)awakeFromNib {
+	[self reloadNibs];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(toggleUndoRedoEnabled:)
+												 name:NSUndoManagerCheckpointNotification
+											   object:[self undoManager]];
+	[self toggleUndoRedoEnabled:nil];
+	[[thePaperView window] setAcceptsMouseMovedEvents:YES];
+	[theBackgroundView setFrame:[[theBackgroundView superview] bounds]];
+}
+
+#pragma mark -
+#pragma mark window delegate methods
+
+- (void)windowDidBecomeKey:(NSNotification *)notification {
+	[self reloadNibs];
+}
+
 - (void)windowWillClose:(NSNotification *)notification {
 	// if the vertical scroller is showing, resize the window
 	// smaller by that much to avoid window size creep
@@ -140,6 +137,24 @@ enum {
 		[[notification object] setFrame:windowFrame display:NO];
 	}
 }
+
+- (NSSize)windowWillResize:(NSWindow *)sender
+					toSize:(NSSize)frameSize
+{
+	NSRect usedBounds = [thePaperView boundsOfObjects];
+	NSRect backgroundFrame = [theBackgroundView frame];
+	backgroundFrame.size.width = MAX(frameSize.width - ([[theScrollView verticalScroller] isHidden]
+														? 0.0
+														: [[theScrollView verticalScroller]
+														   frame].size.width
+														),
+									 (usedBounds.origin.x + usedBounds.size.width
+									  - [thePaperView visibleRect].origin.x));
+	[theBackgroundView setFrame:backgroundFrame];
+	return frameSize;
+}
+
+#pragma mark -
 
 - (void)changePageHeightBy:(CGFloat)heightDelta {
 	BOOL wasHiddenVerticalScroller = [[theScrollView verticalScroller] isHidden];

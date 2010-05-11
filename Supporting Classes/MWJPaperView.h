@@ -79,6 +79,8 @@ typedef enum {
 - (IBAction)sendBackward:(id)sender;
 - (IBAction)sendToBack:(id)sender;
 
+- (NSRect)boundsOfObjects;
+
 - (NSData *)data;
 - (void)loadFromData:(NSData *)data;
 
