@@ -1043,8 +1043,12 @@ static NSCursor *eraserCursor;
 			case NSLeftMouseUp: selectorPrefix = @"end"; break;
 		}
 		
-		if ((eventSubtype == NSMouseEventSubtype)
-			|| (pointingDeviceType == NSPenPointingDevice)) {
+		// if we're a mouse event and it's been long enough since a tablet event
+		// or if we're a tablet pen event, then we can proceed to looking at which group of methods
+		if (((eventSubtype == NSMouseEventSubtype)
+			 && ([theEvent timestamp] - timeOfLastTabletEvent > TABLET_MOUSE_TIME_MARGIN))
+			|| ((eventSubtype == NSTabletPointEventSubtype)
+				&& (pointingDeviceType == NSPenPointingDevice))) {
 			switch ((eventSubtype == NSTabletPointEventSubtype)
 					? [self toolType]
 					: [self mouseToolType]
