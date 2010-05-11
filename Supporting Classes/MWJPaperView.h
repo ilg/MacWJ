@@ -35,16 +35,19 @@
 @class MWJInkingStroke;
 @class MWJInkingPenNib;
 
-// MARK: tool type constants
-extern NSUInteger const kMWJPaperViewPenToolType;
-extern NSUInteger const kMWJPaperViewEraserToolType;
-extern NSUInteger const kMWJPaperViewRectangularMarqueeToolType;
-extern NSUInteger const kMWJPaperViewLassoToolType;
-extern NSUInteger const kMWJPaperViewAddRemoveSpaceToolType;
+typedef enum {
+	kMWJPaperViewPenToolType,
+	kMWJPaperViewEraserToolType,
+	kMWJPaperViewRectangularMarqueeToolType,
+	kMWJPaperViewLassoToolType,
+	kMWJPaperViewAddRemoveSpaceToolType,
+} MWJPaperViewToolType;
+
 
 @interface MWJPaperView : NSView {
 	MWJInkingPenNib *currentPenNib;
-	NSUInteger toolType;
+	MWJPaperViewToolType toolType;
+	MWJPaperViewToolType mouseToolType;
 	
 	@private
 	NSMutableArray *objectsOnPaper;
@@ -59,7 +62,8 @@ extern NSUInteger const kMWJPaperViewAddRemoveSpaceToolType;
 }
 
 @property (retain) MWJInkingPenNib *currentPenNib;
-@property NSUInteger toolType;
+@property MWJPaperViewToolType toolType;
+@property MWJPaperViewToolType mouseToolType;
 
 @property (retain) NSIndexSet *selectedObjectIndexes;
 @property (retain) NSBezierPath *selectionPath;

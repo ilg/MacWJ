@@ -40,8 +40,10 @@
 @synthesize minimumStrokeWidth, maximumStrokeWidth, isAngleDependent, widestAngle, inkColor;
 @synthesize angleCircularSliderValue;
 
-const NSInteger kAddAPenSegmentNumber = 0;
-const NSInteger kRemoveSelectedPenSegmentNumber = 1;
+enum {
+	kAddAPenSegmentNumber = 0,
+	kRemoveSelectedPenSegmentNumber = 1,
+};
 
 
 - (void)awakeFromNib {

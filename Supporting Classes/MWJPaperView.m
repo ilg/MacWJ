@@ -43,13 +43,6 @@
 #define COPY_AS_IMAGE_SCALE_FACTOR [[NSUserDefaults standardUserDefaults] floatForKey:@"copyAsImageScaleFactor"]
 #define TABLET_MOUSE_TIME_MARGIN 0.5
 
-// MARK: tool type constants
-NSUInteger const kMWJPaperViewPenToolType = 0;
-NSUInteger const kMWJPaperViewEraserToolType = 1;
-NSUInteger const kMWJPaperViewRectangularMarqueeToolType = 2;
-NSUInteger const kMWJPaperViewLassoToolType = 3;
-NSUInteger const kMWJPaperViewAddRemoveSpaceToolType = 4;
-
 // MARK: pasteboard type constant
 NSString * const kMWJPaperViewObjectsOnPaperPboardType = @"kMWJPaperViewObjectsOnPaperPboardType";
 
@@ -113,7 +106,7 @@ NSString * const kMWJPaperViewObjectsOnPaperPboardType = @"kMWJPaperViewObjectsO
 static NSCursor *penCursor;
 static NSCursor *eraserCursor;
 
-@synthesize currentPenNib,toolType;
+@synthesize currentPenNib,toolType,mouseToolType;
 
 @synthesize selectedObjectIndexes,selectionPath;
 

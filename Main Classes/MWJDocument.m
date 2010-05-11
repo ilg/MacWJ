@@ -47,19 +47,25 @@
 @implementation MWJDocument
 
 // MARK: keys for undo/redo segmented control
-NSInteger const kUndoRedoSegmentedUndoSegmentNumber = 0;
-NSInteger const kUndoRedoSegmentedRedoSegmentNumber = 1;
+enum {
+	kUndoRedoSegmentedUndoSegmentNumber = 0,
+	kUndoRedoSegmentedRedoSegmentNumber = 1,
+};
 
 // MARK: keys for tool selection segmented control
-NSInteger const kToolSelectionSegmentedPenSegmentNumber = 0;
-NSInteger const kToolSelectionSegmentedEraserSegmentNumber = 1;
-NSInteger const kToolSelectionSegmentedRectangularMarqueeSegmentNumber = 2;
-NSInteger const kToolSelectionSegmentedLassoSegmentNumber = 3;
-NSInteger const kToolSelectionSegmentedAddRemoveSpaceSegmentNumber = 4;
+enum {
+	kToolSelectionSegmentedPenSegmentNumber = 0,
+	kToolSelectionSegmentedEraserSegmentNumber = 1,
+	kToolSelectionSegmentedRectangularMarqueeSegmentNumber = 2,
+	kToolSelectionSegmentedLassoSegmentNumber = 3,
+	kToolSelectionSegmentedAddRemoveSpaceSegmentNumber = 4,
+};
 
 // MARK: keys for mouse tool selection segmented control
-NSInteger const kMouseToolSelectionSegmentedRectangularMarqueeSegmentNumber = 0;
-NSInteger const kMouseToolSelectionSegmentedAddRemoveSpaceSegmentNumber = 1;
+enum {
+	kMouseToolSelectionSegmentedRectangularMarqueeSegmentNumber = 0,
+	kMouseToolSelectionSegmentedAddRemoveSpaceSegmentNumber = 1,
+};
 
 #pragma mark -
 
