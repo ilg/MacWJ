@@ -76,6 +76,14 @@
 	return [path overlapsRect:[self frame]];
 }
 
+- (BOOL)isBelow:(CGFloat)selectionBoundary {
+	return ([self bounds].origin.y > selectionBoundary);
+}
+
+- (BOOL)isBelowNumber:(NSNumber *)selectionBoundaryNumber {
+	return [self isBelow:[selectionBoundaryNumber floatValue]];
+}
+
 - (void)transformUsingAffineTransform:(NSAffineTransform *)aTransform {
 	NSRect ourFrame = [self frame];
 	ourFrame.origin = [aTransform transformPoint:ourFrame.origin];

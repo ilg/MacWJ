@@ -231,6 +231,11 @@ static NSCursor *eraserCursor;
 	[self setSelectionPath:nil];
 }
 
+- (void)selectBelow:(CGFloat)selectionBoundary {
+	[self setSelectionByTestingWithSelector:@selector(isBelowNumber:)
+						withObjectParameter:[NSNumber numberWithFloat:selectionBoundary]];
+}
+
 - (BOOL)isOverSelectedObject:(NSEvent *)theEvent {
 	NSPoint currentPoint = [self convertPoint:[theEvent locationInWindow]
 									 fromView:nil];

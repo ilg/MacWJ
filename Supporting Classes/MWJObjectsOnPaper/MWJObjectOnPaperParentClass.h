@@ -47,6 +47,8 @@
 - (BOOL)passesThroughRect:(NSRect)rect;
 - (BOOL)passesThroughRectValue:(NSValue *)rectValue;
 - (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path;
+- (BOOL)isBelow:(CGFloat)selectionBoundary;
+- (BOOL)isBelowNumber:(NSNumber *)selectionBoundaryNumber;
 - (void)transformUsingAffineTransform:(NSAffineTransform *)aTransform;
 
 
