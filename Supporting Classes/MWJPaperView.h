@@ -59,6 +59,8 @@ typedef enum {
 	NSBezierPath *selectionPath;
 	NSPoint previousPoint;
 	NSTimeInterval timeOfLastTabletEvent;
+	CGFloat addRemoveSpaceInitialY;
+	BOOL isAddRemoveSpace;
 }
 
 @property (retain) MWJInkingPenNib *currentPenNib;

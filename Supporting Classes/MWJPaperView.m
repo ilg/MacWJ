@@ -85,6 +85,10 @@ NSString * const kMWJPaperViewObjectsOnPaperPboardType = @"kMWJPaperViewObjectsO
 - (void)continueMovingSelection:(NSEvent *)theEvent;
 - (void)endMovingSelection:(NSEvent *)theEvent;
 
+- (void)continueAddRemoveSpace:(NSEvent *)theEvent;
+- (void)endAddRemoveSpace:(NSEvent *)theEvent;
+- (void)startAddRemoveSpace:(NSEvent *)theEvent;
+	
 @end
 
 @interface MWJPaperView (selectionHandling)
@@ -127,6 +131,7 @@ static NSCursor *eraserCursor;
 		
 		[self setSelectedObjectIndexes:[NSIndexSet indexSet]];
 		[self setSelectionPath:nil];
+		isAddRemoveSpace = NO;
 		[self registerForDraggedTypes:[NONFILE_PBOARD_TYPE_ARRAY arrayByAddingObject:NSFilenamesPboardType]];
 	}
     return self;
@@ -515,12 +520,46 @@ static NSCursor *eraserCursor;
 #pragma mark for add/remove space tool
 
 - (void)continueAddRemoveSpace:(NSEvent *)theEvent {
+	if (isAddRemoveSpace) {
+		NSRect redrawRect = [[self selectionPath] boundsWithLines];
+		NSRect bounds = [self bounds];
+		NSPoint newPoint = [self convertPoint:[theEvent locationInWindow]
+									 fromView:nil];
+		NSRect selectionRect = [self rectFromPoint:NSMakePoint(bounds.origin.x,
+															   addRemoveSpaceInitialY)
+										   toPoint:NSMakePoint(bounds.size.width,
+															   newPoint.y)];
+		[self setSelectionPath:[NSBezierPath bezierPathWithRect:selectionRect]];
+		redrawRect = NSUnionRect(redrawRect, [[self selectionPath] boundsWithLines]);
+		[self setNeedsDisplayInRect:redrawRect];
+		previousPoint.x = newPoint.x;
+		[self continueMovingSelection:theEvent];
+	} else {
+		[self startAddRemoveSpace:theEvent];
+	}
 }
 
 - (void)endAddRemoveSpace:(NSEvent *)theEvent {
+	if (isAddRemoveSpace) {
+		isAddRemoveSpace = NO;
+		[self selectNone];
+		[[self undoManager] endUndoGrouping];
+		[NSCursor pop];
+	}
 }
 
 - (void)startAddRemoveSpace:(NSEvent *)theEvent {
+	if (isAddRemoveSpace) {
+		[self continueAddRemoveSpace:theEvent];
+	} else {
+		isAddRemoveSpace = YES;
+		[[NSCursor resizeUpDownCursor] push];
+		previousPoint = [self convertPoint:[theEvent locationInWindow]
+								  fromView:nil];
+		addRemoveSpaceInitialY = previousPoint.y;
+		[self selectBelow:addRemoveSpaceInitialY];
+		[[self undoManager] beginUndoGrouping];
+	}
 }
 
 

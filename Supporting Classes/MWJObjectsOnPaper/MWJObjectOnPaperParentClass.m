@@ -77,7 +77,8 @@
 }
 
 - (BOOL)isBelow:(CGFloat)selectionBoundary {
-	return ([self bounds].origin.y > selectionBoundary);
+	BOOL result = ([self bounds].origin.y > selectionBoundary);
+	return result;
 }
 
 - (BOOL)isBelowNumber:(NSNumber *)selectionBoundaryNumber {
