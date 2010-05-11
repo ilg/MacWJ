@@ -37,6 +37,7 @@
 #import "MWJInkingPenNib.h"
 #import "MWJPastedImage.h"
 #import "MWJPastedText.h"
+#import "MWJDocument.h"
 
 #define ERASER_RADIUS [[NSUserDefaults standardUserDefaults] floatForKey:@"eraserRadius"]
 #define ATOP_SELECTION_RADIUS 1.0
@@ -61,6 +62,10 @@ NSString * const kMWJPaperViewObjectsOnPaperPboardType = @"kMWJPaperViewObjectsO
 - (void)undoableApplyTransform:(NSAffineTransform *)theTransform
 		  toObjectsWithIndexes:(NSIndexSet *)indexesToTransform
 				withActionName:(NSString *)actionName;
+- (void)undoableAddRemoveSpaceFrom:(NSPoint)initialPoint
+								to:(NSPoint)finalPoint
+				  affectingIndexes:(NSIndexSet *)indexesToTransform
+					withActionName:(NSString *)actionName;
 - (void)undoableMoveObjectsAtIndexes:(NSIndexSet *)indexesToMove
 						   toIndexes:(NSIndexSet *)destinationIndexes
 					  withActionName:(NSString *)actionName;
@@ -253,11 +258,24 @@ static NSCursor *eraserCursor;
 	return result;
 }
 
+#pragma mark -
+#pragma mark moving objects
+
+- (void)applyTransform:(NSAffineTransform *)theTransform
+  toObjectsWithIndexes:(NSIndexSet *)indexesToTransform
+{
+	for (id<MWJObjectOnPaper> anObjectOnPaper in [objectsOnPaper objectsAtIndexes:indexesToTransform]) {
+		[self setNeedsDisplayInRect:[anObjectOnPaper highlightBounds]];
+		[anObjectOnPaper transformUsingAffineTransform:theTransform];
+		[self setNeedsDisplayInRect:[anObjectOnPaper highlightBounds]];
+	}
+}
+
 - (void)startMovingSelection:(NSEvent *)theEvent {
 	[[NSCursor closedHandCursor] push];
-	[[self undoManager] beginUndoGrouping];
 	previousPoint = [self convertPoint:[theEvent locationInWindow]
 							  fromView:nil];
+	continuousActionInitialPoint = previousPoint;
 }
 
 - (void)continueMovingSelection:(NSEvent *)theEvent {
@@ -267,13 +285,28 @@ static NSCursor *eraserCursor;
 	[movement translateXBy:(newPoint.x - previousPoint.x)
 					   yBy:(newPoint.y - previousPoint.y)];
 	previousPoint = newPoint;
-	[self undoableApplyTransform:movement
-			toObjectsWithIndexes:selectedObjectIndexes
-				  withActionName:NSLocalizedString(@"Move",@"")];
+	[self applyTransform:movement toObjectsWithIndexes:selectedObjectIndexes];
 }
 
 - (void)endMovingSelection:(NSEvent *)theEvent {
-	[[self undoManager] endUndoGrouping];
+	[self continueMovingSelection:theEvent];
+	
+	// the net result of the whole moving operation:
+	NSAffineTransform *movement = [NSAffineTransform transform];
+	[movement translateXBy:(previousPoint.x - continuousActionInitialPoint.x)
+					   yBy:(previousPoint.y - continuousActionInitialPoint.y)];
+	
+	// move back to where we started
+	NSAffineTransform *inverseTransform = [movement copy];
+	[inverseTransform invert];
+	[self applyTransform:inverseTransform toObjectsWithIndexes:selectedObjectIndexes];
+	[inverseTransform release];
+	
+	// now, apply the net transformation in one single undoable action
+	[self undoableApplyTransform:movement
+			toObjectsWithIndexes:selectedObjectIndexes
+				  withActionName:NSLocalizedString(@"Move",@"")];
+	
 	[NSCursor pop];
 }
 
@@ -348,11 +381,31 @@ static NSCursor *eraserCursor;
 	 withActionName:actionName];
 	[inverseTransform release];
 	[undoer setActionName:actionName];
-	for (id<MWJObjectOnPaper> anObjectOnPaper in [objectsOnPaper objectsAtIndexes:indexesToTransform]) {
-		[self setNeedsDisplayInRect:[anObjectOnPaper highlightBounds]];
-		[anObjectOnPaper transformUsingAffineTransform:theTransform];
-		[self setNeedsDisplayInRect:[anObjectOnPaper highlightBounds]];
-	}
+	[self applyTransform:theTransform toObjectsWithIndexes:indexesToTransform];
+}
+
+- (void)undoableAddRemoveSpaceFrom:(NSPoint)initialPoint
+								to:(NSPoint)finalPoint
+				  affectingIndexes:(NSIndexSet *)indexesToTransform
+					withActionName:(NSString *)actionName
+{
+	NSUndoManager *undoer = [self undoManager];
+	
+	// the net movement result of the add/remove space operation:
+	CGFloat deltaY = finalPoint.y - initialPoint.y;
+	NSAffineTransform *theTransform = [NSAffineTransform transform];
+	[theTransform translateXBy:0.0 yBy:deltaY];
+	
+	// the inverse transform, for undoing
+	[[undoer prepareWithInvocationTarget:self]
+	 undoableAddRemoveSpaceFrom:finalPoint
+	 to:initialPoint
+	 affectingIndexes:selectedObjectIndexes
+	 withActionName:actionName];
+	[undoer setActionName:actionName];
+	
+	[self applyTransform:theTransform toObjectsWithIndexes:indexesToTransform];
+	[[[self window] delegate] changePageHeightBy:deltaY];
 }
 
 - (void)undoableMoveObjectsAtIndexes:(NSIndexSet *)indexesToMove
@@ -526,12 +579,14 @@ static NSCursor *eraserCursor;
 		NSPoint newPoint = [self convertPoint:[theEvent locationInWindow]
 									 fromView:nil];
 		NSRect selectionRect = [self rectFromPoint:NSMakePoint(bounds.origin.x,
-															   addRemoveSpaceInitialY)
+															   continuousActionInitialPoint.y)
 										   toPoint:NSMakePoint(bounds.size.width,
 															   newPoint.y)];
 		[self setSelectionPath:[NSBezierPath bezierPathWithRect:selectionRect]];
 		redrawRect = NSUnionRect(redrawRect, [[self selectionPath] boundsWithLines]);
 		[self setNeedsDisplayInRect:redrawRect];
+		[[[self window] delegate] changePageHeightBy:(newPoint.y - previousPoint.y)];
+		
 		previousPoint.x = newPoint.x;
 		[self continueMovingSelection:theEvent];
 	} else {
@@ -541,9 +596,29 @@ static NSCursor *eraserCursor;
 
 - (void)endAddRemoveSpace:(NSEvent *)theEvent {
 	if (isAddRemoveSpace) {
+		[self continueAddRemoveSpace:theEvent];
 		isAddRemoveSpace = NO;
+		
+		// the net result of the whole moving operation:
+		CGFloat deltaY = previousPoint.y - continuousActionInitialPoint.y;
+		NSAffineTransform *movement = [NSAffineTransform transform];
+		[movement translateXBy:0.0 yBy:deltaY];
+		
+		// move back to where we started and reverse the page height change
+		[movement invert];
+		[self applyTransform:movement toObjectsWithIndexes:selectedObjectIndexes];
+		[[[self window] delegate] changePageHeightBy:(-deltaY)];
+		
+		// now, apply the page height change and object movement in one single undoable action
+		[self undoableAddRemoveSpaceFrom:continuousActionInitialPoint
+									  to:previousPoint
+						affectingIndexes:selectedObjectIndexes
+						  withActionName:(deltaY > 0
+										  ? @"Add Space"
+										  : @"Remove Space"
+										  )];
+		
 		[self selectNone];
-		[[self undoManager] endUndoGrouping];
 		[NSCursor pop];
 	}
 }
@@ -556,9 +631,8 @@ static NSCursor *eraserCursor;
 		[[NSCursor resizeUpDownCursor] push];
 		previousPoint = [self convertPoint:[theEvent locationInWindow]
 								  fromView:nil];
-		addRemoveSpaceInitialY = previousPoint.y;
-		[self selectBelow:addRemoveSpaceInitialY];
-		[[self undoManager] beginUndoGrouping];
+		continuousActionInitialPoint.y = previousPoint.y;
+		[self selectBelow:continuousActionInitialPoint.y];
 	}
 }
 

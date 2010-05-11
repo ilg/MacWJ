@@ -59,7 +59,7 @@ typedef enum {
 	NSBezierPath *selectionPath;
 	NSPoint previousPoint;
 	NSTimeInterval timeOfLastTabletEvent;
-	CGFloat addRemoveSpaceInitialY;
+	NSPoint continuousActionInitialPoint;
 	BOOL isAddRemoveSpace;
 }
 

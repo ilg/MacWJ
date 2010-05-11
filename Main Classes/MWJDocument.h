@@ -47,6 +47,8 @@
 	IBOutlet NSPopUpButton *penNibSelectionPopUpButton;
 }
 
+- (void)changePageHeightBy:(CGFloat)heightDelta;
+
 - (IBAction)extendPage:(id)sender;
 
 - (IBAction)penNibSelected:(id)sender;

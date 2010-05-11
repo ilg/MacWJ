@@ -141,24 +141,36 @@ enum {
 	}
 }
 
-#pragma mark -
-#pragma mark IBActions
-
-- (IBAction)extendPage:(id)sender {
-	BOOL wasHiddenHorizontalScroller = [[theScrollView horizontalScroller] isHidden];
+- (void)changePageHeightBy:(CGFloat)heightDelta {
+	BOOL wasHiddenVerticalScroller = [[theScrollView verticalScroller] isHidden];
 	NSRect frame = [theBackgroundView frame];
-	[theBackgroundView setFrameSize:NSMakeSize(frame.size.width, frame.size.height + EXTEND_PAGE_AMOUNT)];
-	if (wasHiddenHorizontalScroller
+	[theBackgroundView setFrameSize:NSMakeSize(frame.size.width, frame.size.height + heightDelta)];
+	if (wasHiddenVerticalScroller
 		&& ![[theScrollView horizontalScroller] isHidden]) {
-		// we didn't used to have a horizontal scroller, but now we do--
-		// the vertical scroller must have been added, throwing off the width;
-		// widen the window to make it go away.
+		// we didn't used to have a vertical scroller, but now we do--
+		// this throws off the width; widen the window to compensate.
 		NSRect windowFrame = [[thePaperView window] frame];
 		windowFrame.size.width += [[theScrollView verticalScroller] frame].size.width;
 		[[thePaperView window] setFrame:windowFrame
 								display:YES
 								animate:YES];
+	} else if (!wasHiddenVerticalScroller
+			   && [[theScrollView verticalScroller] isHidden]) {
+		// we used to have a vertical scroller, but now we don't--
+		// this throws off the width; shrink the window to compensate.
+		NSRect windowFrame = [[thePaperView window] frame];
+		windowFrame.size.width -= [[theScrollView verticalScroller] frame].size.width;
+		[[thePaperView window] setFrame:windowFrame
+								display:YES
+								animate:YES];
 	}
+}
+
+#pragma mark -
+#pragma mark IBActions
+
+- (IBAction)extendPage:(id)sender {
+	[self changePageHeightBy:EXTEND_PAGE_AMOUNT];
 }
 
 - (IBAction)penNibSelected:(id)sender {
