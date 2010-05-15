@@ -211,7 +211,6 @@
 // MARK: string keys for NSCoding
 NSString * const kMWJInkingStrokeColorKey = @"MWJInkingStrokeColorKey";
 NSString * const kMWJInkingStrokePathsKey = @"MWJInkingStrokePathsKey";
-NSString * const kMWJInkingStrokePathBoundsKey = @"MWJInkingStrokePathBoundsKey";
 NSString * const kMWJInkingStrokeCurrentPointKey = @"MWJInkingStrokeCurrentPointKey";
 // legacy keys:
 NSString * const kMWJInkingStrokeColorLegacyKey = @"tabletInkStrokeColorKey";
@@ -223,7 +222,6 @@ NSString * const kMWJInkingStrokeCurrentPointLegacyKey = @"tabletInkStrokeCurren
 //    [super encodeWithCoder:coder];
     [coder encodeObject:color forKey:kMWJInkingStrokeColorKey];
     [coder encodeObject:paths forKey:kMWJInkingStrokePathsKey];
-	[coder encodeObject:pathBounds forKey:kMWJInkingStrokePathBoundsKey];
 	[coder encodePoint:currentPoint forKey:kMWJInkingStrokeCurrentPointKey];
 }
 
@@ -238,12 +236,11 @@ NSString * const kMWJInkingStrokeCurrentPointLegacyKey = @"tabletInkStrokeCurren
 		paths = [[coder decodeObjectForKey:kMWJInkingStrokePathsKey] retain];
 		if (!paths) paths = [[coder decodeObjectForKey:kMWJInkingStrokePathsLegacyKey] retain];
 		
-		pathBounds = [[coder decodeObjectForKey:kMWJInkingStrokePathBoundsKey] retain];
-		if (!pathBounds) {
-			pathBounds = [[NSMutableArray alloc] init];
-			for (NSBezierPath *aPath in paths) {
-				[pathBounds addObject:[NSValue valueWithRect:[aPath boundsWithLines]]];
-			}
+		// recompute the pathBounds array because NSValue objects containing NSRects won't encode
+		// and it's not worth the time-savings on opening a file to spend the time on saving the file
+		pathBounds = [[NSMutableArray alloc] init];
+		for (NSBezierPath *aPath in paths) {
+			[pathBounds addObject:[NSValue valueWithRect:[aPath boundsWithLines]]];
 		}
 		
 		if ([coder containsValueForKey:kMWJInkingStrokeCurrentPointKey]) {
