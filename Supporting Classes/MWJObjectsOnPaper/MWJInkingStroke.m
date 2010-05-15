@@ -49,6 +49,7 @@
 		[self setColor:[NSColor blackColor]];
 		currentPoint = startingPoint;
 		paths = [[NSMutableArray alloc] init];
+		pathBounds = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
@@ -63,11 +64,12 @@
 	[newPath setLineCapStyle:NSRoundLineCapStyle];
 	currentPoint = endPoint;
 	[paths addObject:newPath];
+	[pathBounds addObject:[NSValue valueWithRect:[newPath boundsWithLines]]];
 }
 
 - (NSRect)lastSegmentBounds {
-	if ([paths count] > 0) {
-		return [[paths lastObject] boundsWithLines];
+	if ([pathBounds count] > 0) {
+		return [[pathBounds lastObject] rectValue];
 	} else {
 		return NSMakeRect(0.0, 0.0, 0.0, 0.0);
 	}
@@ -91,8 +93,8 @@
 - (NSRect)bounds {
 	if ([paths count] > 0) {
 		NSRect result = [[paths objectAtIndex:0] boundsWithLines];
-		for (NSBezierPath *path in paths) {
-			result = NSUnionRect(result, [path boundsWithLines]);
+		for (NSValue *boundsValue in pathBounds) {
+			result = NSUnionRect(result, [boundsValue rectValue]);
 		}
 		return result;
 	} else {
@@ -159,10 +161,10 @@
 
 - (BOOL)passesThroughRect:(NSRect)rect {
 	BOOL passesThrough = NO;
-	for (NSBezierPath *aPath in paths) {
-		CGRect pathBounds = NSRectToCGRect([aPath boundsWithLines]);
+	for (NSValue *boundsValue in pathBounds) {
+		CGRect pathRect = NSRectToCGRect([boundsValue rectValue]);
 		// NOTE: CGRectIntersectsRect behaves better than NSIntersectsRect when width or height is zero
-		if (CGRectIntersectsRect(pathBounds,NSRectToCGRect(rect))) {
+		if (CGRectIntersectsRect(pathRect,NSRectToCGRect(rect))) {
 			passesThrough = YES;
 			break;
         }
@@ -172,8 +174,8 @@
 
 - (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path {
 	BOOL passesThrough = NO;
-	for (NSBezierPath *aPath in paths) {
-		NSRect bounds = [aPath bounds];
+	for (NSValue *boundsValue in pathBounds) {
+		NSRect bounds = [boundsValue rectValue];
 		// test the four corners of the bounds
 		// (this isn't perfect, but since the individual path segments in a stroke
 		//  should be relatively short, this should be good enough)
@@ -193,8 +195,12 @@
 }
 
 - (void)transformUsingAffineTransform:(NSAffineTransform *)aTransform {
+	NSUInteger pathIndex = 0;
 	for (NSBezierPath *aPath in paths) {
 		[aPath transformUsingAffineTransform:aTransform];
+		[pathBounds replaceObjectAtIndex:pathIndex
+							  withObject:[NSValue valueWithRect:[aPath boundsWithLines]]];
+		pathIndex++;
 	}
 }
 
@@ -205,6 +211,7 @@
 // MARK: string keys for NSCoding
 NSString * const kMWJInkingStrokeColorKey = @"MWJInkingStrokeColorKey";
 NSString * const kMWJInkingStrokePathsKey = @"MWJInkingStrokePathsKey";
+NSString * const kMWJInkingStrokePathBoundsKey = @"MWJInkingStrokePathBoundsKey";
 NSString * const kMWJInkingStrokeCurrentPointKey = @"MWJInkingStrokeCurrentPointKey";
 // legacy keys:
 NSString * const kMWJInkingStrokeColorLegacyKey = @"tabletInkStrokeColorKey";
@@ -216,6 +223,7 @@ NSString * const kMWJInkingStrokeCurrentPointLegacyKey = @"tabletInkStrokeCurren
 //    [super encodeWithCoder:coder];
     [coder encodeObject:color forKey:kMWJInkingStrokeColorKey];
     [coder encodeObject:paths forKey:kMWJInkingStrokePathsKey];
+	[coder encodeObject:pathBounds forKey:kMWJInkingStrokePathBoundsKey];
 	[coder encodePoint:currentPoint forKey:kMWJInkingStrokeCurrentPointKey];
 }
 
@@ -229,6 +237,14 @@ NSString * const kMWJInkingStrokeCurrentPointLegacyKey = @"tabletInkStrokeCurren
 		
 		paths = [[coder decodeObjectForKey:kMWJInkingStrokePathsKey] retain];
 		if (!paths) paths = [[coder decodeObjectForKey:kMWJInkingStrokePathsLegacyKey] retain];
+		
+		pathBounds = [[coder decodeObjectForKey:kMWJInkingStrokePathBoundsKey] retain];
+		if (!pathBounds) {
+			pathBounds = [[NSMutableArray alloc] init];
+			for (NSBezierPath *aPath in paths) {
+				[pathBounds addObject:[NSValue valueWithRect:[aPath boundsWithLines]]];
+			}
+		}
 		
 		if ([coder containsValueForKey:kMWJInkingStrokeCurrentPointKey]) {
 			currentPoint = [coder decodePointForKey:kMWJInkingStrokeCurrentPointKey];

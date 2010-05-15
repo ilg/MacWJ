@@ -39,6 +39,7 @@
 	
 	@private
 	NSMutableArray *paths;
+	NSMutableArray *pathBounds;
 	NSPoint currentPoint;
 }
 
