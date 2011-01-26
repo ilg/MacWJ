@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
 		7112B6F2118AE8D70010FF45 /* MacWJ_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112B6E6118AE8D70010FF45 /* MacWJ_AppDelegate.m */; };
-		7112B6FB118AE8EB0010FF45 /* lined paper background.png in Resources */ = {isa = PBXBuildFile; fileRef = 7112B6F9118AE8EB0010FF45 /* lined paper background.png */; };
 		7112B6FC118AE8EB0010FF45 /* single-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 7112B6FA118AE8EB0010FF45 /* single-dot.png */; };
 		7112B7E3118B0F580010FF45 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 7112B7E2118B0F580010FF45 /* Credits.html */; };
 		7112B8A5118D56470010FF45 /* pen.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7112B8A3118D56470010FF45 /* pen.pdf */; };
 		7112B8A9118D59CF0010FF45 /* eraser.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7112B8A8118D59CF0010FF45 /* eraser.pdf */; };
+		7150870412F08A3F00AB7894 /* Paper Images in Resources */ = {isa = PBXBuildFile; fileRef = 7150870212F08A3F00AB7894 /* Paper Images */; };
 		71943256118E53750028E980 /* pen options.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 71943255118E53750028E980 /* pen options.pdf */; };
 		71943290118ED0EE0028E980 /* MacWJ Document Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7194328E118ED0EE0028E980 /* MacWJ Document Icon.icns */; };
 		71943291118ED0EE0028E980 /* MacWJ Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7194328F118ED0EE0028E980 /* MacWJ Icon.icns */; };
@@ -53,11 +53,11 @@
 		32DBCF750370BD2300C91783 /* MacWJ_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacWJ_Prefix.pch; sourceTree = "<group>"; };
 		7112B6E5118AE8D70010FF45 /* MacWJ_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacWJ_AppDelegate.h; sourceTree = "<group>"; };
 		7112B6E6118AE8D70010FF45 /* MacWJ_AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacWJ_AppDelegate.m; sourceTree = "<group>"; };
-		7112B6F9118AE8EB0010FF45 /* lined paper background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lined paper background.png"; sourceTree = "<group>"; };
 		7112B6FA118AE8EB0010FF45 /* single-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "single-dot.png"; sourceTree = "<group>"; };
 		7112B7E0118B0F4C0010FF45 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/Credits.html; sourceTree = "<group>"; };
 		7112B8A3118D56470010FF45 /* pen.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pen.pdf; sourceTree = "<group>"; };
 		7112B8A8118D59CF0010FF45 /* eraser.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = eraser.pdf; sourceTree = "<group>"; };
+		7150870212F08A3F00AB7894 /* Paper Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Paper Images"; sourceTree = "<group>"; };
 		71943255118E53750028E980 /* pen options.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "pen options.pdf"; sourceTree = "<group>"; };
 		7194328E118ED0EE0028E980 /* MacWJ Document Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "MacWJ Document Icon.icns"; sourceTree = "<group>"; };
 		7194328F118ED0EE0028E980 /* MacWJ Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "MacWJ Icon.icns"; sourceTree = "<group>"; };
@@ -170,6 +170,7 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7150870212F08A3F00AB7894 /* Paper Images */,
 				7112B6F8118AE8EB0010FF45 /* Images */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
@@ -223,7 +224,6 @@
 				71943F811198F5CE0028E980 /* add-remove space.pdf */,
 				7194328E118ED0EE0028E980 /* MacWJ Document Icon.icns */,
 				7194328F118ED0EE0028E980 /* MacWJ Icon.icns */,
-				7112B6F9118AE8EB0010FF45 /* lined paper background.png */,
 				7112B6FA118AE8EB0010FF45 /* single-dot.png */,
 				71943361118FB8600028E980 /* undo.pdf */,
 				71943360118FB8600028E980 /* redo.pdf */,
@@ -297,7 +297,14 @@
 			isa = PBXProject;
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "MacWJ" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* MacWJ */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -314,7 +321,6 @@
 			files = (
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
 				1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */,
-				7112B6FB118AE8EB0010FF45 /* lined paper background.png in Resources */,
 				7112B6FC118AE8EB0010FF45 /* single-dot.png in Resources */,
 				7112B7E3118B0F580010FF45 /* Credits.html in Resources */,
 				7112B8A5118D56470010FF45 /* pen.pdf in Resources */,
@@ -329,6 +335,7 @@
 				719438A711955FE40028E980 /* extend page.pdf in Resources */,
 				7194393E119572B80028E980 /* MWJDocument.xib in Resources */,
 				71943F821198F5CE0028E980 /* add-remove space.pdf in Resources */,
+				7150870412F08A3F00AB7894 /* Paper Images in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

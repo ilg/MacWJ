@@ -41,4 +41,6 @@
 @property (retain) NSImage *backgroundImage;
 @property (retain) NSColor *backgroundColor;
 
+- (void)setPaperImage:(NSString *)paperName;
+
 @end

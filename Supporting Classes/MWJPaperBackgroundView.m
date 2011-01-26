@@ -42,9 +42,22 @@
     if (self) {
         // Initialization code here.
 		[self setBackgroundColor:[NSColor whiteColor]];
-		[self setBackgroundImage:[NSImage imageNamed:@"lined paper background"]];
+		[self setPaperImage:[[NSUserDefaults standardUserDefaults] stringForKey:@"defaultPaper"]];
     }
     return self;
+}
+
+- (void)setPaperImage:(NSString *)paperName
+{
+	NSImage *paperImage = [[NSImage alloc] initWithContentsOfFile:
+						   [[NSBundle mainBundle] pathForResource:paperName
+														   ofType:@"png"
+													  inDirectory:@"Paper Images"]
+						   ];
+	if (paperImage) {
+		[self setBackgroundImage:paperImage];
+	}
+	[paperImage release];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {

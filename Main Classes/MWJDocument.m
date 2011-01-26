@@ -232,6 +232,23 @@ enum {
 	}
 }
 
+- (IBAction)setPaper:(id)sender
+{
+	NSString *newPaper = nil;
+	if ([sender respondsToSelector:@selector(representedObject)]
+		&& [sender representedObject]) {
+		newPaper = [sender representedObject];
+	} else if ([sender respondsToSelector:@selector(title)]) {
+		newPaper = [sender title];
+	} else if ([sender respondsToSelector:@selector(titleOfSelectedItem)]) {
+		newPaper = [sender titleOfSelectedItem];
+	}
+	if (newPaper) {
+		[theBackgroundView setPaperImage:newPaper];
+		[thePaperView setNeedsDisplay:YES];
+	}
+}
+
 
 #pragma mark -
 #pragma mark NSDocument stuff

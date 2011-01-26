@@ -56,4 +56,6 @@
 - (IBAction)toolSelectionAction:(id)sender;
 - (IBAction)mouseToolSelectionAction:(id)sender;
 
+- (IBAction)setPaper:(id)sender;
+
 @end

@@ -34,7 +34,7 @@
 
 
 @interface MacWJ_AppDelegate : NSObject {
-
+	IBOutlet NSMenu *paperMenu;
 }
 
 @end
