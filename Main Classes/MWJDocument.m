@@ -277,6 +277,7 @@ enum {
 NSString * const kMacWJDocumentRawObjectDataKey = @"rawObjectData";
 NSString * const kMacWJDocumentWindowFrameDataKey = @"windowFrame";
 NSString * const kMacWJDocumentBackgroundViewSizeDataKey = @"paperBackgroundViewSize";
+NSString * const kMacWJDocumentBackgroundPaperNameDataKey = @"paperBackgroundPaperName";
 // legacy keys:
 NSString * const kMacWJDocumentRawObjectDataLegacyKey = @"rawInkData";
 NSString * const kMacWJDocumentWindowFrameDataLegacyKey = @"windowFrame";
@@ -299,6 +300,7 @@ NSString * const kMacWJDocumentBackgroundViewSizeDataLegacyKey = @"backgroundVie
 		   [thePaperView data], kMacWJDocumentRawObjectDataKey,
 		   NSStringFromRect([[thePaperView window] frame]), kMacWJDocumentWindowFrameDataKey,
 		   NSStringFromSize([theBackgroundView frame].size), kMacWJDocumentBackgroundViewSizeDataKey,
+		   [theBackgroundView paperName],kMacWJDocumentBackgroundPaperNameDataKey,
 		   nil];
 		theData = [NSPropertyListSerialization dataFromPropertyList:theSavedDictionary
 															 format:NSPropertyListXMLFormat_v1_0
@@ -353,6 +355,9 @@ NSString * const kMacWJDocumentBackgroundViewSizeDataLegacyKey = @"backgroundVie
 	if (!paperBackgroundViewSizeString) paperBackgroundViewSizeString = [theSavedDictionary objectForKey:kMacWJDocumentBackgroundViewSizeDataLegacyKey];
 	if (paperBackgroundViewSizeString) [theBackgroundView
 										setFrameSize:NSSizeFromString(paperBackgroundViewSizeString)];
+	
+	NSString *paperBackgroundPaperNameString = [theSavedDictionary objectForKey:kMacWJDocumentBackgroundPaperNameDataKey];
+	if (paperBackgroundPaperNameString) [theBackgroundView setPaperImage:paperBackgroundPaperNameString];
 	
 	NSData *rawObjectData = [theSavedDictionary objectForKey:kMacWJDocumentRawObjectDataKey];
 	if (!rawObjectData) rawObjectData = [theSavedDictionary objectForKey:kMacWJDocumentRawObjectDataLegacyKey];
