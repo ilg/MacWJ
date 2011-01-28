@@ -821,8 +821,15 @@ static NSCursor *eraserCursor;
 			
 			NSUInteger fileIndex = 0;
 			for (NSString *aFile in filesToInsert) {
-				NSPoint targetPoint = NSMakePoint(spaceRect.origin.x + (fileIndex + 2) * xStep,
-												  spaceRect.origin.y + (fileIndex + 2) * yStep);
+				NSPoint targetPoint;
+				if ([filesToInsert count] == 1) {
+					targetPoint = [self convertPointFromBase:
+								   [[self window]
+									convertScreenToBase:[NSEvent mouseLocation]]];
+				} else {
+					targetPoint = NSMakePoint(spaceRect.origin.x + (fileIndex + 2) * xStep,
+											  spaceRect.origin.y + (fileIndex + 2) * yStep);
+				}
 				id<MWJObjectOnPaper> insertedObject = nil;
 				if ([[filesToInsert objectForKey:aFile]
 					 isEqualToString:NSStringFromClass([NSImage class])]) {
