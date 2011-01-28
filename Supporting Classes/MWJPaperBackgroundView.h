@@ -36,10 +36,15 @@
 @interface MWJPaperBackgroundView : NSView {
 	NSImage *backgroundImage;
 	NSColor *backgroundColor;
+	
+	NSString *paperName;
 }
 
 @property (retain) NSImage *backgroundImage;
 @property (retain) NSColor *backgroundColor;
+@property (readonly, retain) NSString *paperName;
+
++ (void)createPaperSelectionMenu:(NSMenu *)targetMenu;
 
 - (void)setPaperImage:(NSString *)paperName;
 

@@ -33,29 +33,46 @@
 #import "MWJPaperBackgroundView.h"
 
 
+@interface MWJPaperBackgroundView ()
+@property (retain) NSString *paperName;
+@end
+
 @implementation MWJPaperBackgroundView
 
-@synthesize backgroundImage, backgroundColor;
+@synthesize backgroundImage, backgroundColor, paperName;
+
++ (void)createPaperSelectionMenu:(NSMenu *)targetMenu
+{
+	for (NSMenuItem *item in [targetMenu itemArray]) {
+		[targetMenu removeItem:item];
+	}
+	for (NSString *paperImage in [[NSBundle mainBundle] pathsForResourcesOfType:@"png"
+																	inDirectory:@"Paper Images"]) {
+		[targetMenu addItemWithTitle:[[paperImage lastPathComponent] stringByDeletingPathExtension]
+							  action:@selector(setPaper:)
+					   keyEquivalent:@""];
+	}
+}
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
 		[self setBackgroundColor:[NSColor whiteColor]];
-		[self setPaperImage:[[NSUserDefaults standardUserDefaults] stringForKey:@"defaultPaper"]];
     }
     return self;
 }
 
-- (void)setPaperImage:(NSString *)paperName
+- (void)setPaperImage:(NSString *)newPaperName
 {
 	NSImage *paperImage = [[NSImage alloc] initWithContentsOfFile:
-						   [[NSBundle mainBundle] pathForResource:paperName
+						   [[NSBundle mainBundle] pathForResource:newPaperName
 														   ofType:@"png"
 													  inDirectory:@"Paper Images"]
 						   ];
 	if (paperImage) {
 		[self setBackgroundImage:paperImage];
+		[self setPaperName:newPaperName];
 	}
 	[paperImage release];
 }

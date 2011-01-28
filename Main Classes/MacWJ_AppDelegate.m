@@ -32,6 +32,7 @@
 
 #import "MacWJ_AppDelegate.h"
 #import "MWJInkingPenNib.h"
+#import "MWJPaperBackgroundView.h"
 
 
 @implementation MacWJ_AppDelegate
@@ -66,16 +67,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// Insert code here to initialize your application
 	[[NSDocumentController sharedDocumentController] setAutosavingDelay:3.0]; // autosave delay is 3 seconds
-	
-	for (NSMenuItem *item in [paperMenu itemArray]) {
-		[paperMenu removeItem:item];
-	}
-	for (NSString *paperImage in [[NSBundle mainBundle] pathsForResourcesOfType:@"png"
-																	inDirectory:@"Paper Images"]) {
-		[paperMenu addItemWithTitle:[[paperImage lastPathComponent] stringByDeletingPathExtension]
-							 action:@selector(setPaper:)
-					  keyEquivalent:@""];
-	}
+	[MWJPaperBackgroundView createPaperSelectionMenu:paperMenu];
 }
 
 @end

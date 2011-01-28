@@ -40,6 +40,8 @@
 
 @implementation MWJDocument
 
+@synthesize theBackgroundView;
+
 // MARK: keys for undo/redo segmented control
 enum {
 	kUndoRedoSegmentedUndoSegmentNumber = 0,
@@ -118,7 +120,9 @@ enum {
 											   object:[self undoManager]];
 	[self toggleUndoRedoEnabled:nil];
 	[[thePaperView window] setAcceptsMouseMovedEvents:YES];
+	[MWJPaperBackgroundView createPaperSelectionMenu:[paperBackgroundSelectionPopUpButton menu]];
 	[theBackgroundView setFrame:[[theBackgroundView superview] bounds]];
+	[theBackgroundView setPaperImage:[[NSUserDefaults standardUserDefaults] stringForKey:@"defaultPaper"]];
 }
 
 #pragma mark -
@@ -245,7 +249,9 @@ enum {
 	}
 	if (newPaper) {
 		[theBackgroundView setPaperImage:newPaper];
-		[thePaperView setNeedsDisplay:YES];
+		if ([newPaper isEqualToString:[theBackgroundView paperName]]) {
+			[thePaperView setNeedsDisplay:YES];
+		}
 	}
 }
 

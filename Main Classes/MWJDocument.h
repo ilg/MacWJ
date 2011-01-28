@@ -45,7 +45,10 @@
 	IBOutlet NSSegmentedControl *mouseToolSelectionSegmentedControl;
 	IBOutlet NSSegmentedControl *undoRedoSegmentedControl;
 	IBOutlet NSPopUpButton *penNibSelectionPopUpButton;
+	IBOutlet NSPopUpButton *paperBackgroundSelectionPopUpButton;
 }
+
+@property (retain) IBOutlet MWJPaperBackgroundView *theBackgroundView;
 
 - (void)changePageHeightBy:(CGFloat)heightDelta;
 
