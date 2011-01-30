@@ -61,6 +61,7 @@ typedef enum {
 	NSTimeInterval timeOfLastTabletEvent;
 	NSPoint continuousActionInitialPoint;
 	NSRect resizeInitialFrame;
+	NSAffineTransform *continuousActionPreviousTransform;
 	BOOL isAddRemoveSpace;
 }
 

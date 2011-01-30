@@ -47,6 +47,9 @@
 // MARK: pasteboard type constant
 NSString * const kMWJPaperViewObjectsOnPaperPboardType = @"kMWJPaperViewObjectsOnPaperPboardType";
 
+@interface MWJPaperView ()
+@property (copy) NSAffineTransform *continuousActionPreviousTransform;
+@end
 
 @interface MWJPaperView (UndoAndRedo)
 
@@ -119,6 +122,8 @@ static NSCursor *resizeCursor;
 @synthesize currentPenNib,toolType,mouseToolType;
 
 @synthesize selectedObjectIndexes,selectionPath;
+
+@synthesize continuousActionPreviousTransform;
 
 + (void)initialize {
 	penCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"single-dot"]
@@ -321,44 +326,44 @@ static NSCursor *resizeCursor;
 							  fromView:nil];
 	continuousActionInitialPoint = previousPoint;
 	resizeInitialFrame = [[[objectsOnPaper objectsAtIndexes:selectedObjectIndexes] lastObject] bounds];
-}
-
-- (NSAffineTransform *)resizeTransformTo:(NSPoint)endPoint {
-	NSAffineTransform *scale = [NSAffineTransform transform];
-	NSAffineTransform *toOrigin = [[NSAffineTransform alloc] init];
-	[toOrigin translateXBy:-resizeInitialFrame.origin.x yBy:-resizeInitialFrame.origin.y];
-	[scale scaleXBy:(endPoint.x - resizeInitialFrame.origin.x)/resizeInitialFrame.size.width
-				yBy:(endPoint.y - resizeInitialFrame.origin.y)/resizeInitialFrame.size.height];
-	[scale prependTransform:toOrigin];
-	[toOrigin invert];
-	[scale appendTransform:toOrigin];
-	[toOrigin release];
-	return scale;
+	[self setContinuousActionPreviousTransform:[NSAffineTransform transform]];
 }
 
 - (void)continueResizingSelection:(NSEvent *)theEvent {
 	NSPoint newPoint = [self convertPoint:[theEvent locationInWindow]
 								 fromView:nil];
+	CGFloat proposedXScale = (newPoint.x - resizeInitialFrame.origin.x)/resizeInitialFrame.size.width;
+	CGFloat proposedYScale = (newPoint.y - resizeInitialFrame.origin.y)/resizeInitialFrame.size.height;
+	
 	if ([theEvent modifierFlags] & NSShiftKeyMask) {
 		// shift key is pressed, so resize should preserve aspect ratio.
-		// revise newPoint accordingly (use the smaller of the resize scale factors)
-		CGFloat proposedXScale = (newPoint.x - resizeInitialFrame.origin.x)/resizeInitialFrame.size.width;
-		CGFloat proposedYScale = (newPoint.y - resizeInitialFrame.origin.y)/resizeInitialFrame.size.height;
 		if (proposedXScale > proposedYScale) {
-			// proposed x scale factor is bigger,
-			// so relocate the x-coordinate of newPoint to bring that direction into line
-			newPoint.x = proposedYScale * resizeInitialFrame.size.width + resizeInitialFrame.origin.x;
+			proposedXScale = proposedYScale;
 		} else {
-			// proposed y scale factor is bigger,
-			// so relocate the y-coordinate of newPoint to bring that direction into line
-			newPoint.y = proposedXScale * resizeInitialFrame.size.height + resizeInitialFrame.origin.y;
+			proposedYScale = proposedXScale;
 		}
 	}
-	NSAffineTransform *oldScale = [self resizeTransformTo:previousPoint];
-	[oldScale invert];
-	NSAffineTransform *scale = [self resizeTransformTo:newPoint];
-	[scale prependTransform:oldScale];
+	
+	// prepare the new scaling operation (move to origin, dilate from original size, move back)
+	NSAffineTransform *scale = [NSAffineTransform transform];
+	NSAffineTransform *toOrigin = [[NSAffineTransform alloc] init];
+	[toOrigin translateXBy:-resizeInitialFrame.origin.x yBy:-resizeInitialFrame.origin.y];
+	[scale scaleXBy:proposedXScale yBy:proposedYScale];
+	[scale prependTransform:toOrigin];
+	[toOrigin invert];
+	[scale appendTransform:toOrigin];
+	[toOrigin release];
+	
+	// prepent the inverse of the previously-used scaling operation
+	NSAffineTransform *inverseOfPrevious = [[self continuousActionPreviousTransform] copy];
+	[inverseOfPrevious invert];
+	[self setContinuousActionPreviousTransform:scale]; // set the new previously-used operation to the original-based scaling
+	[scale prependTransform:inverseOfPrevious];
+	[inverseOfPrevious release];
+	
+	// apply it
 	[self applyTransform:scale toObjectsWithIndexes:selectedObjectIndexes];
+	
 	previousPoint = newPoint;
 }
 
@@ -366,7 +371,7 @@ static NSCursor *resizeCursor;
 	[self continueResizingSelection:theEvent];
 	
 	// the net result of the whole resizing operation:
-	NSAffineTransform *scale = [self resizeTransformTo:previousPoint];
+	NSAffineTransform *scale = [self continuousActionPreviousTransform];
 	
 	// go back to where we started
 	NSAffineTransform *inverseTransform = [scale copy];
@@ -378,6 +383,8 @@ static NSCursor *resizeCursor;
 	[self undoableApplyTransform:scale
 			toObjectsWithIndexes:selectedObjectIndexes
 				  withActionName:NSLocalizedString(@"Resize",@"")];
+	
+	[self setContinuousActionPreviousTransform:nil];
 }
 
 #pragma mark -
