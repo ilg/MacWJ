@@ -324,8 +324,26 @@ static NSCursor *resizeCursor;
 - (void)startResizingSelection:(NSEvent *)theEvent {
 	previousPoint = [self convertPoint:[theEvent locationInWindow]
 							  fromView:nil];
+	
+	NSRect objectFrame = [[[objectsOnPaper objectsAtIndexes:selectedObjectIndexes] lastObject] bounds];
+	// resizeInitialFrame uses the corner opposite to the initial mouseDown as the origin
+	// and signed values for the width and height relative to that origin
+	resizeInitialFrame = NSMakeRect(
+									previousPoint.x > NSMidX(objectFrame)
+									? NSMinX(objectFrame)
+									: NSMaxX(objectFrame),
+									previousPoint.y > NSMidY(objectFrame)
+									? NSMinY(objectFrame)
+									: NSMaxY(objectFrame),
+									previousPoint.x > NSMidX(objectFrame)
+									? objectFrame.size.width
+									: -objectFrame.size.width,
+									previousPoint.y > NSMidY(objectFrame)
+									? objectFrame.size.height
+									: -objectFrame.size.height
+									);
+	
 	continuousActionInitialPoint = previousPoint;
-	resizeInitialFrame = [[[objectsOnPaper objectsAtIndexes:selectedObjectIndexes] lastObject] bounds];
 	[self setContinuousActionPreviousTransform:[NSAffineTransform transform]];
 }
 
