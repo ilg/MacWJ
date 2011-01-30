@@ -84,5 +84,7 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>© Copyright 2010-2011, Isaac Greenspan</string>
 </dict>
 </plist>
