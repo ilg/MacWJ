@@ -97,8 +97,8 @@
 		CGPoint pt = NSPointToCGPoint(cursorPoint);
 		CGRect f = NSRectToCGRect([self frame]);
 		return (CGRectContainsPoint(CGRectMake(CGRectGetMinX(f), CGRectGetMinY(f), w, w), pt)
-//				|| CGRectContainsPoint(CGRectMake(CGRectGetMaxX(f) - w, CGRectGetMinY(f), w, w), pt)
-//				|| CGRectContainsPoint(CGRectMake(CGRectGetMinX(f), CGRectGetMaxY(f) - w, w, w), pt)
+				|| CGRectContainsPoint(CGRectMake(CGRectGetMaxX(f) - w, CGRectGetMinY(f), w, w), pt)
+				|| CGRectContainsPoint(CGRectMake(CGRectGetMinX(f), CGRectGetMaxY(f) - w, w, w), pt)
 				|| CGRectContainsPoint(CGRectMake(CGRectGetMaxX(f) - w, CGRectGetMaxY(f) - w, w, w), pt)
 				);
 	}

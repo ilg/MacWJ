@@ -117,7 +117,8 @@ NSString * const kMWJPaperViewObjectsOnPaperPboardType = @"kMWJPaperViewObjectsO
 
 static NSCursor *penCursor;
 static NSCursor *eraserCursor;
-static NSCursor *resizeCursor;
+static NSCursor *resizeDownRightCursor;
+static NSCursor *resizeDownLeftCursor;
 
 @synthesize currentPenNib,toolType,mouseToolType;
 
@@ -130,8 +131,10 @@ static NSCursor *resizeCursor;
 										hotSpot:NSMakePoint(0.0, 0.0)];
 	eraserCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"single-dot"]
 										   hotSpot:NSMakePoint(0.0, 0.0)];
-	resizeCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"ResizeDownRightCursor"]
-										   hotSpot:NSMakePoint(7.0, 7.0)];
+	resizeDownRightCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"ResizeDownRightCursor"]
+													hotSpot:NSMakePoint(7.0, 7.0)];
+	resizeDownLeftCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"ResizeDownLeftCursor"]
+												   hotSpot:NSMakePoint(7.0, 7.0)];
 }
 
 - (id)initWithFrame:(NSRect)frame {
@@ -1110,7 +1113,9 @@ static NSCursor *resizeCursor;
 			[self endMovingSelection:theEvent];
 		}
 		
-	} else if ([NSCursor currentCursor] == resizeCursor) {
+	} else if (([NSCursor currentCursor] == resizeDownRightCursor)
+			   || ([NSCursor currentCursor] == resizeDownLeftCursor)
+			   ) {
 		// if we've got the resizeCursor, then we are resizing
 		if (eventType == NSLeftMouseDown) {
 			// start resize
@@ -1227,21 +1232,50 @@ static NSCursor *resizeCursor;
 		{
 			// exactly one object selected, it's resizable, and we're over a corner,
 			// so set the resizing cursor
-			if ([NSCursor currentCursor] == [NSCursor openHandCursor]) {
+			if (([NSCursor currentCursor] == [NSCursor openHandCursor])
+				|| ([NSCursor currentCursor] == resizeDownLeftCursor)
+				|| ([NSCursor currentCursor] == resizeDownRightCursor)
+				) {
 				[NSCursor pop];
+			}
+			NSCursor *resizeCursor;
+			NSPoint click = [self convertPoint:[theEvent locationInWindow]
+									  fromView:nil];
+			NSRect object = [[[objectsOnPaper objectsAtIndexes:[self selectedObjectIndexes]] lastObject]
+							 bounds];
+			if (click.x < NSMidX(object)) {
+				if (click.y < NSMidY(object)) {
+					// upper left
+					resizeCursor = resizeDownRightCursor;
+				} else {
+					// lower left
+					resizeCursor = resizeDownLeftCursor;
+				}
+			} else {
+				if (click.y < NSMidY(object)) {
+					// upper right
+					resizeCursor = resizeDownLeftCursor;
+				} else {
+					// lower right
+					resizeCursor = resizeDownRightCursor;
+				}
 			}
 			[resizeCursor push];
 		} else if ([NSCursor currentCursor] != [NSCursor openHandCursor]) {
 			// we're over a selected object, we shouldn't be showing the resize cursor,
 			// so show the open hand cursor (for moving)
-			if ([NSCursor currentCursor] == resizeCursor) {
+			if (([NSCursor currentCursor] == [NSCursor openHandCursor])
+				|| ([NSCursor currentCursor] == resizeDownLeftCursor)
+				|| ([NSCursor currentCursor] == resizeDownRightCursor)
+				) {
 				[NSCursor pop];
 			}
 			[[NSCursor openHandCursor] push];
 		}
-	} else if ([NSCursor currentCursor] == [NSCursor openHandCursor]) {
-		[NSCursor pop];
-	} else if ([NSCursor currentCursor] == resizeCursor) {
+	} else if (([NSCursor currentCursor] == [NSCursor openHandCursor])
+			   || ([NSCursor currentCursor] == resizeDownLeftCursor)
+			   || ([NSCursor currentCursor] == resizeDownRightCursor)
+			   ) {
 		[NSCursor pop];
 	} else {
 	}

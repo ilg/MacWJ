@@ -14,6 +14,8 @@
 		7112B8A5118D56470010FF45 /* pen.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7112B8A3118D56470010FF45 /* pen.pdf */; };
 		7112B8A9118D59CF0010FF45 /* eraser.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7112B8A8118D59CF0010FF45 /* eraser.pdf */; };
 		7150870412F08A3F00AB7894 /* Paper Images in Resources */ = {isa = PBXBuildFile; fileRef = 7150870212F08A3F00AB7894 /* Paper Images */; };
+		715088E812F5D0B600AB7894 /* ResizeDownRightCursor.png in Resources */ = {isa = PBXBuildFile; fileRef = 715088E712F5D0B600AB7894 /* ResizeDownRightCursor.png */; };
+		7150897F12F5E76500AB7894 /* ResizeDownLeftCursor.png in Resources */ = {isa = PBXBuildFile; fileRef = 7150897E12F5E76500AB7894 /* ResizeDownLeftCursor.png */; };
 		71943256118E53750028E980 /* pen options.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 71943255118E53750028E980 /* pen options.pdf */; };
 		71943290118ED0EE0028E980 /* MacWJ Document Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7194328E118ED0EE0028E980 /* MacWJ Document Icon.icns */; };
 		71943291118ED0EE0028E980 /* MacWJ Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7194328F118ED0EE0028E980 /* MacWJ Icon.icns */; };
@@ -58,6 +60,8 @@
 		7112B8A3118D56470010FF45 /* pen.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pen.pdf; sourceTree = "<group>"; };
 		7112B8A8118D59CF0010FF45 /* eraser.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = eraser.pdf; sourceTree = "<group>"; };
 		7150870212F08A3F00AB7894 /* Paper Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Paper Images"; sourceTree = "<group>"; };
+		715088E712F5D0B600AB7894 /* ResizeDownRightCursor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResizeDownRightCursor.png; sourceTree = "<group>"; };
+		7150897E12F5E76500AB7894 /* ResizeDownLeftCursor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResizeDownLeftCursor.png; sourceTree = "<group>"; };
 		71943255118E53750028E980 /* pen options.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "pen options.pdf"; sourceTree = "<group>"; };
 		7194328E118ED0EE0028E980 /* MacWJ Document Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "MacWJ Document Icon.icns"; sourceTree = "<group>"; };
 		7194328F118ED0EE0028E980 /* MacWJ Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "MacWJ Icon.icns"; sourceTree = "<group>"; };
@@ -225,6 +229,8 @@
 				7194328E118ED0EE0028E980 /* MacWJ Document Icon.icns */,
 				7194328F118ED0EE0028E980 /* MacWJ Icon.icns */,
 				7112B6FA118AE8EB0010FF45 /* single-dot.png */,
+				715088E712F5D0B600AB7894 /* ResizeDownRightCursor.png */,
+				7150897E12F5E76500AB7894 /* ResizeDownLeftCursor.png */,
 				71943361118FB8600028E980 /* undo.pdf */,
 				71943360118FB8600028E980 /* redo.pdf */,
 				7112B8A3118D56470010FF45 /* pen.pdf */,
@@ -336,6 +342,8 @@
 				7194393E119572B80028E980 /* MWJDocument.xib in Resources */,
 				71943F821198F5CE0028E980 /* add-remove space.pdf in Resources */,
 				7150870412F08A3F00AB7894 /* Paper Images in Resources */,
+				715088E812F5D0B600AB7894 /* ResizeDownRightCursor.png in Resources */,
+				7150897F12F5E76500AB7894 /* ResizeDownLeftCursor.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,11 +463,12 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx10.5;
 			};
 			name = Debug;
@@ -469,10 +478,11 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx10.5;
 			};
 			name = Release;
