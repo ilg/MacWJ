@@ -339,6 +339,21 @@ static NSCursor *resizeCursor;
 - (void)continueResizingSelection:(NSEvent *)theEvent {
 	NSPoint newPoint = [self convertPoint:[theEvent locationInWindow]
 								 fromView:nil];
+	if ([theEvent modifierFlags] & NSShiftKeyMask) {
+		// shift key is pressed, so resize should preserve aspect ratio.
+		// revise newPoint accordingly (use the smaller of the resize scale factors)
+		CGFloat proposedXScale = (newPoint.x - resizeInitialFrame.origin.x)/resizeInitialFrame.size.width;
+		CGFloat proposedYScale = (newPoint.y - resizeInitialFrame.origin.y)/resizeInitialFrame.size.height;
+		if (proposedXScale > proposedYScale) {
+			// proposed x scale factor is bigger,
+			// so relocate the x-coordinate of newPoint to bring that direction into line
+			newPoint.x = proposedYScale * resizeInitialFrame.size.width + resizeInitialFrame.origin.x;
+		} else {
+			// proposed y scale factor is bigger,
+			// so relocate the y-coordinate of newPoint to bring that direction into line
+			newPoint.y = proposedXScale * resizeInitialFrame.size.height + resizeInitialFrame.origin.y;
+		}
+	}
 	NSAffineTransform *oldScale = [self resizeTransformTo:previousPoint];
 	[oldScale invert];
 	NSAffineTransform *scale = [self resizeTransformTo:newPoint];
