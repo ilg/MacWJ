@@ -48,6 +48,8 @@
 - (BOOL)passesThroughRegionEnclosedByPath:(NSBezierPath *)path;
 - (BOOL)isBelow:(CGFloat)selectionBoundary;
 - (BOOL)isBelowNumber:(NSNumber *)selectionBoundaryNumber;
+- (BOOL)isResizable;
+- (BOOL)isResizableAt:(NSPoint)cursorPoint;
 - (void)transformUsingAffineTransform:(NSAffineTransform *)aTransform;
 
 @end

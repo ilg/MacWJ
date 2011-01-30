@@ -114,6 +114,7 @@ NSString * const kMWJPaperViewObjectsOnPaperPboardType = @"kMWJPaperViewObjectsO
 
 static NSCursor *penCursor;
 static NSCursor *eraserCursor;
+static NSCursor *resizeCursor;
 
 @synthesize currentPenNib,toolType,mouseToolType;
 
@@ -124,6 +125,8 @@ static NSCursor *eraserCursor;
 										hotSpot:NSMakePoint(0.0, 0.0)];
 	eraserCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"single-dot"]
 										   hotSpot:NSMakePoint(0.0, 0.0)];
+	resizeCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"ResizeDownRightCursor"]
+										   hotSpot:NSMakePoint(7.0, 7.0)];
 }
 
 - (id)initWithFrame:(NSRect)frame {
@@ -308,6 +311,58 @@ static NSCursor *eraserCursor;
 				  withActionName:NSLocalizedString(@"Move",@"")];
 	
 	[NSCursor pop];
+}
+
+#pragma mark -
+#pragma mark resizing an object
+
+- (void)startResizingSelection:(NSEvent *)theEvent {
+	previousPoint = [self convertPoint:[theEvent locationInWindow]
+							  fromView:nil];
+	continuousActionInitialPoint = previousPoint;
+	resizeInitialFrame = [[[objectsOnPaper objectsAtIndexes:selectedObjectIndexes] lastObject] bounds];
+}
+
+- (NSAffineTransform *)resizeTransformTo:(NSPoint)endPoint {
+	NSAffineTransform *scale = [NSAffineTransform transform];
+	NSAffineTransform *toOrigin = [[NSAffineTransform alloc] init];
+	[toOrigin translateXBy:-resizeInitialFrame.origin.x yBy:-resizeInitialFrame.origin.y];
+	[scale scaleXBy:(endPoint.x - resizeInitialFrame.origin.x)/resizeInitialFrame.size.width
+				yBy:(endPoint.y - resizeInitialFrame.origin.y)/resizeInitialFrame.size.height];
+	[scale prependTransform:toOrigin];
+	[toOrigin invert];
+	[scale appendTransform:toOrigin];
+	[toOrigin release];
+	return scale;
+}
+
+- (void)continueResizingSelection:(NSEvent *)theEvent {
+	NSPoint newPoint = [self convertPoint:[theEvent locationInWindow]
+								 fromView:nil];
+	NSAffineTransform *oldScale = [self resizeTransformTo:previousPoint];
+	[oldScale invert];
+	NSAffineTransform *scale = [self resizeTransformTo:newPoint];
+	[scale prependTransform:oldScale];
+	[self applyTransform:scale toObjectsWithIndexes:selectedObjectIndexes];
+	previousPoint = newPoint;
+}
+
+- (void)endResizingSelection:(NSEvent *)theEvent {
+	[self continueResizingSelection:theEvent];
+	
+	// the net result of the whole resizing operation:
+	NSAffineTransform *scale = [self resizeTransformTo:previousPoint];
+	
+	// go back to where we started
+	NSAffineTransform *inverseTransform = [scale copy];
+	[inverseTransform invert];
+	[self applyTransform:inverseTransform toObjectsWithIndexes:selectedObjectIndexes];
+	[inverseTransform release];
+	
+	// now, apply the net transformation in one single undoable action
+	[self undoableApplyTransform:scale
+			toObjectsWithIndexes:selectedObjectIndexes
+				  withActionName:NSLocalizedString(@"Resize",@"")];
 }
 
 #pragma mark -
@@ -1015,6 +1070,19 @@ static NSCursor *eraserCursor;
 			[self endMovingSelection:theEvent];
 		}
 		
+	} else if ([NSCursor currentCursor] == resizeCursor) {
+		// if we've got the resizeCursor, then we are resizing
+		if (eventType == NSLeftMouseDown) {
+			// start resize
+			[self startResizingSelection:theEvent];
+		} else if (eventType == NSLeftMouseDragged) {
+			// resizing continues
+			[self continueResizingSelection:theEvent];
+		} else if (eventType == NSLeftMouseUp) {
+			// mouseUp ends the resize
+			[self endResizingSelection:theEvent];
+		}
+		
 	} else if (eventSubtype == NSTabletProximityEventSubtype) {
 		// catch all tablet-proximity events
 		[self tabletProximity:theEvent];
@@ -1112,10 +1180,28 @@ static NSCursor *eraserCursor;
 	BOOL isMousePossibleMovingCursor = ([theEvent subtype] == NSMouseEventSubtype);
 	if ((isTabletPossibleMovingCursor || isMousePossibleMovingCursor)
 		&& [self isOverSelectedObject:theEvent]) {
-		if ([NSCursor currentCursor] != [NSCursor openHandCursor]) {
+		if (([[self selectedObjectIndexes] count] == 1)
+			&& [[[objectsOnPaper objectsAtIndexes:[self selectedObjectIndexes]] lastObject]
+				isResizableAt:[self convertPoint:[theEvent locationInWindow]
+										fromView:nil]])
+		{
+			// exactly one object selected, it's resizable, and we're over a corner,
+			// so set the resizing cursor
+			if ([NSCursor currentCursor] == [NSCursor openHandCursor]) {
+				[NSCursor pop];
+			}
+			[resizeCursor push];
+		} else if ([NSCursor currentCursor] != [NSCursor openHandCursor]) {
+			// we're over a selected object, we shouldn't be showing the resize cursor,
+			// so show the open hand cursor (for moving)
+			if ([NSCursor currentCursor] == resizeCursor) {
+				[NSCursor pop];
+			}
 			[[NSCursor openHandCursor] push];
 		}
 	} else if ([NSCursor currentCursor] == [NSCursor openHandCursor]) {
+		[NSCursor pop];
+	} else if ([NSCursor currentCursor] == resizeCursor) {
 		[NSCursor pop];
 	} else {
 	}

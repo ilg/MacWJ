@@ -60,6 +60,7 @@ typedef enum {
 	NSPoint previousPoint;
 	NSTimeInterval timeOfLastTabletEvent;
 	NSPoint continuousActionInitialPoint;
+	NSRect resizeInitialFrame;
 	BOOL isAddRemoveSpace;
 }
 

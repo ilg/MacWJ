@@ -85,6 +85,25 @@
 	return [self isBelow:[selectionBoundaryNumber floatValue]];
 }
 
+- (BOOL)isResizable {
+	return NO;
+}
+
+- (BOOL)isResizableAt:(NSPoint)cursorPoint {
+	if (![self isResizable]) {
+		return NO;
+	} else {
+		CGFloat w = 3.0;
+		CGPoint pt = NSPointToCGPoint(cursorPoint);
+		CGRect f = NSRectToCGRect([self frame]);
+		return (CGRectContainsPoint(CGRectMake(CGRectGetMinX(f), CGRectGetMinY(f), w, w), pt)
+//				|| CGRectContainsPoint(CGRectMake(CGRectGetMaxX(f) - w, CGRectGetMinY(f), w, w), pt)
+//				|| CGRectContainsPoint(CGRectMake(CGRectGetMinX(f), CGRectGetMaxY(f) - w, w, w), pt)
+				|| CGRectContainsPoint(CGRectMake(CGRectGetMaxX(f) - w, CGRectGetMaxY(f) - w, w, w), pt)
+				);
+	}
+}
+
 - (void)transformUsingAffineTransform:(NSAffineTransform *)aTransform {
 	NSRect ourFrame = [self frame];
 	ourFrame.origin = [aTransform transformPoint:ourFrame.origin];

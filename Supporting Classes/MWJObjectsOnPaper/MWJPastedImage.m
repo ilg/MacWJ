@@ -67,6 +67,12 @@
 				fraction:1.0];
 }
 
+- (BOOL)isResizable
+{
+	return YES;
+}
+
+
 #pragma mark -
 #pragma mark for archiving/unarchiving (for saving/loading documents)
 
